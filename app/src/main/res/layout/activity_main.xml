@@ -23,14 +23,21 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
             android:text="Feel like home with just one click away.. All your needs for baby gear rentals are here!"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/select_location_border"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:background="@drawable/text_entry_background"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="15dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -49,7 +56,53 @@
                 android:paddingRight="5dp"
                 android:dropDownWidth="100dp"
                 android:backgroundTint="@android:color/transparent"
-                android:hint="Where are you travelling?"/>
+                android:hint="Enter city name"
+                android:inputType="text|textAutoComplete"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/start_date"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/text_entry_background"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
+                android:padding="10dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Rental start"
+                android:autofillHints="Date"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/end_date"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/text_entry_background"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                android:padding="10dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Rental end"
+                android:autofillHints="Date"
+                android:inputType="date"/>
 
         </LinearLayout>
 
