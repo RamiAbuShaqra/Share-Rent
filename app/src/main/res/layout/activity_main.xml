@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:scaleType="centerCrop"
         android:contentDescription="Share Rent Logo"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@drawable/app_logo"/>
 
     <LinearLayout
         android:layout_width="match_parent"
