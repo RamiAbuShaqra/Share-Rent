@@ -28,20 +28,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/select_location_border"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="Location symbol"
+                android:layout_gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:src="@drawable/location_symbol"/>
 
             <AutoCompleteTextView
                 android:id="@+id/locations"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingRight="5dp"
                 android:dropDownWidth="100dp"
-                android:autofillHints="Where are you travelling?"/>
+                android:backgroundTint="@android:color/transparent"
+                android:hint="Where are you travelling?"/>
 
         </LinearLayout>
 
