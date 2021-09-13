@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_weight="3"
         android:scaleType="centerCrop"
-        android:contentDescription="Share Rent Logo"
+        android:contentDescription="@string/image_description"
         android:src="@drawable/app_logo"/>
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_marginRight="30dp"
             android:textSize="16sp"
             android:fontFamily="sans-serif"
-            android:text="Feel like home with just one click away.. All your needs for baby gear rentals are here!"/>
+            android:text="@string/intro_text"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="Location symbol"
+                android:contentDescription="@string/location_image_description"
                 android:layout_gravity="center"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -54,9 +54,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingEnd="5dp"
+                android:paddingStart="0dp"
                 android:dropDownWidth="100dp"
                 android:backgroundTint="@android:color/transparent"
-                android:hint="Enter city name"
+                android:hint="@string/auto_complete_hint"
                 android:inputType="text|textAutoComplete"/>
 
         </LinearLayout>
@@ -81,7 +82,7 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="Rental start"
+                android:hint="@string/rental_start_hint"
                 android:autofillHints="Date"
                 android:inputType="date" />
 
@@ -100,7 +101,7 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:hint="Rental end"
+                android:hint="@string/rental_end_hint"
                 android:autofillHints="Date"
                 android:inputType="date"/>
 
@@ -112,7 +113,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            android:text="Continue"/>
+            android:text="@string/continue_button"/>
 
     </LinearLayout>
 
@@ -130,14 +131,14 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:textStyle="italic"
-            android:text="Do you have a baby gear essentials and want to rent them?"/>
+            android:text="@string/first_signup_text"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:textStyle="italic"
-            android:text="Join us and earn money!"/>
+            android:text="@string/second_signup_text"/>
 
         <TextView
             android:layout_width="wrap_content"

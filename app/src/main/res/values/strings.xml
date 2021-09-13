@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Share Rent</string>
+
+    <string name="image_description">Share Rent Logo</string>
+    <string name="intro_text">Feel like home with just one click away.. All your needs for baby gear rentals are here!</string>
+    <string name="location_image_description">Location symbol</string>
+    <string name="auto_complete_hint">Enter city name</string>
+    <string name="rental_start_hint">Rental start</string>
+    <string name="rental_end_hint">Rental end</string>
+    <string name="continue_button">Continue</string>
+    <string name="first_signup_text">Do you have a baby gear essentials and want to rent them?</string>
+    <string name="second_signup_text">Join us and earn money!</string>
+    <string name="sign_up"><u>Sign Up</u></string>
 </resources>
