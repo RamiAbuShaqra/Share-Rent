@@ -6,16 +6,6 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif"
-        android:textSize="20sp"
-        android:text="@string/create_account"/>
-
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
@@ -42,41 +32,37 @@
         android:autofillHints="password"
         android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="@string/confirm_password"
-        android:autofillHints="password"
-        android:inputType="textPassword" />
-
     <Button
-        android:id="@+id/register"
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="@string/action_register"/>
+        android:text="@string/action_login"/>
+
+    <TextView
+        android:id="@+id/reset_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/forget_password"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/already_registered"/>
+            android:text="@string/not_registered"/>
 
         <TextView
-            android:id="@+id/go_to_sign_in"
+            android:id="@+id/sign_up_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/go_to_sign_in"/>
+            android:textStyle="bold"
+            android:text="@string/sign_up"/>
 
     </LinearLayout>
 

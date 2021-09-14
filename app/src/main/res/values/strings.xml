@@ -17,9 +17,11 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="action_register">Register</string>
     <string name="already_registered">Already registered?</string>
-    <string name="go_to_sign_in">Sign in</string>
+    <string name="not_registered">Not registered?</string>
+    <string name="go_to_sign_in"><u>Sign in</u></string>
+    <string name="action_login">Login</string>
+    <string name="forget_password"><u>Forgot Password?</u></string>
     
-    <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
