@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "787944028971",
+    "project_id": "share-rent",
+    "storage_bucket": "share-rent.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787944028971:android:10d8bc60b3039f3689236e",
+        "android_client_info": {
+          "package_name": "com.gmail.rami.abushaqra79.sharerent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787944028971-4ehr9mvdgm0msudmhh291lj6lqvud6e1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwHImfP-nKH_PQqHjhuyyKpjPNaKJFJHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787944028971-4ehr9mvdgm0msudmhh291lj6lqvud6e1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
