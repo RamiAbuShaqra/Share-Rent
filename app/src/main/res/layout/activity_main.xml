@@ -141,9 +141,11 @@
             android:text="@string/second_signup_text"/>
 
         <TextView
+            android:id="@+id/sign_up_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
             android:textStyle="bold"
             android:clickable="true"
             android:focusable="true"

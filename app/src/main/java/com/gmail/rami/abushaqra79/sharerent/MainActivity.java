@@ -3,12 +3,14 @@ package com.gmail.rami.abushaqra79.sharerent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
+    private TextView signUpPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 datePicker.show();
+            }
+        });
+
+        signUpPage = findViewById(R.id.sign_up_page);
+        signUpPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                startActivity(intent);
             }
         });
     }
