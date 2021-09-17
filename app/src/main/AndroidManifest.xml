@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRent">
         <activity
+            android:name=".UserProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".SignupActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity">
