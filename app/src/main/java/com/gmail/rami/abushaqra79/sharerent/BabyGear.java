@@ -3,14 +3,12 @@ package com.gmail.rami.abushaqra79.sharerent;
 public class BabyGear {
     private final String babyGearType;
     private final String babyGearDescription;
-    private final int rentPrice;
-    private final int photoId;
+    private final String rentPrice;
 
-    public BabyGear(String babyGearType, String babyGearDescription, int rentPrice, int photoId) {
+    public BabyGear(String babyGearType, String babyGearDescription, String rentPrice) {
         this.babyGearType = babyGearType;
         this.babyGearDescription = babyGearDescription;
         this.rentPrice = rentPrice;
-        this.photoId = photoId;
     }
 
     public String getBabyGearType() {
@@ -21,11 +19,7 @@ public class BabyGear {
         return babyGearDescription;
     }
 
-    public int getRentPrice() {
+    public String getRentPrice() {
         return rentPrice;
-    }
-
-    public int getPhotoId() {
-        return photoId;
     }
 }

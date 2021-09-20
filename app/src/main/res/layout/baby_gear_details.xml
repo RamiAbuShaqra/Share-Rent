@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/product_name"
+        android:id="@+id/product_type"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/text_entry_background"
+        tools:text="Type"/>
 
     <TextView
         android:id="@+id/product_description"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/text_entry_background"
+        tools:text="Description"/>
 
     <TextView
         android:id="@+id/rent_price"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/text_entry_background"
+        tools:text="Rent Price"/>
+
+    <TextView
+        android:id="@+id/upload_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/text_entry_background"
+        tools:text="Upload Photo"/>
 
     <ImageView
         android:id="@+id/product_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="The photo of the baby gear item" />
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:visibility="gone"
+        android:contentDescription="The photo of the baby gear item"/>
 
 </LinearLayout>
