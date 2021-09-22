@@ -2,7 +2,6 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -80,8 +78,9 @@ public class SignupActivity extends AppCompatActivity {
                                             " Please try again.", Toast.LENGTH_SHORT);
                             toast.show();
                         } else {
+                            Intent intent = new Intent(SignupActivity.this, UserProfileActivity.class);
+                            startActivity(intent);
                             /**
-                             * 1) Start the complete profile activity.
                              * 2) You may need to add a progress bar.
                              * 3) Add a touch feel to the button or change it to text view.
                              * 4) Check if the email is already registered and display a message.

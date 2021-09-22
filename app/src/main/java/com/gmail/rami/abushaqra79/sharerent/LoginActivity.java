@@ -2,7 +2,6 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -69,7 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
 
                                 } else {
-                                    // TODO 1) Start the profile activity.
+                                    Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+                                    startActivity(intent);
                                     // TODO 2) You may need to add a progress bar.
                                     // TODO 3) Add a touch feel to the button or change it to text view.
                                     // TODO 4) Add a feature to show the typed password.
