@@ -1,21 +1,30 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.List;
 
 public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
 
+    public static final int GET_FROM_GALLERY = 200;
+    private final Context context;
+    private TextView uploadPhoto;
+    private ImageView image;
+
     public BabyGearAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects) {
         super(context, resource, objects);
+        this.context = context;
     }
 
     @NonNull
@@ -37,9 +46,30 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
         TextView rentPrice = convertView.findViewById(R.id.rent_price);
         rentPrice.setText(currentBabyGear.getRentPrice());
 
-        TextView uploadPhoto = convertView.findViewById(R.id.upload_image);
+        image = convertView.findViewById(R.id.product_photo);
+
+        uploadPhoto = convertView.findViewById(R.id.upload_image);
         uploadPhoto.setText("Upload photo");
 
+        uploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                ((Activity) context).startActivityForResult(intent, GET_FROM_GALLERY);
+            }
+        });
+
         return convertView;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            if (selectedImage != null) {
+                image.setImageURI(selectedImage);
+                image.setVisibility(View.VISIBLE);
+                uploadPhoto.setVisibility(View.GONE);
+            }
+        }
     }
 }
