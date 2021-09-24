@@ -3,51 +3,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/color_primary_dark">
 
-    <TextView
-        android:id="@+id/product_type"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/text_entry_background"
-        tools:text="Type"/>
+        android:layout_weight="3"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:background="@drawable/list_border"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/product_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/text_entry_background"
-        tools:text="Description"/>
+        <TextView
+            android:id="@+id/item_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:paddingTop="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            tools:text="Type"/>
 
-    <TextView
-        android:id="@+id/rent_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/text_entry_background"
-        tools:text="Rent Price"/>
+        <TextView
+            android:id="@+id/item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:paddingTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textSize="15sp"
+            tools:text="Description"/>
 
-    <TextView
-        android:id="@+id/upload_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:background="@drawable/text_entry_background"
-        tools:text="Upload Photo"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rent_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="start"
+                android:paddingBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="2dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                tools:text="Rent Price"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="start"
+                android:paddingBottom="8dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="8dp"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:text="JOD" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/product_photo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:visibility="gone"
+        android:id="@+id/item_photo"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="end"
+        android:padding="3dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/photo_background"
         android:contentDescription="The photo of the baby gear item"/>
 
 </LinearLayout>

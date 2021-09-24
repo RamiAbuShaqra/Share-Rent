@@ -185,7 +185,10 @@
     <ListView
         android:id="@+id/list_of_offered_items"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
         android:descendantFocusability="afterDescendants"/>
 
 </LinearLayout>
