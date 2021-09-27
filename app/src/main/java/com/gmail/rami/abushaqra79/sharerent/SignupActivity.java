@@ -14,22 +14,37 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
+
+    private final String DATABASE_URL_LOCATION
+            = "https://share-rent-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
     private TextView signInPage;
     private EditText email;
     private EditText password;
     private EditText confirmPassword;
     private Button register;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
+
+        user = auth.getCurrentUser();
+
+        database = FirebaseDatabase.getInstance(DATABASE_URL_LOCATION);
+
+        databaseReference = database.getReference();
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -68,7 +83,7 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-                firebaseAuth.createUserWithEmailAndPassword(enteredEmail, enteredPassword)
+                auth.createUserWithEmailAndPassword(enteredEmail, enteredPassword)
                 .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -78,6 +93,17 @@ public class SignupActivity extends AppCompatActivity {
                                             " Please try again.", Toast.LENGTH_SHORT);
                             toast.show();
                         } else {
+
+                            // Store app title to 'app_title' node
+                            database.getReference("App Title").setValue("Share Rent");
+
+                            // Get reference to 'Users' node
+                            databaseReference = database.getReference("Users");
+
+                            String userId = user.getUid();
+
+                            createUser(userId, enteredEmail, enteredPassword);
+
                             Intent intent = new Intent(SignupActivity.this, UserProfileActivity.class);
                             startActivity(intent);
                             /**
@@ -99,5 +125,15 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Creating new user node under 'Users'
+     */
+    private void createUser(String userId, String email, String password) {
+        User user = new User(email, password);
+        databaseReference.child(userId).setValue(user);
+
+        //addUserChangeListener();
     }
 }

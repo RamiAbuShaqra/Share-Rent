@@ -4,10 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,19 +18,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -43,8 +39,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private Spinner spinner;
     private Uri imageUri;
-
-    private ImageView photo;
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
@@ -53,15 +47,10 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-
-
         storage = FirebaseStorage.getInstance();
 
         // Create a storage reference from our app
         storageRef = storage.getReference();
-
-
-
 
         babyGears = new ArrayList<>();
 
@@ -157,25 +146,6 @@ public class UserProfileActivity extends AppCompatActivity {
                     checkBox.setError("Please upload a photo");
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 if (!TextUtils.isEmpty(typeDescription) && !TextUtils.isEmpty(typeRentPrice) &&
                     checkBox.isChecked()) {
                     addItemToList(type, typeDescription, typeRentPrice, imageUri);
@@ -199,38 +169,22 @@ public class UserProfileActivity extends AppCompatActivity {
 
         listView.setAdapter(babyGearAdapter);
 
-
-
-
-
-
-
-//        View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.baby_gear_details, null);
-//
-//        photo = view.findViewById(R.id.item_photo);
-//
-//        Bitmap bitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        photo.draw(canvas);
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-//        byte[] data = outputStream.toByteArray();
-
         String path = "Rent_Items/" + UUID.randomUUID() + ".png";
         StorageReference itemsRef = storage.getReference(path);
 
         StorageMetadata metadata = new StorageMetadata.Builder()
-                .setCustomMetadata("type", type).build();
-
-//        UploadTask uploadTask = itemsRef.putBytes(data, metadata);
+                .setCustomMetadata("Type", type).build();
 
         UploadTask uploadTask = itemsRef.putFile(imageUri, metadata);
+
+        // Code for showing progressDialog while uploading
+        ProgressDialog progressDialog = new ProgressDialog(this);
 
         uploadTask.addOnSuccessListener(UserProfileActivity.this,
                 new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
                         Toast.makeText(UserProfileActivity.this,
                                 "Item Added", Toast.LENGTH_SHORT).show();
                     }
@@ -239,18 +193,25 @@ public class UserProfileActivity extends AppCompatActivity {
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
                                 Toast.makeText(UserProfileActivity.this,
                                         "Item not Added!", Toast.LENGTH_SHORT).show();
                             }
+                        })
+                .addOnProgressListener(UserProfileActivity.this,
+                        new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                                progressDialog.setTitle("Adding item...");
+                                progressDialog.show();
+
+                                double progress
+                                        = (100.0
+                                        * snapshot.getBytesTransferred()
+                                        / snapshot.getTotalByteCount());
+                                progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                            }
                         });
-
-
-
-
-
-
-
-
     }
 
     @Override
