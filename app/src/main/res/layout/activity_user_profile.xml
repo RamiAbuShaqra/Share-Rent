@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:padding="5dp"
             android:background="@drawable/text_entry_background"
-            android:text="Name"/>
+            android:hint="Name"/>
 
         <ImageView
             android:id="@+id/edit_name"
@@ -73,7 +73,7 @@
             android:layout_gravity="center"
             android:padding="5dp"
             android:background="@drawable/text_entry_background"
-            android:text="Email Address"/>
+            android:hint="Email Address"/>
 
         <ImageView
             android:id="@+id/edit_email"
@@ -108,7 +108,7 @@
             android:layout_gravity="center"
             android:padding="5dp"
             android:background="@drawable/text_entry_background"
-            android:text="Phone number"/>
+            android:hint="Phone number"/>
 
         <ImageView
             android:id="@+id/edit_phone"
@@ -143,7 +143,7 @@
             android:layout_gravity="center"
             android:padding="5dp"
             android:background="@drawable/text_entry_background"
-            android:text="Location"/>
+            android:hint="Location"/>
 
         <ImageView
             android:id="@+id/edit_location"
