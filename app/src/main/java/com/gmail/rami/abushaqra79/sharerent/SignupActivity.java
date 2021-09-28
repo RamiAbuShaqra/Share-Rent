@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -102,7 +104,7 @@ public class SignupActivity extends AppCompatActivity {
 
                             String userId = user.getUid();
 
-                            createUser(userId, enteredEmail, enteredPassword);
+                            createUser(userId, enteredEmail);
 
                             Intent intent = new Intent(SignupActivity.this, UserProfileActivity.class);
                             startActivity(intent);
@@ -130,10 +132,15 @@ public class SignupActivity extends AppCompatActivity {
     /**
      * Creating new user node under 'Users'
      */
-    private void createUser(String userId, String email, String password) {
-        User user = new User(email, password);
+    private void createUser(String userId, String email) {
+        User user = new User(email);
         databaseReference.child(userId).setValue(user);
 
-        //addUserChangeListener();
+        Map<String, String> userInfo = new HashMap<>();
+        userInfo.put("name", "");
+        userInfo.put("phone_number", "");
+        userInfo.put("location", "");
+        userInfo.put("profile_picture", "");
+        databaseReference.child(userId).child("user-info").setValue(userInfo);
     }
 }

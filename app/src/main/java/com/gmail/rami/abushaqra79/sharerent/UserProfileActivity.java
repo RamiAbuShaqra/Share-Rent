@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,9 +21,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
@@ -33,7 +40,9 @@ import java.util.UUID;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
+    private TextView emailAddress;
     private ArrayList<BabyGear> babyGears;
     private ListView listView;
     private CheckBox checkBox;
@@ -41,6 +50,9 @@ public class UserProfileActivity extends AppCompatActivity {
     private Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageRef;
+    private FirebaseAuth auth;
+    private FirebaseUser user;
+    private String emailText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,33 @@ public class UserProfileActivity extends AppCompatActivity {
 
         // Create a storage reference from our app
         storageRef = storage.getReference();
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        String userId = "";
+        if (user != null) {
+            userId = user.getUid();
+        }
+
+        emailAddress = findViewById(R.id.email_address);
+
+        ReadAndWriteDatabase rwd = new ReadAndWriteDatabase();
+        rwd.readDataForUser(userId, new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    emailText = snapshot.getValue().toString();
+                    setTheTextFields(emailAddress, emailText);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read data", error.toException());
+            }
+        });
 
         babyGears = new ArrayList<>();
 
@@ -226,5 +265,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 checkBox.setError(null);
             }
         }
+    }
+
+    private void setTheTextFields(TextView tv, String text) {
+        tv.setText(text);
     }
 }
