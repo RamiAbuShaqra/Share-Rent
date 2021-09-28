@@ -47,6 +47,7 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:src="@drawable/edit_pen"
+            android:background="?android:attr/selectableItemBackground"
             android:contentDescription="Edit the user name" />
 
     </LinearLayout>
@@ -82,6 +83,7 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:src="@drawable/edit_pen"
+            android:background="?android:attr/selectableItemBackground"
             android:contentDescription="Edit the email address" />
 
     </LinearLayout>
@@ -117,6 +119,7 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:src="@drawable/edit_pen"
+            android:background="?android:attr/selectableItemBackground"
             android:contentDescription="Edit the phone number" />
 
     </LinearLayout>
@@ -152,6 +155,7 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:src="@drawable/edit_pen"
+            android:background="?android:attr/selectableItemBackground"
             android:contentDescription="Edit the user location" />
 
     </LinearLayout>

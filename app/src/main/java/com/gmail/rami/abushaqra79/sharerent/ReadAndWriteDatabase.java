@@ -26,8 +26,18 @@ public class ReadAndWriteDatabase {
 
     public void readDataForUser(String userId, ValueEventListener listener) {
         if (!TextUtils.isEmpty(userId)) {
-            databaseReference.child("Users").child(userId).child("email")
+            databaseReference.child("Users").child(userId)
                     .addListenerForSingleValueEvent(listener);
+        }
+    }
+
+    public void saveUserInfoToDatabase(String userId, String dbRef, String updatedInfo) {
+        if (!TextUtils.isEmpty(userId)) {
+            if (dbRef.equals("email")) {
+                databaseReference.child("Users").child(userId).child(dbRef).setValue(updatedInfo);
+            } else {
+                databaseReference.child("Users").child(userId).child("user-info").child(dbRef).setValue(updatedInfo);
+            }
         }
     }
 }

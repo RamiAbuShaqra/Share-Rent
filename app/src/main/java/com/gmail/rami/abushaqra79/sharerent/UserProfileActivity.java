@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,7 +43,14 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
+    private TextView userName;
     private TextView emailAddress;
+    private TextView phoneNumber;
+    private TextView userLocation;
+    private ImageView editName;
+    private ImageView editEmail;
+    private ImageView editPhone;
+    private ImageView editLocation;
     private ArrayList<BabyGear> babyGears;
     private ListView listView;
     private CheckBox checkBox;
@@ -52,7 +60,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private FirebaseAuth auth;
     private FirebaseUser user;
-    private String emailText;
+    private String userId;
+    private ReadAndWriteDatabase rwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,20 +76,65 @@ public class UserProfileActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        String userId = "";
+        userId = "";
         if (user != null) {
             userId = user.getUid();
         }
 
+        userName = findViewById(R.id.user_name);
         emailAddress = findViewById(R.id.email_address);
+        phoneNumber = findViewById(R.id.phone_number);
+        userLocation = findViewById(R.id.user_location);
 
-        ReadAndWriteDatabase rwd = new ReadAndWriteDatabase();
+        editName = findViewById(R.id.edit_name);
+        editEmail = findViewById(R.id.edit_email);
+        editPhone = findViewById(R.id.edit_phone);
+        editLocation = findViewById(R.id.edit_location);
+
+        editName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserInformationDialog(R.layout.update_name_dialog, userName, "name");
+            }
+        });
+
+        editEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserInformationDialog(R.layout.update_email_dialog, emailAddress, "email");
+            }
+        });
+
+        editPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserInformationDialog(R.layout.update_phone_dialog, phoneNumber, "phone_number");
+            }
+        });
+
+        editLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateUserInformationDialog(R.layout.update_location_dialog, userLocation, "location");
+            }
+        });
+
+        rwd = new ReadAndWriteDatabase();
         rwd.readDataForUser(userId, new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    emailText = snapshot.getValue().toString();
+                    String emailText = snapshot.child("email").getValue().toString();
                     setTheTextFields(emailAddress, emailText);
+
+                    String nameText = snapshot.child("user-info").child("name").getValue().toString();
+                    setTheTextFields(userName, nameText);
+
+                    String phoneText = snapshot.child("user-info").child("phone_number").getValue().toString();
+                    setTheTextFields(phoneNumber, phoneText);
+
+                    String locationText = snapshot.child("user-info").child("location").getValue().toString();
+                    setTheTextFields(userLocation, locationText);
                 }
             }
 
@@ -197,6 +251,37 @@ public class UserProfileActivity extends AppCompatActivity {
                     alertDialog.dismiss();
             }
         });
+    }
+
+    private void updateUserInformationDialog(int layoutId, TextView textField, String dbRef) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        View dialogView = inflater.inflate(layoutId, null);
+
+        EditText editText = dialogView.findViewById(R.id.update_info);
+
+        builder.setView(dialogView)
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String updatedInfo = editText.getText().toString();
+                        setTheTextFields(textField, updatedInfo);
+                        rwd.saveUserInfoToDatabase(userId, dbRef, updatedInfo);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void addItemToList(String type, String description, String price, Uri imageUri) {
