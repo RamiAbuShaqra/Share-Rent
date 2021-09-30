@@ -63,6 +63,8 @@ public class UserProfileActivity extends MainActivity {
     private FirebaseUser user;
     private String userId;
     private ReadAndWriteDatabase rwd;
+    private ImageView profilePicture;
+    private boolean isProfilePicture = false;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,6 +104,16 @@ public class UserProfileActivity extends MainActivity {
         if (user != null) {
             userId = user.getUid();
         }
+
+        profilePicture = findViewById(R.id.profile_picture);
+        profilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isProfilePicture = true;
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent, GET_FROM_GALLERY);
+            }
+        });
 
         userName = findViewById(R.id.user_name);
         emailAddress = findViewById(R.id.email_address);
@@ -367,9 +379,13 @@ public class UserProfileActivity extends MainActivity {
         if (requestCode == GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             if (selectedImage != null) {
-                imageUri = selectedImage;
-                checkBox.setChecked(true);
-                checkBox.setError(null);
+                if (isProfilePicture) {
+                    profilePicture.setImageURI(selectedImage);
+                } else {
+                    imageUri = selectedImage;
+                    checkBox.setChecked(true);
+                    checkBox.setError(null);
+                }
             }
         }
     }
