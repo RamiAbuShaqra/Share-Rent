@@ -25,6 +25,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,7 +96,7 @@ public class UserProfileActivity extends MainActivity {
 
         storage = FirebaseStorage.getInstance();
 
-        // Create a storage reference from our app
+        // Create a storage reference for our app
         storageRef = storage.getReference();
 
         auth = FirebaseAuth.getInstance();
@@ -169,6 +171,18 @@ public class UserProfileActivity extends MainActivity {
 
                     String locationText = snapshot.child("user-info").child("location").getValue().toString();
                     setTheTextFields(userLocation, locationText);
+
+                    String profilePictureUrl = snapshot.child("user-info").child("profile_picture").getValue().toString();
+
+                    if (!TextUtils.isEmpty(profilePictureUrl)) {
+                        StorageReference reference = storageRef.child("pictures/user_profile_picture.png");
+                        Glide.with(UserProfileActivity.this)
+                                .load(reference)
+                                // TODO think about setting a signature instead of disabling the cache
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .skipMemoryCache(true)
+                                .into(profilePicture);
+                    }
                 }
             }
 
@@ -381,6 +395,8 @@ public class UserProfileActivity extends MainActivity {
             if (selectedImage != null) {
                 if (isProfilePicture) {
                     profilePicture.setImageURI(selectedImage);
+                    rwd.saveDataToStorage(userId, selectedImage);
+                    isProfilePicture = false;
                 } else {
                     imageUri = selectedImage;
                     checkBox.setChecked(true);
@@ -388,6 +404,7 @@ public class UserProfileActivity extends MainActivity {
                 }
             }
         }
+        isProfilePicture = false;
     }
 
     private void setTheTextFields(TextView tv, String text) {

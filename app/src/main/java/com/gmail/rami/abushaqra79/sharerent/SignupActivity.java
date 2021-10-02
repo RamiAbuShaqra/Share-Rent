@@ -108,11 +108,9 @@ public class SignupActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(SignupActivity.this, UserProfileActivity.class);
                             startActivity(intent);
-                            /**
-                             * 2) You may need to add a progress bar.
-                             * 3) Add a touch feel to the button or change it to text view.
-                             * 4) Check if the email is already registered and display a message.
-                             */
+                            // TODO 1) You may need to add a progress bar.
+                            // TODO 2) Add a touch feel to the button or change it to text view.
+                            // TODO 3) Check if the email is already registered and display a message.
                         }
                     }
                 });
