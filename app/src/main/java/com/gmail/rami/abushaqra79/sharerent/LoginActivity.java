@@ -2,6 +2,7 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,9 +41,13 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        // TODO 1) Check if the user is already signed in.
-
         user = auth.getCurrentUser();
+
+        // Check if the user is already signed in.
+        if (user != null) {
+            startActivity(new Intent(LoginActivity.this, UserProfileActivity.class));
+            finish();
+        }
 
         email = findViewById(R.id.registered_email);
         password = findViewById(R.id.registered_password);
@@ -99,18 +105,20 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
                 auth.signInWithEmailAndPassword(enteredEmail, enteredPassword)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(LoginActivity.this,
+                                new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (!task.isSuccessful()) {
                                     progressBar.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(LoginActivity.this, "Login failed!" +
-                                                    "\nCheck your email and password.",
+                                    Toast.makeText(LoginActivity.this,"Login failed!"
+                                                    + "\nCheck your email and password.",
                                             Toast.LENGTH_SHORT).show();
 
                                 } else {
                                     progressBar.setVisibility(View.INVISIBLE);
-                                    Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this,
+                                            UserProfileActivity.class);
                                     startActivity(intent);
                                 }
                             }
@@ -122,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO 2) Start the reset password activity.
+                // TODO Start the reset password activity.
             }
         });
 
