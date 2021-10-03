@@ -79,6 +79,7 @@ public class UserProfileActivity extends MainActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout_menu_item:
+                auth.signOut();
                 Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
                 startActivity(intent);
                 return true;
