@@ -7,14 +7,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
+    private final Context context;
 
     public BabyGearAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects) {
         super(context, resource, objects);
+        this.context = context;
     }
 
     @NonNull
@@ -37,7 +43,9 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
         rentPrice.setText(currentBabyGear.getRentPrice());
 
         ImageView babyGearPhoto = convertView.findViewById(R.id.item_photo);
-        babyGearPhoto.setImageURI(currentBabyGear.getImageUri());
+        String imageUrl = currentBabyGear.getImageUrl();
+
+        Glide.with(context).load(imageUrl).into(babyGearPhoto);
 
         return convertView;
     }

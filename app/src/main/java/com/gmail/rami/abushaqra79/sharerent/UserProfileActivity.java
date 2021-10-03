@@ -1,9 +1,10 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,23 +25,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class UserProfileActivity extends MainActivity {
 
@@ -130,52 +127,62 @@ public class UserProfileActivity extends MainActivity {
         editName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInformationDialog(R.layout.update_name_dialog, userName, "name");
+                updateUserInfoDialog(R.layout.update_name_dialog,
+                        userName, "name");
             }
         });
 
         editEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInformationDialog(R.layout.update_email_dialog, emailAddress, "email");
+                updateUserInfoDialog(R.layout.update_email_dialog,
+                        emailAddress, "email");
             }
         });
 
         editPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInformationDialog(R.layout.update_phone_dialog, phoneNumber, "phone_number");
+                updateUserInfoDialog(R.layout.update_phone_dialog,
+                        phoneNumber, "phone_number");
             }
         });
 
         editLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInformationDialog(R.layout.update_location_dialog, userLocation, "location");
+                updateUserInfoDialog(R.layout.update_location_dialog,
+                        userLocation, "location");
             }
         });
 
-        rwd = new ReadAndWriteDatabase();
-        rwd.readDataForUser(userId, new ValueEventListener() {
+        rwd = new ReadAndWriteDatabase(this);
+        rwd.readProfileInfoForUser(userId, new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     String emailText = snapshot.child("email").getValue().toString();
                     setTheTextFields(emailAddress, emailText);
 
-                    String nameText = snapshot.child("user-info").child("name").getValue().toString();
+                    String nameText = snapshot.child("user-info").child("name")
+                            .getValue().toString();
                     setTheTextFields(userName, nameText);
 
-                    String phoneText = snapshot.child("user-info").child("phone_number").getValue().toString();
+                    String phoneText = snapshot.child("user-info").child("phone_number")
+                            .getValue().toString();
                     setTheTextFields(phoneNumber, phoneText);
 
-                    String locationText = snapshot.child("user-info").child("location").getValue().toString();
+                    String locationText = snapshot.child("user-info").child("location")
+                            .getValue().toString();
                     setTheTextFields(userLocation, locationText);
 
-                    String profilePictureUrl = snapshot.child("user-info").child("profile_picture").getValue().toString();
+                    String profilePictureUrl = snapshot.child("user-info").child("profile_picture")
+                            .getValue().toString();
 
                     if (!TextUtils.isEmpty(profilePictureUrl)) {
-                        StorageReference reference = storageRef.child("pictures/user_profile_picture.png");
+                        StorageReference reference = storageRef
+                                .child("pictures/user_profile_picture.png");
+
                         Glide.with(UserProfileActivity.this)
                                 .load(reference)
                                 // TODO think about setting a signature instead of disabling the cache
@@ -193,13 +200,57 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
+        rwd.readRentItemsForUser(userId, new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot,
+                                     @Nullable String previousChildName) {
+                if (snapshot.exists()) {
+                    String itemType = snapshot.child("babyGearType").getValue().toString();
+                    String itemDescription = snapshot.child("babyGearDescription")
+                            .getValue().toString();
+                    String itemRentPrice = snapshot.child("rentPrice").getValue().toString();
+                    String itemPhotoUrl = snapshot.child("imageUrl").getValue().toString();
+
+                    BabyGear babyGear = new BabyGear(itemType, itemDescription,
+                            itemRentPrice, itemPhotoUrl);
+                    babyGears.add(babyGear);
+
+                    BabyGearAdapter babyGearAdapter = new BabyGearAdapter(
+                            UserProfileActivity.this, R.layout.baby_gear_details, babyGears);
+
+                    listView.setAdapter(babyGearAdapter);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot,
+                                       @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot,
+                                     @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read data", error.toException());
+            }
+        });
+
         babyGears = new ArrayList<>();
 
         listView = findViewById(R.id.list_of_offered_items);
 
         spinner = findViewById(R.id.baby_gear_list);
         String[] babyGearItems = new String[]
-                {"Select an item..", "Stroller", "Bed", "Car Seat", "High Chair", "Bath Tubs", "Bouncer", "Sterilizer"};
+                {"Select an item..", "Stroller", "Bed", "Car Seat", "High Chair",
+                        "Bath Tubs", "Bouncer", "Sterilizer"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, babyGearItems);
@@ -237,7 +288,8 @@ public class UserProfileActivity extends MainActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(intent, GET_FROM_GALLERY);
             }
         });
@@ -262,7 +314,8 @@ public class UserProfileActivity extends MainActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean wantToCloseDialog = false;
@@ -289,7 +342,7 @@ public class UserProfileActivity extends MainActivity {
 
                 if (!TextUtils.isEmpty(typeDescription) && !TextUtils.isEmpty(typeRentPrice) &&
                     checkBox.isChecked()) {
-                    addItemToList(type, typeDescription, typeRentPrice, imageUri);
+                    rwd.saveRentItems(userId, type, typeDescription, typeRentPrice, imageUri);
                     wantToCloseDialog = true;
                 }
 
@@ -301,7 +354,7 @@ public class UserProfileActivity extends MainActivity {
         });
     }
 
-    private void updateUserInformationDialog(int layoutId, TextView textField, String dbRef) {
+    private void updateUserInfoDialog(int layoutId, TextView textField, String dbRef) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -316,7 +369,7 @@ public class UserProfileActivity extends MainActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String updatedInfo = editText.getText().toString();
                         setTheTextFields(textField, updatedInfo);
-                        rwd.saveUserInfoToDatabase(userId, dbRef, updatedInfo);
+                        rwd.saveUserInfo(userId, dbRef, updatedInfo);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -332,60 +385,6 @@ public class UserProfileActivity extends MainActivity {
         alertDialog.show();
     }
 
-    private void addItemToList(String type, String description, String price, Uri imageUri) {
-        BabyGear babyGear = new BabyGear(type, description, price, imageUri);
-        babyGears.add(babyGear);
-
-        BabyGearAdapter babyGearAdapter = new BabyGearAdapter(UserProfileActivity.this,
-                R.layout.baby_gear_details, babyGears);
-
-        listView.setAdapter(babyGearAdapter);
-
-        String path = "Rent_Items/" + UUID.randomUUID() + ".png";
-        StorageReference itemsRef = storage.getReference(path);
-
-        StorageMetadata metadata = new StorageMetadata.Builder()
-                .setCustomMetadata("Type", type).build();
-
-        UploadTask uploadTask = itemsRef.putFile(imageUri, metadata);
-
-        // Code for showing progressDialog while uploading
-        ProgressDialog progressDialog = new ProgressDialog(this);
-
-        uploadTask.addOnSuccessListener(UserProfileActivity.this,
-                new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Toast.makeText(UserProfileActivity.this,
-                                "Item Added", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(UserProfileActivity.this,
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
-                                Toast.makeText(UserProfileActivity.this,
-                                        "Item not Added!", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                .addOnProgressListener(UserProfileActivity.this,
-                        new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                                progressDialog.setTitle("Adding item...");
-                                progressDialog.show();
-
-                                double progress
-                                        = (100.0
-                                        * snapshot.getBytesTransferred()
-                                        / snapshot.getTotalByteCount());
-                                progressDialog.setMessage("Uploaded " + (int)progress + "%");
-                            }
-                        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -395,7 +394,7 @@ public class UserProfileActivity extends MainActivity {
             if (selectedImage != null) {
                 if (isProfilePicture) {
                     profilePicture.setImageURI(selectedImage);
-                    rwd.saveDataToStorage(userId, selectedImage);
+                    rwd.saveProfilePicture(userId, selectedImage);
                     isProfilePicture = false;
                 } else {
                     imageUri = selectedImage;
