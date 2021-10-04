@@ -44,13 +44,19 @@ public class UserProfileActivity extends MainActivity {
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
     private TextView userName;
-    private TextView emailAddress;
     private TextView phoneNumber;
     private TextView userLocation;
     private ImageView editName;
-    private ImageView editEmail;
     private ImageView editPhone;
     private ImageView editLocation;
+
+
+
+    private TextView changeEmail;
+    private TextView changePassword;
+
+
+
     private ArrayList<BabyGear> babyGears;
     private ListView listView;
     private CheckBox checkBox;
@@ -115,45 +121,53 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
+
+
+//        changeEmail = findViewById(R.id.change_email);
+//        changeEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateUserInfoDialog(R.layout.update_email_dialog,
+//                        emailAddress, "email");
+//            }
+//        });
+//        changePassword = findViewById(R.id.change_password);
+//        changePassword.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateUserInfoDialog(R.layout.update_email_dialog,
+//                        emailAddress, "email");
+//            }
+//        });
+
+
+
         userName = findViewById(R.id.user_name);
-        emailAddress = findViewById(R.id.email_address);
         phoneNumber = findViewById(R.id.phone_number);
         userLocation = findViewById(R.id.user_location);
 
         editName = findViewById(R.id.edit_name);
-        editEmail = findViewById(R.id.edit_email);
         editPhone = findViewById(R.id.edit_phone);
         editLocation = findViewById(R.id.edit_location);
 
         editName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInfoDialog(R.layout.update_name_dialog,
-                        userName, "name");
-            }
-        });
-
-        editEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateUserInfoDialog(R.layout.update_email_dialog,
-                        emailAddress, "email");
+                updateUserInfoDialog(R.layout.update_name_dialog, userName, "name");
             }
         });
 
         editPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInfoDialog(R.layout.update_phone_dialog,
-                        phoneNumber, "phone_number");
+                updateUserInfoDialog(R.layout.update_phone_dialog, phoneNumber, "phone_number");
             }
         });
 
         editLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInfoDialog(R.layout.update_location_dialog,
-                        userLocation, "location");
+                updateUserInfoDialog(R.layout.update_location_dialog, userLocation, "location");
             }
         });
 
@@ -162,27 +176,19 @@ public class UserProfileActivity extends MainActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String emailText = snapshot.child("email").getValue().toString();
-                    setTheTextFields(emailAddress, emailText);
-
-                    String nameText = snapshot.child("user-info").child("name")
-                            .getValue().toString();
+                    String nameText = snapshot.child("name").getValue().toString();
                     setTheTextFields(userName, nameText);
 
-                    String phoneText = snapshot.child("user-info").child("phone_number")
-                            .getValue().toString();
+                    String phoneText = snapshot.child("phone_number").getValue().toString();
                     setTheTextFields(phoneNumber, phoneText);
 
-                    String locationText = snapshot.child("user-info").child("location")
-                            .getValue().toString();
+                    String locationText = snapshot.child("location").getValue().toString();
                     setTheTextFields(userLocation, locationText);
 
-                    String profilePictureUrl = snapshot.child("user-info").child("profile_picture")
-                            .getValue().toString();
+                    String profilePictureUrl = snapshot.child("profile_picture").getValue().toString();
 
                     if (!TextUtils.isEmpty(profilePictureUrl)) {
-                        StorageReference reference = storageRef
-                                .child("pictures/user_profile_picture.png");
+                        StorageReference reference = storageRef.child("pictures/user_profile_picture.png");
 
                         Glide.with(UserProfileActivity.this)
                                 .load(reference)
@@ -203,17 +209,14 @@ public class UserProfileActivity extends MainActivity {
 
         rwd.readRentItemsForUser(userId, new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot,
-                                     @Nullable String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()) {
                     String itemType = snapshot.child("babyGearType").getValue().toString();
-                    String itemDescription = snapshot.child("babyGearDescription")
-                            .getValue().toString();
+                    String itemDescription = snapshot.child("babyGearDescription").getValue().toString();
                     String itemRentPrice = snapshot.child("rentPrice").getValue().toString();
                     String itemPhotoUrl = snapshot.child("imageUrl").getValue().toString();
 
-                    BabyGear babyGear = new BabyGear(itemType, itemDescription,
-                            itemRentPrice, itemPhotoUrl);
+                    BabyGear babyGear = new BabyGear(itemType, itemDescription, itemRentPrice, itemPhotoUrl);
                     babyGears.add(babyGear);
 
                     BabyGearAdapter babyGearAdapter = new BabyGearAdapter(
@@ -224,8 +227,7 @@ public class UserProfileActivity extends MainActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot,
-                                       @Nullable String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
 
             @Override
@@ -233,8 +235,7 @@ public class UserProfileActivity extends MainActivity {
             }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot,
-                                     @Nullable String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
 
             @Override
@@ -289,8 +290,7 @@ public class UserProfileActivity extends MainActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(intent, GET_FROM_GALLERY);
             }
         });
@@ -315,8 +315,7 @@ public class UserProfileActivity extends MainActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener(new View.OnClickListener() {
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean wantToCloseDialog = false;

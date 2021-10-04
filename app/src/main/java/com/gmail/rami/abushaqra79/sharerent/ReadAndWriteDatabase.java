@@ -52,7 +52,7 @@ public class ReadAndWriteDatabase {
 
     public void readProfileInfoForUser(String userId, ValueEventListener listener) {
         if (!TextUtils.isEmpty(userId)) {
-            databaseReference.child("Users").child(userId)
+            databaseReference.child("Users").child(userId).child("user-info")
                     .addListenerForSingleValueEvent(listener);
         }
     }
@@ -81,8 +81,7 @@ public class ReadAndWriteDatabase {
 
         UploadTask uploadTask = ref.putFile(imageUri);
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(
-                new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
@@ -105,8 +104,7 @@ public class ReadAndWriteDatabase {
         });
     }
 
-    public void saveRentItems(String userId, String type, String description,
-                              String price, Uri imageUri) {
+    public void saveRentItems(String userId, String type, String description, String price, Uri imageUri) {
         String path = "Rent_Items/" + UUID.randomUUID() + ".png";
         StorageReference ref = storageReference.child(path);
 
@@ -126,8 +124,7 @@ public class ReadAndWriteDatabase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(activityContext,"Item not Added!", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(activityContext,"Item not Added!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -144,8 +141,7 @@ public class ReadAndWriteDatabase {
                     }
                 });
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(
-                new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()) {
@@ -161,11 +157,9 @@ public class ReadAndWriteDatabase {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
 
-                    BabyGear babyGear = new BabyGear(type, description, price,
-                            downloadUri.toString());
+                    BabyGear babyGear = new BabyGear(type, description, price, downloadUri.toString());
 
-                    databaseReference.child("Users").child(userId).child("rent-items").push()
-                            .setValue(babyGear);
+                    databaseReference.child("Users").child(userId).child("rent-items").push().setValue(babyGear);
                 }
             }
         });
