@@ -154,12 +154,14 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/color_primary_dark"
                 android:textStyle="bold"
                 android:text="Change registered e-mail"
                 android:textSize="12sp" />
-
 
             <TextView
                 android:id="@+id/change_password"
@@ -169,7 +171,10 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:gravity="center"
+                android:background="?android:attr/selectableItemBackground"
                 android:textColor="@color/color_primary_dark"
                 android:textStyle="bold"
                 android:text="Change password"

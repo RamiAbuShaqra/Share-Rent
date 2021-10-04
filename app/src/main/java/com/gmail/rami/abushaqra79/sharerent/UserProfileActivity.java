@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +27,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -41,6 +47,9 @@ import java.util.ArrayList;
 
 public class UserProfileActivity extends MainActivity {
 
+    // TODO add a progress bar until the images loaded from database
+    // TODO update (updateUserInfoDialog) method to make sure that the dialog box checks for valid inputs
+
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
     private TextView userName;
@@ -49,14 +58,8 @@ public class UserProfileActivity extends MainActivity {
     private ImageView editName;
     private ImageView editPhone;
     private ImageView editLocation;
-
-
-
     private TextView changeEmail;
     private TextView changePassword;
-
-
-
     private ArrayList<BabyGear> babyGears;
     private ListView listView;
     private CheckBox checkBox;
@@ -121,27 +124,6 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
-
-
-//        changeEmail = findViewById(R.id.change_email);
-//        changeEmail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                updateUserInfoDialog(R.layout.update_email_dialog,
-//                        emailAddress, "email");
-//            }
-//        });
-//        changePassword = findViewById(R.id.change_password);
-//        changePassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                updateUserInfoDialog(R.layout.update_email_dialog,
-//                        emailAddress, "email");
-//            }
-//        });
-
-
-
         userName = findViewById(R.id.user_name);
         phoneNumber = findViewById(R.id.phone_number);
         userLocation = findViewById(R.id.user_location);
@@ -168,6 +150,231 @@ public class UserProfileActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 updateUserInfoDialog(R.layout.update_location_dialog, userLocation, "location");
+            }
+        });
+
+        changeEmail = findViewById(R.id.change_email);
+        changeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.change_email_dialog, null);
+                builder.setView(dialogView)
+                        .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean wantToCloseDialog = false;
+                        TextInputLayout inputLayout = dialogView.findViewById(R.id.new_email_input_layout);
+                        EditText newEmail = dialogView.findViewById(R.id.new_email);
+                        String updatedEmail = newEmail.getText().toString().trim();
+
+                        if (user != null && !updatedEmail.equals("") &&
+                                android.util.Patterns.EMAIL_ADDRESS.matcher(updatedEmail).matches()) {
+                            user.updateEmail(updatedEmail)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(UserProfileActivity.this,
+                                                        "Email address is updated." +
+                                                                "\nPlease sign in with new email.",
+                                                        Toast.LENGTH_LONG).show();
+
+                                                rwd.saveUserInfo(userId, "email", updatedEmail);
+
+                                                auth.signOut();
+                                                Intent intent = new Intent(
+                                                        UserProfileActivity.this,
+                                                        LoginActivity.class);
+                                                startActivity(intent);
+                                            } else {
+                                                Toast.makeText(UserProfileActivity.this,
+                                                        "Failed to update email!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                            wantToCloseDialog = true;
+
+                        } else if (updatedEmail.equals("") ||
+                                !android.util.Patterns.EMAIL_ADDRESS.matcher(updatedEmail).matches()) {
+                            inputLayout.setError("Enter a valid e-mail address!");
+                        }
+
+                        newEmail.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                inputLayout.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                            }
+                        });
+
+                        if (wantToCloseDialog) {
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+
+        changePassword = findViewById(R.id.change_password);
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.change_password_dialog, null);
+                builder.setView(dialogView)
+                        .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean wantToCloseDialog = false;
+                        TextInputLayout currentLayout = dialogView.findViewById(R.id.current_password_layout);
+                        TextInputLayout newLayout = dialogView.findViewById(R.id.new_password_layout);
+                        TextInputLayout confirmLayout = dialogView.findViewById(R.id.confirm_password_layout);
+                        EditText currentPW = dialogView.findViewById(R.id.current_password);
+                        EditText newPW = dialogView.findViewById(R.id.new_password);
+                        EditText confirmPW = dialogView.findViewById(R.id.confirm_new_password);
+
+                        String currentPassword = currentPW.getText().toString().trim();
+                        String newPassword = newPW.getText().toString().trim();
+                        String confirmPassword = confirmPW.getText().toString().trim();
+
+                        if (user != null && !currentPassword.equals("") && !newPassword.equals("")
+                                && !confirmPassword.equals("")) {
+
+                            if (newPassword.length() < 8) {
+                                newLayout.setError("Password should be minimum 8 characters.");
+                                return;
+                            }
+                            if (newPassword.equals(currentPassword)) {
+                                newLayout.setError("New password is the same of current password!");
+                                return;
+                            }
+                            if (!confirmPassword.equals(newPassword)) {
+                                confirmLayout.setError("Confirm password and new password aren't match.");
+                                return;
+                            }
+
+                            user.updatePassword(newPassword)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(UserProfileActivity.this,
+                                                        "Password is changed.", Toast.LENGTH_LONG).show();
+                                            } else {
+                                                Toast.makeText(UserProfileActivity.this,
+                                                        "Failed to change password!", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                            wantToCloseDialog = true;
+
+                        } else {
+                            if (currentPassword.equals("")) {
+                                currentLayout.setError("Enter your current password.");
+                            }
+                            if (newPassword.equals("")) {
+                                newLayout.setError("Enter a new password.");
+                            }
+                            if (confirmPassword.equals("")) {
+                                confirmLayout.setError("Enter the new password again.");
+                            }
+                        }
+
+                        currentPW.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                currentLayout.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                            }
+                        });
+
+                        newPW.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                newLayout.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                            }
+                        });
+
+                        confirmPW.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                confirmLayout.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                            }
+                        });
+
+                        if (wantToCloseDialog) {
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
             }
         });
 
@@ -348,8 +555,9 @@ public class UserProfileActivity extends MainActivity {
 
                 spinner.setSelection(0);
 
-                if (wantToCloseDialog)
+                if (wantToCloseDialog) {
                     alertDialog.dismiss();
+                }
             }
         });
     }
