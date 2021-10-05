@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,12 +26,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -47,7 +53,6 @@ import java.util.ArrayList;
 
 public class UserProfileActivity extends MainActivity {
 
-    // TODO add a progress bar until the images loaded from database
     // TODO update (updateUserInfoDialog) method to make sure that the dialog box checks for valid inputs
     // TODO think about setting a signature instead of disabling the cache
 
@@ -61,6 +66,7 @@ public class UserProfileActivity extends MainActivity {
     private ImageView editLocation;
     private TextView changeEmail;
     private TextView changePassword;
+    private ProgressBar loadingSpinner;
     private ArrayList<BabyGear> babyGears;
     private ArrayList<String> keysList;
     private ListView listView;
@@ -116,6 +122,9 @@ public class UserProfileActivity extends MainActivity {
         if (user != null) {
             userId = user.getUid();
         }
+
+        loadingSpinner = findViewById(R.id.loading_spinner);
+        loadingSpinner.setVisibility(View.VISIBLE);
 
         profilePicture = findViewById(R.id.profile_picture);
         profilePicture.setOnClickListener(new View.OnClickListener() {
@@ -402,9 +411,26 @@ public class UserProfileActivity extends MainActivity {
 
                         Glide.with(UserProfileActivity.this)
                                 .load(reference)
+                                .listener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                                Target<Drawable> target, boolean isFirstResource) {
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model,
+                                                                   Target<Drawable> target, DataSource dataSource,
+                                                                   boolean isFirstResource) {
+                                        loadingSpinner.setVisibility(View.GONE);
+                                        return false;
+                                    }
+                                })
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true)
                                 .into(profilePicture);
+                    } else {
+                        loadingSpinner.setVisibility(View.GONE);
                     }
                 }
             }
