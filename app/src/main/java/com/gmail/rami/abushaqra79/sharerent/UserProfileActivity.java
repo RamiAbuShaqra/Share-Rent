@@ -49,6 +49,7 @@ public class UserProfileActivity extends MainActivity {
 
     // TODO add a progress bar until the images loaded from database
     // TODO update (updateUserInfoDialog) method to make sure that the dialog box checks for valid inputs
+    // TODO think about setting a signature instead of disabling the cache
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
@@ -61,7 +62,9 @@ public class UserProfileActivity extends MainActivity {
     private TextView changeEmail;
     private TextView changePassword;
     private ArrayList<BabyGear> babyGears;
+    private ArrayList<String> keysList;
     private ListView listView;
+    private BabyGearAdapter babyGearAdapter;
     private CheckBox checkBox;
     private Spinner spinner;
     private Uri imageUri;
@@ -399,7 +402,6 @@ public class UserProfileActivity extends MainActivity {
 
                         Glide.with(UserProfileActivity.this)
                                 .load(reference)
-                                // TODO think about setting a signature instead of disabling the cache
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .skipMemoryCache(true)
                                 .into(profilePicture);
@@ -422,11 +424,15 @@ public class UserProfileActivity extends MainActivity {
                     String itemDescription = snapshot.child("babyGearDescription").getValue().toString();
                     String itemRentPrice = snapshot.child("rentPrice").getValue().toString();
                     String itemPhotoUrl = snapshot.child("imageUrl").getValue().toString();
+                    String storagePath = snapshot.child("storagePath").getValue().toString();
 
-                    BabyGear babyGear = new BabyGear(itemType, itemDescription, itemRentPrice, itemPhotoUrl);
+                    BabyGear babyGear = new BabyGear(itemType, itemDescription, itemRentPrice,
+                            itemPhotoUrl, storagePath);
+
                     babyGears.add(babyGear);
+                    keysList.add(snapshot.getKey());
 
-                    BabyGearAdapter babyGearAdapter = new BabyGearAdapter(
+                    babyGearAdapter = new BabyGearAdapter(
                             UserProfileActivity.this, R.layout.baby_gear_details, babyGears);
 
                     listView.setAdapter(babyGearAdapter);
@@ -439,6 +445,12 @@ public class UserProfileActivity extends MainActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                BabyGear babyGear = snapshot.getValue(BabyGear.class);
+
+                babyGears.remove(babyGear);
+                keysList.remove(snapshot.getKey());
+
+                babyGearAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -453,8 +465,41 @@ public class UserProfileActivity extends MainActivity {
         });
 
         babyGears = new ArrayList<>();
+        keysList = new ArrayList<>();
 
         listView = findViewById(R.id.list_of_offered_items);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                builder.setMessage("Delete item?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                BabyGear currentBabyGear = babyGearAdapter.getItem(position);
+
+                                String key = keysList.get(position);
+                                String path = currentBabyGear.getStoragePath();
+
+                                rwd.removeRentItems(userId, key, path);
+
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
 
         spinner = findViewById(R.id.baby_gear_list);
         String[] babyGearItems = new String[]

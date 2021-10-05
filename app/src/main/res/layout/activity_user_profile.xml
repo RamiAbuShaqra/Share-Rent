@@ -215,7 +215,7 @@
             android:layout_margin="12dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="8dp"
-            android:descendantFocusability="afterDescendants"/>
+            android:drawSelectorOnTop="true"/>
 
     </LinearLayout>
 

@@ -1,19 +1,27 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
 public class BabyGear {
-    private final String babyGearType;
-    private final String babyGearDescription;
-    private final String rentPrice;
-    private final String imageUrl;
+
+    private String babyGearType;
+    private String babyGearDescription;
+    private String rentPrice;
+    private String imageUrl;
+    private String storagePath;
+
+    // Default constructor required for calls to DataSnapshot.getValue(BabyGear.class)
+    public BabyGear() {
+    }
 
     public BabyGear(String babyGearType,
                     String babyGearDescription,
                     String rentPrice,
-                    String imageUrl) {
+                    String imageUrl,
+                    String storagePath) {
         this.babyGearType = babyGearType;
         this.babyGearDescription = babyGearDescription;
         this.rentPrice = rentPrice;
         this.imageUrl = imageUrl;
+        this.storagePath = storagePath;
     }
 
     public String getBabyGearType() {
@@ -30,5 +38,9 @@ public class BabyGear {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getStoragePath() {
+        return storagePath;
     }
 }

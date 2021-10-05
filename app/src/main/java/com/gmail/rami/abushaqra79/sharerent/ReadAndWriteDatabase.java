@@ -105,7 +105,8 @@ public class ReadAndWriteDatabase {
     }
 
     public void saveRentItems(String userId, String type, String description, String price, Uri imageUri) {
-        String path = "Rent_Items/" + UUID.randomUUID() + ".png";
+        String randomId = UUID.randomUUID() + ".png";
+        String path = "Rent_Items/" + randomId;
         StorageReference ref = storageReference.child(path);
 
         UploadTask uploadTask = ref.putFile(imageUri);
@@ -155,13 +156,41 @@ public class ReadAndWriteDatabase {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
+                    String downloadUri = task.getResult().toString();
 
-                    BabyGear babyGear = new BabyGear(type, description, price, downloadUri.toString());
+                    BabyGear babyGear = new BabyGear(type, description, price, downloadUri, randomId);
 
-                    databaseReference.child("Users").child(userId).child("rent-items").push().setValue(babyGear);
+                    String itemKey = databaseReference.child("Users").child(userId)
+                            .child("rent-items").push().getKey();
+
+                    if (itemKey != null) {
+                        databaseReference.child("Users").child(userId).child("rent-items")
+                                .child(itemKey).setValue(babyGear);
+                    }
                 }
             }
         });
+    }
+
+    public void removeRentItems(String userId, String key, String path) {
+        if (!TextUtils.isEmpty(userId)) {
+            databaseReference.child("Users").child(userId).child("rent-items").child(key).removeValue();
+
+            storageReference.child("Rent_Items").child(path).delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(activityContext, "File deleted successfully from Storage",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(activityContext, "An error occurred!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
 }
