@@ -24,6 +24,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class ReadAndWriteDatabase {
@@ -48,6 +50,23 @@ public class ReadAndWriteDatabase {
         user = auth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+    }
+
+    /**
+     * Creating new user node under 'Users'
+     */
+    public void createUser(String userId, String email) {
+        databaseReference = database.getReference("Users");
+
+        User user = new User(email);
+        databaseReference.child(userId).setValue(user);
+
+        Map<String, String> userInfo = new HashMap<>();
+        userInfo.put("name", "");
+        userInfo.put("phone_number", "");
+        userInfo.put("location", "");
+        userInfo.put("profile_picture", "");
+        databaseReference.child(userId).child("user-info").setValue(userInfo);
     }
 
     public void readProfileInfoForUser(String userId, ValueEventListener listener) {
