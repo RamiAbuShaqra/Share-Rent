@@ -8,8 +8,8 @@ public class BabyGear {
     private String imageUrl;
     private String storagePath;
 
-    // Default constructor required for calls to DataSnapshot.getValue(BabyGear.class)
     public BabyGear() {
+        // Default constructor required for calls to DataSnapshot.getValue(BabyGear.class)
     }
 
     public BabyGear(String babyGearType,
