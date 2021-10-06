@@ -2,9 +2,12 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,11 +29,9 @@ public class MainActivity extends AppCompatActivity {
             "Belgium", "France", "Italy", "Germany", "Spain"
     };
 
-    private final long EXTRA_DAY = 86400000; // 86,400,000 millisecond in one day.
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
-    private TextView signUpPage;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,15 +57,60 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        AutoCompleteTextView textView = findViewById(R.id.locations);
-        textView.setAdapter(adapter);
+        AutoCompleteTextView location = findViewById(R.id.locations);
+        location.setAdapter(adapter);
 
-        textView.setThreshold(2);
+        location.setThreshold(2);
 
         myCalendar = Calendar.getInstance();
 
         startRentalDate = findViewById(R.id.start_date);
         endRentalDate = findViewById(R.id.end_date);
+
+        location.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                location.setError(null);
+            }
+        });
+
+        startRentalDate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                startRentalDate.setError(null);
+            }
+        });
+
+        endRentalDate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                endRentalDate.setError(null);
+            }
+        });
 
         DatePickerDialog.OnDateSetListener firstDate = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -117,7 +164,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        signUpPage = findViewById(R.id.sign_up_page);
+        TextView continueBtn = findViewById(R.id.continue_btn);
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String destination = location.getText().toString();
+                String startDate = startRentalDate.getText().toString();
+                String endDate = endRentalDate.getText().toString();
+
+                if (destination.equals("")) {
+                    location.setError("Please enter a destination");
+                    return;
+                }
+
+                if (startDate.equals("")) {
+                    startRentalDate.setError("Please select start date");
+                    return;
+                }
+
+                if (endDate.equals("")) {
+                    endRentalDate.setError("please select end date");
+                    return;
+                }
+
+                Intent intent = new Intent(MainActivity.this, ChooseItemsActivity.class);
+                intent.putExtra("Destination", destination);
+                intent.putExtra("Start Date", startDate);
+                intent.putExtra("End Date", endDate);
+                startActivity(intent);
+            }
+        });
+
+        TextView signUpPage = findViewById(R.id.sign_up_page);
         signUpPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private long getStartDate() {
+        final long EXTRA_DAY = 86400000; // 86,400,000 millisecond in one day.
         long time = 0;
         String startDate = startRentalDate.getText().toString();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);

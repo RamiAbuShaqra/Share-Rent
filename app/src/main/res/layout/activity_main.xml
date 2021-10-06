@@ -123,7 +123,7 @@
                 android:background="@color/base_color">
 
                 <TextView
-                    android:id="@+id/login"
+                    android:id="@+id/continue_btn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?android:attr/selectableItemBackground"
