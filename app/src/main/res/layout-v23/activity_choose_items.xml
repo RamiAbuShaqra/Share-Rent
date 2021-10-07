@@ -101,6 +101,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
@@ -134,6 +135,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
@@ -167,6 +169,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
@@ -200,6 +203,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
@@ -233,6 +237,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
@@ -266,6 +271,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
@@ -299,6 +305,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/list_border"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
