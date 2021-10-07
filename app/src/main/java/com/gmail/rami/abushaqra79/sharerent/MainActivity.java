@@ -26,8 +26,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private static final String[] COUNTRIES = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain"
-    };
+            "Belgium", "France", "Italy", "Germany", "Spain"};
 
     private Calendar myCalendar;
     private EditText startRentalDate;
@@ -59,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_dropdown_item_1line, COUNTRIES);
         AutoCompleteTextView location = findViewById(R.id.locations);
         location.setAdapter(adapter);
-
-        location.setThreshold(2);
+        location.setThreshold(1);
 
         myCalendar = Calendar.getInstance();
 
@@ -210,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.ROOT);
 
         return simpleDateFormat.format(myCalendar.getTime());
-
     }
 
     private long getStartDate() {
