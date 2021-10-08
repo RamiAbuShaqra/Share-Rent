@@ -265,7 +265,7 @@ public class ChooseItemsActivity extends MainActivity {
                     items.add("Sterilizer");
                 }
 
-                Intent intent = new Intent(ChooseItemsActivity.this, MainActivity.class);
+                Intent intent = new Intent(ChooseItemsActivity.this, ReviewItemsOptions.class);
                 intent.putExtra("Destination", destination);
                 intent.putExtra("Start Date", startDate);
                 intent.putExtra("End Date", endDate);
