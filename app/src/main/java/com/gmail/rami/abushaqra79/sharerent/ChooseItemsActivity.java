@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,16 +12,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class ChooseItemsActivity extends MainActivity {
-
-    private static final String[] COUNTRIES = new String[]{
-            "Belgium", "France", "Italy", "Germany", "Spain"};
 
     private Calendar myCalendar;
     private EditText startRentalDate;
@@ -40,26 +45,47 @@ public class ChooseItemsActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_items);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        AutoCompleteTextView location = findViewById(R.id.destination);
-        location.setAdapter(adapter);
-        location.setThreshold(1);
-
-        myCalendar = Calendar.getInstance();
-
-        startRentalDate = findViewById(R.id.start_date);
-        endRentalDate = findViewById(R.id.end_date);
-
         Bundle bundle = getIntent().getExtras();
 
         String travelDestination = bundle.getString("Destination");
         String startDate = bundle.getString("Start Date");
         String endDate = bundle.getString("End Date");
 
+        AutoCompleteTextView location = findViewById(R.id.destination);
+        startRentalDate = findViewById(R.id.start_date);
+        endRentalDate = findViewById(R.id.end_date);
+
         location.setText(travelDestination);
         startRentalDate.setText(startDate);
         endRentalDate.setText(endDate);
+
+        myCalendar = Calendar.getInstance();
+
+        ArrayList<String> locations = new ArrayList<>();
+
+        ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
+        rwd.readLocationInfo(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot child : snapshot.getChildren()) {
+                        String value = child.child("user-info").child("location").getValue().toString();
+                        locations.add(value);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("TAG", "Error! Not able to get data");
+            }
+        });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, locations);
+        location.setAdapter(adapter);
+        location.setThreshold(1);
 
         location.addTextChangedListener(new TextWatcher() {
             @Override

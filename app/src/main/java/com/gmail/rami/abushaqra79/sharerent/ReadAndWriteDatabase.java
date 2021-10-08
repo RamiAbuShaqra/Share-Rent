@@ -83,6 +83,10 @@ public class ReadAndWriteDatabase {
         }
     }
 
+    public void readLocationInfo(ValueEventListener listener) {
+            databaseReference.child("Users").addListenerForSingleValueEvent(listener);
+    }
+
     public void saveUserInfo(String userId, String dbRef, String updatedInfo) {
         if (!TextUtils.isEmpty(userId)) {
             if (dbRef.equals("email")) {
