@@ -530,7 +530,7 @@ public class UserProfileActivity extends MainActivity {
         spinner = findViewById(R.id.baby_gear_list);
         String[] babyGearItems = new String[]
                 {"Select an item..", "Stroller", "Bed", "Car Seat", "High Chair",
-                        "Bath Tubs", "Bouncer", "Sterilizer"};
+                        "Bath Tub", "Bouncer", "Sterilizer"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, babyGearItems);

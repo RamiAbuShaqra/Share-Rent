@@ -1,6 +1,7 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -73,7 +76,6 @@ public class ChooseItemsActivity extends MainActivity {
                         locations.add(value);
                     }
                 }
-
             }
 
             @Override
@@ -151,6 +153,124 @@ public class ChooseItemsActivity extends MainActivity {
                 }
 
                 datePicker.show();
+            }
+        });
+
+        LinearLayout strollerLayout = findViewById(R.id.stroller_layout);
+        strollerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                strollerLayout.setSelected(!strollerLayout.isSelected());
+            }
+        });
+
+        LinearLayout bedLayout = findViewById(R.id.bed_layout);
+        bedLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bedLayout.setSelected(!bedLayout.isSelected());
+            }
+        });
+
+        LinearLayout carSeatLayout = findViewById(R.id.car_seat_layout);
+        carSeatLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carSeatLayout.setSelected(!carSeatLayout.isSelected());
+            }
+        });
+
+        LinearLayout highChairLayout = findViewById(R.id.high_chair_layout);
+        highChairLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                highChairLayout.setSelected(!highChairLayout.isSelected());
+            }
+        });
+
+        LinearLayout bathTubLayout = findViewById(R.id.bath_tub_layout);
+        bathTubLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bathTubLayout.setSelected(!bathTubLayout.isSelected());
+            }
+        });
+
+        LinearLayout bouncerLayout = findViewById(R.id.bouncer_layout);
+        bouncerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bouncerLayout.setSelected(!bouncerLayout.isSelected());
+            }
+        });
+
+        LinearLayout sterilizerLayout = findViewById(R.id.sterilizer_layout);
+        sterilizerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sterilizerLayout.setSelected(!sterilizerLayout.isSelected());
+            }
+        });
+
+        TextView continueBtn = findViewById(R.id.continue_btn);
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String destination = location.getText().toString();
+                String startDate = startRentalDate.getText().toString();
+                String endDate = endRentalDate.getText().toString();
+
+                if (destination.equals("")) {
+                    location.setError("Please enter a destination");
+                    return;
+                }
+
+                if (startDate.equals("")) {
+                    startRentalDate.setError("Please select start date");
+                    return;
+                }
+
+                if (endDate.equals("")) {
+                    endRentalDate.setError("please select end date");
+                    return;
+                }
+
+                ArrayList<String> items = new ArrayList<>();
+
+                if (strollerLayout.isSelected()) {
+                    items.add("Stroller");
+                }
+
+                if (bedLayout.isSelected()) {
+                    items.add("Bed");
+                }
+
+                if (carSeatLayout.isSelected()) {
+                    items.add("Car Seat");
+                }
+
+                if (highChairLayout.isSelected()) {
+                    items.add("High Chair");
+                }
+
+                if (bathTubLayout.isSelected()) {
+                    items.add("Bath Tub");
+                }
+
+                if (bouncerLayout.isSelected()) {
+                    items.add("Bouncer");
+                }
+
+                if (sterilizerLayout.isSelected()) {
+                    items.add("Sterilizer");
+                }
+
+                Intent intent = new Intent(ChooseItemsActivity.this, MainActivity.class);
+                intent.putExtra("Destination", destination);
+                intent.putExtra("Start Date", startDate);
+                intent.putExtra("End Date", endDate);
+                intent.putStringArrayListExtra("Selected Items", items);
+                startActivity(intent);
             }
         });
     }
