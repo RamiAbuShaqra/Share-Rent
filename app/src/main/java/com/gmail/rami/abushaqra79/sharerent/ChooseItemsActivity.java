@@ -30,6 +30,9 @@ import java.util.Locale;
 
 public class ChooseItemsActivity extends MainActivity {
 
+    // TODO fix the issue when the user clicks continue without choosing any item
+
+    private static final String TAG = ChooseItemsActivity.class.getSimpleName();
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
@@ -80,7 +83,7 @@ public class ChooseItemsActivity extends MainActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("TAG", "Error! Not able to get data");
+                Log.e(TAG, "Error! Not able to get data");
             }
         });
 
