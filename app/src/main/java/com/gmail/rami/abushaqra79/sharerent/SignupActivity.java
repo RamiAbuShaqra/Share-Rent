@@ -19,11 +19,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
-
-    // TODO Check if the email is already registered and display a message.
 
     private EditText email;
     private EditText password;
@@ -140,9 +139,16 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SignupActivity.this,
-                                    "Authentication failed! Couldn't create account." +
-                                            "\nPlease try again.", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.INVISIBLE);
+
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(SignupActivity.this,
+                                        "Email address already registered.", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(SignupActivity.this,
+                                        "Authentication failed! Couldn't create account." +
+                                                "\nPlease try again.", Toast.LENGTH_LONG).show();
+                            }
                         } else {
                             auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                                 @Override
