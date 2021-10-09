@@ -53,9 +53,6 @@ import java.util.ArrayList;
 
 public class UserProfileActivity extends MainActivity {
 
-    // TODO update (updateUserInfoDialog) method to make sure that the dialog box checks for valid inputs
-    // TODO think about setting a signature instead of disabling the cache
-
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
     private TextView userName;
@@ -640,15 +637,28 @@ public class UserProfileActivity extends MainActivity {
 
         View dialogView = inflater.inflate(layoutId, null);
 
+        TextInputLayout inputLayout = dialogView.findViewById(R.id.info_input_layout);
         EditText editText = dialogView.findViewById(R.id.update_info);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                inputLayout.setError(null);
+            }
+        });
 
         builder.setView(dialogView)
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String updatedInfo = editText.getText().toString();
-                        setTheTextFields(textField, updatedInfo);
-                        rwd.saveUserInfo(userId, dbRef, updatedInfo);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -662,6 +672,29 @@ public class UserProfileActivity extends MainActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean wantToCloseDialog = false;
+
+                String updatedInfo = editText.getText().toString();
+
+                if (TextUtils.isEmpty(updatedInfo)) {
+                    inputLayout.setError("Please fill this field");
+                }
+
+                if (!TextUtils.isEmpty(updatedInfo)) {
+                    setTheTextFields(textField, updatedInfo);
+                    rwd.saveUserInfo(userId, dbRef, updatedInfo);
+                    wantToCloseDialog = true;
+                }
+
+                if (wantToCloseDialog) {
+                    alertDialog.dismiss();
+                }
+            }
+        });
     }
 
     @Override
