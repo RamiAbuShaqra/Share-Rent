@@ -83,7 +83,7 @@ public class ReadAndWriteDatabase {
         }
     }
 
-    public void readLocationInfo(ValueEventListener listener) {
+    public void fetchData(ValueEventListener listener) {
             databaseReference.child("Users").addListenerForSingleValueEvent(listener);
     }
 

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> locations = new ArrayList<>();
 
         ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
-        rwd.readLocationInfo(new ValueEventListener() {
+        rwd.fetchData(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                         locations.add(value);
                     }
                 }
-
             }
 
             @Override

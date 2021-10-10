@@ -56,7 +56,7 @@ public class ReviewItemsOptions extends AppCompatActivity {
 
     private void fetchResults(String type) {
         ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
-        rwd.readLocationInfo(new ValueEventListener() {
+        rwd.fetchData(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
