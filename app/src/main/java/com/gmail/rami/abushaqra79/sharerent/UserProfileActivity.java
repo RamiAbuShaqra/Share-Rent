@@ -53,6 +53,9 @@ import java.util.ArrayList;
 
 public class UserProfileActivity extends MainActivity {
 
+    // TODO handle delete or update the items properly
+    // TODO fix the listview inside scrollview
+
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
     private TextView userName;
@@ -404,7 +407,8 @@ public class UserProfileActivity extends MainActivity {
                     String profilePictureUrl = snapshot.child("profile_picture").getValue().toString();
 
                     if (!TextUtils.isEmpty(profilePictureUrl)) {
-                        StorageReference reference = storageRef.child("pictures/user_profile_picture.png");
+                        StorageReference reference = storageRef.child("pictures/").child(userId + "/")
+                                .child("user_profile_picture.png");
 
                         Glide.with(UserProfileActivity.this)
                                 .load(reference)

@@ -99,7 +99,7 @@ public class ReadAndWriteDatabase {
     }
 
     public void saveProfilePicture(String userId, Uri imageUri) {
-        String path = "pictures/user_profile_picture.png";
+        String path = "pictures/" + userId + "/user_profile_picture.png";
         StorageReference ref = storageReference.child(path);
 
         UploadTask uploadTask = ref.putFile(imageUri);
