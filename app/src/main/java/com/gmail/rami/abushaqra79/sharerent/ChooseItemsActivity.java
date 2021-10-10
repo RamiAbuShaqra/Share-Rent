@@ -14,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -29,8 +30,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ChooseItemsActivity extends MainActivity {
-
-    // TODO fix the issue when the user clicks continue without choosing any item
 
     private static final String TAG = ChooseItemsActivity.class.getSimpleName();
     private Calendar myCalendar;
@@ -219,6 +218,15 @@ public class ChooseItemsActivity extends MainActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!strollerLayout.isSelected() && !bedLayout.isSelected() &&
+                        !carSeatLayout.isSelected() && !highChairLayout.isSelected() &&
+                        !bathTubLayout.isSelected() && !bouncerLayout.isSelected() &&
+                        !sterilizerLayout.isSelected()) {
+                    Toast.makeText(ChooseItemsActivity.this,
+                            "Please select items to continue", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 String destination = location.getText().toString();
                 String startDate = startRentalDate.getText().toString();
                 String endDate = endRentalDate.getText().toString();
