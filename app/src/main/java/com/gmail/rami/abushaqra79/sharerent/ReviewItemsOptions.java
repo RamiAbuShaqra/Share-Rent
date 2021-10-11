@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +23,7 @@ public class ReviewItemsOptions extends AppCompatActivity {
 
     private static final String TAG = ReviewItemsOptions.class.getSimpleName();
     private ArrayList<BabyGear> results;
+    private ArrayList<String> phones;
     private ListView listView;
 
     /**
@@ -47,6 +50,7 @@ public class ReviewItemsOptions extends AppCompatActivity {
         ArrayList<String> items = bundle.getStringArrayList("Selected Items");
 
         results = new ArrayList<>();
+        phones = new ArrayList<>();
         listView = findViewById(R.id.review_items_list);
 
         for (int i = 0; i < items.size(); i++) {
@@ -77,12 +81,30 @@ public class ReviewItemsOptions extends AppCompatActivity {
                                 }
                             }
                         }
+
+                        String phone = child.child("user-info").child("phone_number").getValue().toString();
+                        phones.add(phone);
                     }
                 }
 
                 BabyGearAdapter adapter = new BabyGearAdapter(ReviewItemsOptions.this,
                         R.layout.baby_gear_details, results);
                 listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        BabyGear currentGear = adapter.getItem(position);
+                        String phone = phones.get(position);
+
+                        Intent intent = new Intent(ReviewItemsOptions.this, SelectedItemActivity.class);
+                        intent.putExtra("Description", currentGear.getBabyGearDescription());
+                        intent.putExtra("Rent Price", currentGear.getRentPrice());
+                        intent.putExtra("Image URL", currentGear.getImageUrl());
+                        intent.putExtra("Phone Number", phone);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
