@@ -69,7 +69,7 @@ public class ChooseItemsActivity extends MainActivity {
         ArrayList<String> locations = new ArrayList<>();
 
         ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
-        rwd.readLocationInfo(new ValueEventListener() {
+        rwd.fetchData(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

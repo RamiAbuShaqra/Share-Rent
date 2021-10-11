@@ -25,9 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText password;
-    private TextView login;
-    private TextView resetPassword;
-    private TextView signUpPage;
     private TextInputLayout emailInputLayout;
     private TextInputLayout passwordInputLayout;
     private ProgressBar progressBar;
@@ -85,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        login = findViewById(R.id.login);
+        TextView login = findViewById(R.id.login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,15 +123,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        resetPassword = findViewById(R.id.reset_password);
+        TextView resetPassword = findViewById(R.id.reset_password);
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Start the reset password activity.
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
+                startActivity(intent);
             }
         });
 
-        signUpPage = findViewById(R.id.sign_up_page);
+        TextView signUpPage = findViewById(R.id.sign_up_page);
         signUpPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

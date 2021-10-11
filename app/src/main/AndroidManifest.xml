@@ -11,6 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRent">
         <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="true"
+            android:parentActivityName=".LoginActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
+        </activity>
+        <activity
             android:name=".ReviewItemsOptions"
             android:exported="true"
             android:parentActivityName=".ChooseItemsActivity">
