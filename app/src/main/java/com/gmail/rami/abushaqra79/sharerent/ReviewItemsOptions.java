@@ -23,7 +23,7 @@ public class ReviewItemsOptions extends AppCompatActivity {
 
     private static final String TAG = ReviewItemsOptions.class.getSimpleName();
     private ArrayList<BabyGear> results;
-    private ArrayList<String> phones;
+    private ArrayList<User> users;
     private ListView listView;
 
     /**
@@ -50,7 +50,7 @@ public class ReviewItemsOptions extends AppCompatActivity {
         ArrayList<String> items = bundle.getStringArrayList("Selected Items");
 
         results = new ArrayList<>();
-        phones = new ArrayList<>();
+        users = new ArrayList<>();
         listView = findViewById(R.id.review_items_list);
 
         for (int i = 0; i < items.size(); i++) {
@@ -82,8 +82,14 @@ public class ReviewItemsOptions extends AppCompatActivity {
                             }
                         }
 
-                        String phone = child.child("user-info").child("phone_number").getValue().toString();
-                        phones.add(phone);
+                        String email = child.child("user-info").child("email").getValue().toString();
+                        String name = child.child("user-info").child("name").getValue().toString();
+                        String phone = child.child("user-info").child("phoneNumber").getValue().toString();
+                        String location = child.child("user-info").child("location").getValue().toString();
+                        String picture = child.child("user-info").child("profilePictureUrl").getValue().toString();
+
+                        User user = new User(email, name, phone, location, picture);
+                        users.add(user);
                     }
                 }
 
@@ -95,13 +101,15 @@ public class ReviewItemsOptions extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         BabyGear currentGear = adapter.getItem(position);
-                        String phone = phones.get(position);
+                        User currentUser = users.get(position);
 
                         Intent intent = new Intent(ReviewItemsOptions.this, SelectedItemActivity.class);
                         intent.putExtra("Description", currentGear.getBabyGearDescription());
                         intent.putExtra("Rent Price", currentGear.getRentPrice());
                         intent.putExtra("Image URL", currentGear.getImageUrl());
-                        intent.putExtra("Phone Number", phone);
+                        intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
+                        intent.putExtra("Item Provider Email", currentUser.getEmail());
+                        intent.putExtra("Item Provider Phone Number", currentUser.getPhoneNumber());
                         startActivity(intent);
                     }
                 });

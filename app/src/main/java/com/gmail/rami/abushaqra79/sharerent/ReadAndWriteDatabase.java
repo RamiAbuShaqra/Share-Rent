@@ -24,8 +24,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class ReadAndWriteDatabase {
@@ -55,18 +53,9 @@ public class ReadAndWriteDatabase {
     /**
      * Creating new user node under 'Users'
      */
-    public void createUser(String userId, String email) {
+    public void createUser(String userId, User user) {
         databaseReference = database.getReference("Users");
-
-        User user = new User(email);
-        databaseReference.child(userId).setValue(user);
-
-        Map<String, String> userInfo = new HashMap<>();
-        userInfo.put("name", "");
-        userInfo.put("phone_number", "");
-        userInfo.put("location", "");
-        userInfo.put("profile_picture", "");
-        databaseReference.child(userId).child("user-info").setValue(userInfo);
+        databaseReference.child(userId).child("user-info").setValue(user);
     }
 
     public void readProfileInfoForUser(String userId, ValueEventListener listener) {
@@ -89,12 +78,8 @@ public class ReadAndWriteDatabase {
 
     public void saveUserInfo(String userId, String dbRef, String updatedInfo) {
         if (!TextUtils.isEmpty(userId)) {
-            if (dbRef.equals("email")) {
-                databaseReference.child("Users").child(userId).child(dbRef).setValue(updatedInfo);
-            } else {
-                databaseReference.child("Users").child(userId).child("user-info").child(dbRef)
+            databaseReference.child("Users").child(userId).child("user-info").child(dbRef)
                         .setValue(updatedInfo);
-            }
         }
     }
 
@@ -121,7 +106,7 @@ public class ReadAndWriteDatabase {
                     Uri downloadUri = task.getResult();
 
                     databaseReference.child("Users").child(userId).child("user-info")
-                            .child("profile_picture").setValue(downloadUri.toString());
+                            .child("profilePictureUrl").setValue(downloadUri.toString());
                 }
             }
         });

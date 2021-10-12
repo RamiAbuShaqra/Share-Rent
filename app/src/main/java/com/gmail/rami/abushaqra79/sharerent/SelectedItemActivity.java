@@ -30,19 +30,26 @@ public class SelectedItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selected_item);
 
         Bundle bundle = getIntent().getExtras();
+        String imageUrl = bundle.getString("Image URL");
         String description = bundle.getString("Description");
         String rentPrice = bundle.getString("Rent Price");
-        String imageUrl = bundle.getString("Image URL");
-        String phone = bundle.getString("Phone Number");
+        String picture = bundle.getString("Item Provider Picture");
+        String email = bundle.getString("Item Provider Email");
+        String phone = bundle.getString("Item Provider Phone Number");
 
         ImageView photo = findViewById(R.id.selected_item_photo);
-        TextView desc = findViewById(R.id.selected_item_description);
+        TextView details = findViewById(R.id.selected_item_description);
         TextView price = findViewById(R.id.rent_price);
-        TextView phoneNumber = findViewById(R.id.item_provider_phone);
+        ImageView userPicture = findViewById(R.id.item_provider_picture);
+        TextView userEmail = findViewById(R.id.item_provider_email);
+        TextView userPhoneNumber = findViewById(R.id.item_provider_phone);
 
         Glide.with(this).load(imageUrl).into(photo);
-        desc.setText(description);
+        details.setText(description);
         price.setText(rentPrice);
-        phoneNumber.setText(phone);
+
+        Glide.with(this).load(picture).into(userPicture);
+        userEmail.setText(email);
+        userPhoneNumber.setText(phone);
     }
 }

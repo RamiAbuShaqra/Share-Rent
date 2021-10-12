@@ -31,10 +31,8 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputLayout passwordLayout;
     private TextInputLayout confirmPasswordLayout;
     private ProgressBar progressBar;
-    private ReadAndWriteDatabase rwd;
     private FirebaseAuth auth;
     private FirebaseUser user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +40,6 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         auth = FirebaseAuth.getInstance();
-
-        rwd = new ReadAndWriteDatabase(this);
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -157,7 +153,18 @@ public class SignupActivity extends AppCompatActivity {
 
                                     if (user != null) {
                                         String userId = user.getUid();
-                                        rwd.createUser(userId, enteredEmail);
+
+                                        String name = "";
+                                        String phoneNumber = "";
+                                        String location = "";
+                                        String profilePictureUrl = "";
+
+                                        User newUser = new User(enteredEmail, name, phoneNumber,
+                                                location, profilePictureUrl);
+
+                                        ReadAndWriteDatabase rwd =
+                                                new ReadAndWriteDatabase(SignupActivity.this);
+                                        rwd.createUser(userId, newUser);
 
                                         Intent intent = new Intent(SignupActivity.this,
                                                 UserProfileActivity.class);

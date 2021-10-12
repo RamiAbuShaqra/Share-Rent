@@ -154,7 +154,7 @@ public class UserProfileActivity extends MainActivity {
         editPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInfoDialog(R.layout.update_phone_dialog, phoneNumber, "phone_number");
+                updateUserInfoDialog(R.layout.update_phone_dialog, phoneNumber, "phoneNumber");
             }
         });
 
@@ -398,13 +398,13 @@ public class UserProfileActivity extends MainActivity {
                     String nameText = snapshot.child("name").getValue().toString();
                     setTheTextFields(userName, nameText);
 
-                    String phoneText = snapshot.child("phone_number").getValue().toString();
+                    String phoneText = snapshot.child("phoneNumber").getValue().toString();
                     setTheTextFields(phoneNumber, phoneText);
 
                     String locationText = snapshot.child("location").getValue().toString();
                     setTheTextFields(userLocation, locationText);
 
-                    String profilePictureUrl = snapshot.child("profile_picture").getValue().toString();
+                    String profilePictureUrl = snapshot.child("profilePictureUrl").getValue().toString();
 
                     if (!TextUtils.isEmpty(profilePictureUrl)) {
                         StorageReference reference = storageRef.child("pictures/").child(userId + "/")
