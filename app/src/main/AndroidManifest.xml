@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRent">
         <activity
+            android:name=".PreferenceActivity"
+            android:exported="false" />
+        <activity
             android:name=".SelectedItemActivity"
             android:exported="true"
             android:parentActivityName=".ReviewItemsOptions">

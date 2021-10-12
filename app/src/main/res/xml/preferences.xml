@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:defaultValue="0"
+        android:key="cart_items"
+        android:title="Number of items in the Cart" />
+
+    <ListPreference
+        android:defaultValue=""
+        android:key="summary_items"
+        android:title="Items to be ordered" />
+
+</PreferenceScreen>
