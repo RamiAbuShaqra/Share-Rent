@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         badgeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent orderSummary = new Intent(MainActivity.this, SignupActivity.class);
+                Intent orderSummary = new Intent(MainActivity.this, OrderSummaryActivity.class);
                 startActivity(orderSummary);
             }
         });

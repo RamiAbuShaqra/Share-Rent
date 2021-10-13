@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-public class SelectedItemActivity extends AppCompatActivity {
+public class SelectedItemActivity extends MainActivity {
 
     /**
      * Obtain the previous instance of ReviewItemsOptions.java from the back stack

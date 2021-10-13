@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ReviewItemsOptions extends AppCompatActivity {
+public class ReviewItemsOptions extends MainActivity {
 
     // TODO check if you need the bundle variables for destination and dates
 

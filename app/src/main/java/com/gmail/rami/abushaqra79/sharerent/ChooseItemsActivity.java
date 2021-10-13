@@ -35,7 +35,6 @@ public class ChooseItemsActivity extends MainActivity {
     private EditText startRentalDate;
     private EditText endRentalDate;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
