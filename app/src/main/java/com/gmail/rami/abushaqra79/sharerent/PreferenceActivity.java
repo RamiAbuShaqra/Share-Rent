@@ -32,7 +32,8 @@ public class PreferenceActivity extends AppCompatActivity {
         }
 
         public static int updateCart(int items) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyApplication.getAppContext());
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
             int currentItems = prefs.getInt("cart_items", 0);
 
             if (items == -100){
@@ -49,7 +50,8 @@ public class PreferenceActivity extends AppCompatActivity {
         }
 
         public static void addItemToPreference(ArrayList<BabyGear> list) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyApplication.getAppContext());
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
             SharedPreferences.Editor editor = prefs.edit();
 
             Gson gson = new Gson();
@@ -60,7 +62,8 @@ public class PreferenceActivity extends AppCompatActivity {
         }
 
         public static ArrayList<BabyGear> getSummaryOfItems() {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyApplication.getAppContext());
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
             String json = prefs.getString("summary_items", "");
 
             Gson gson = new Gson();

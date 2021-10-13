@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO check the read and write rules in realtime database
 
+    public static final int RESET_THE_CART = -100;
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
@@ -40,17 +44,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        int numberOfItems = PreferenceActivity.CartPreferenceFragment.updateCart(0);
+
+        RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.shopping_cart).getActionView();
+        TextView cartTV = badgeLayout.findViewById(R.id.number_of_items_in_cart);
+        cartTV.setText(String.valueOf(numberOfItems));
+
+        badgeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent orderSummary = new Intent(MainActivity.this, SignupActivity.class);
+                startActivity(orderSummary);
+            }
+        });
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.login_menu_item:
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                return true;
+        if (item.getItemId() == R.id.login_menu_item) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -58,6 +77,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // get shared preferences
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // first time run?
+        if (pref.getBoolean("firstTimeRun", true)) {
+            // reset the shared preferences by passing -100 and make the cart items = 0
+            PreferenceActivity.CartPreferenceFragment.updateCart(RESET_THE_CART);
+            // get the preferences editor
+            SharedPreferences.Editor editor = pref.edit();
+            // avoid for next run
+            editor.putBoolean("firstTimeRun", false);
+            editor.apply();
+        }
 
         ArrayList<String> locations = new ArrayList<>();
 
@@ -251,5 +284,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return time;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        invalidateOptionsMenu();
     }
 }

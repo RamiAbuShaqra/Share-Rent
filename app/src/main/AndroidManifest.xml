@@ -3,6 +3,7 @@
     package="com.gmail.rami.abushaqra79.sharerent">
 
     <application
+        android:name="com.gmail.rami.abushaqra79.MyApplication"
         android:allowBackup="true"
         android:fullBackupOnly="true"
         android:icon="@mipmap/ic_launcher"

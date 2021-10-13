@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -36,14 +35,6 @@ public class ChooseItemsActivity extends MainActivity {
     private EditText startRentalDate;
     private EditText endRentalDate;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-
-        menu.findItem(R.id.shopping_cart).setVisible(true);
-        menu.findItem(R.id.login_status).setVisible(false);
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
