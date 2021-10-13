@@ -3,6 +3,7 @@ package com.gmail.rami.abushaqra79.sharerent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     // TODO check the read and write rules in realtime database
 
     public static final int RESET_THE_CART = -100;
+
+    @SuppressLint("StaticFieldLeak")
+    public static TextView cartTV;
+
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
@@ -48,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         int numberOfItems = PreferenceActivity.CartPreferenceFragment.updateCart(0);
 
         RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.shopping_cart).getActionView();
-        TextView cartTV = badgeLayout.findViewById(R.id.number_of_items_in_cart);
+        cartTV = badgeLayout.findViewById(R.id.number_of_items_in_cart);
         cartTV.setText(String.valueOf(numberOfItems));
 
         badgeLayout.setOnClickListener(new View.OnClickListener() {

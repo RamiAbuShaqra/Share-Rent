@@ -1,7 +1,6 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 public class SelectedItemActivity extends MainActivity {
+
+    public static ArrayList<BabyGear> itemsToRent;
 
     /**
      * Obtain the previous instance of ReviewItemsOptions.java from the back stack

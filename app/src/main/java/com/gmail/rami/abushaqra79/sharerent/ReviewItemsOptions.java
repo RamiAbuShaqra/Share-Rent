@@ -2,7 +2,6 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
