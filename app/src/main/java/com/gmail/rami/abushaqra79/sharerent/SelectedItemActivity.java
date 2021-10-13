@@ -4,8 +4,11 @@ import androidx.annotation.Nullable;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -33,9 +36,11 @@ public class SelectedItemActivity extends MainActivity {
         setContentView(R.layout.activity_selected_item);
 
         Bundle bundle = getIntent().getExtras();
-        String imageUrl = bundle.getString("Image URL");
+        String type = bundle.getString("Type");
         String description = bundle.getString("Description");
         String rentPrice = bundle.getString("Rent Price");
+        String imageUrl = bundle.getString("Image URL");
+        String storagePath = bundle.getString("Storage Path");
         String picture = bundle.getString("Item Provider Picture");
         String email = bundle.getString("Item Provider Email");
         String phone = bundle.getString("Item Provider Phone Number");
@@ -54,5 +59,23 @@ public class SelectedItemActivity extends MainActivity {
         Glide.with(this).load(picture).into(userPicture);
         userEmail.setText(email);
         userPhoneNumber.setText(phone);
+
+        FrameLayout addToCart = findViewById(R.id.add_to_cart_view);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int itemsInShoppingCart = PreferenceActivity.CartPreferenceFragment.updateCart(1);
+                cartTV.setText(String.valueOf(itemsInShoppingCart));
+
+                itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
+                
+                itemsToRent.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+
+                PreferenceActivity.CartPreferenceFragment.addItemToPreference(itemsToRent);
+
+                Toast.makeText(SelectedItemActivity.this, "Added to Cart.",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

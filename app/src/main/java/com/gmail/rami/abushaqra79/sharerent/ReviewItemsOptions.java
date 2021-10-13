@@ -103,9 +103,11 @@ public class ReviewItemsOptions extends MainActivity {
                         User currentUser = users.get(position);
 
                         Intent intent = new Intent(ReviewItemsOptions.this, SelectedItemActivity.class);
+                        intent.putExtra("Type", currentGear.getBabyGearType());
                         intent.putExtra("Description", currentGear.getBabyGearDescription());
                         intent.putExtra("Rent Price", currentGear.getRentPrice());
                         intent.putExtra("Image URL", currentGear.getImageUrl());
+                        intent.putExtra("Storage Path", currentGear.getStoragePath());
                         intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
                         intent.putExtra("Item Provider Email", currentUser.getEmail());
                         intent.putExtra("Item Provider Phone Number", currentUser.getPhoneNumber());
