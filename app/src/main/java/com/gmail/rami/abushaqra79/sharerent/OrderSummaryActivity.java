@@ -1,7 +1,9 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -49,14 +51,33 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 long viewId = view.getId();
 
                 if (viewId == R.id.delete_item) {
-                    items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
-                    items.remove(position);
-                    PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(OrderSummaryActivity.this);
+                    builder.setMessage("Remove item from cart?")
+                            .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
+                                    items.remove(position);
+                                    PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
 
-                    int shoppingCart = PreferenceActivity.CartPreferenceFragment.updateCart(-1);
-                    MainActivity.cartTV.setText(String.valueOf(shoppingCart));
+                                    int shoppingCart = PreferenceActivity.CartPreferenceFragment
+                                            .updateCart(-1);
+                                    MainActivity.cartTV.setText(String.valueOf(shoppingCart));
 
-                    updateSummaryActivity();
+                                    updateSummaryActivity();
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (dialog != null) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                            });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
             }
         });
