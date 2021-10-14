@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,13 @@ import java.util.List;
 
 public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
     private final Context context;
+    private final boolean isOrderSummary;
 
-    public BabyGearAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects) {
+    public BabyGearAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects,
+                           boolean isOrderSummary) {
         super(context, resource, objects);
         this.context = context;
+        this.isOrderSummary = isOrderSummary;
     }
 
     @NonNull
@@ -46,6 +50,26 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
         String imageUrl = currentBabyGear.getImageUrl();
 
         Glide.with(context).load(imageUrl).into(babyGearPhoto);
+
+        ImageView deleteItem = convertView.findViewById(R.id.delete_item);
+        if (isOrderSummary) {
+            deleteItem.setVisibility(View.VISIBLE);
+
+            // setting OnClickListener to the delete imageview.
+            // The trick is to call performItemClick and pass this view.
+            // We will be able to catch this view in onItemClickListener’s onItemClick method.
+            // According to the official doc, performItemClick method calls the OnItemClickListener
+            // if it is defined.
+            deleteItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Let the event be handled in onItemClick()
+                    ((ListView) parent).performItemClick(v, position, 0);
+                }
+            });
+        } else {
+            deleteItem.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

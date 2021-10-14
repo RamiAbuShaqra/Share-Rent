@@ -13,7 +13,8 @@
         android:theme="@style/Theme.ShareRent">
         <activity
             android:name=".OrderSummaryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".PreferenceActivity"
             android:exported="false" />

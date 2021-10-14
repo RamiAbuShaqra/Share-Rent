@@ -53,9 +53,6 @@ import java.util.ArrayList;
 
 public class UserProfileActivity extends MainActivity {
 
-    // TODO handle delete or update the items properly
-    // TODO fix the listview inside scrollview
-
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static final int GET_FROM_GALLERY = 200;
     private TextView userName;
@@ -460,7 +457,8 @@ public class UserProfileActivity extends MainActivity {
                     keysList.add(snapshot.getKey());
 
                     babyGearAdapter = new BabyGearAdapter(
-                            UserProfileActivity.this, R.layout.baby_gear_details, babyGears);
+                            UserProfileActivity.this, R.layout.baby_gear_details, babyGears,
+                            false);
 
                     listView.setAdapter(babyGearAdapter);
                 }

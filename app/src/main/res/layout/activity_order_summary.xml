@@ -91,6 +91,8 @@
         android:id="@+id/order_summary_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:listSelector="@android:color/transparent"/>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
+        android:listSelector="@android:color/transparent" />
 
 </LinearLayout>

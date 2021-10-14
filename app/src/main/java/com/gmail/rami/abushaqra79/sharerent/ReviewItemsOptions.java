@@ -93,7 +93,7 @@ public class ReviewItemsOptions extends MainActivity {
                 }
 
                 BabyGearAdapter adapter = new BabyGearAdapter(ReviewItemsOptions.this,
-                        R.layout.baby_gear_details, results);
+                        R.layout.baby_gear_details, results, false);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
