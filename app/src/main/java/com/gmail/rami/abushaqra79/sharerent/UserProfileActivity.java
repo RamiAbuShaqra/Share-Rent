@@ -58,12 +58,7 @@ public class UserProfileActivity extends MainActivity {
     private TextView userName;
     private TextView phoneNumber;
     private TextView userLocation;
-    private ImageView editName;
-    private ImageView editPhone;
-    private ImageView editLocation;
-    private TextView changeEmail;
-    private TextView changePassword;
-    private ProgressBar loadingSpinner;
+    private ProgressBar progressBar;
     private ArrayList<BabyGear> babyGears;
     private ArrayList<String> keysList;
     private ListView listView;
@@ -120,8 +115,8 @@ public class UserProfileActivity extends MainActivity {
             userId = user.getUid();
         }
 
-        loadingSpinner = findViewById(R.id.loading_spinner);
-        loadingSpinner.setVisibility(View.VISIBLE);
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
 
         profilePicture = findViewById(R.id.profile_picture);
         profilePicture.setOnClickListener(new View.OnClickListener() {
@@ -137,9 +132,9 @@ public class UserProfileActivity extends MainActivity {
         phoneNumber = findViewById(R.id.phone_number);
         userLocation = findViewById(R.id.user_location);
 
-        editName = findViewById(R.id.edit_name);
-        editPhone = findViewById(R.id.edit_phone);
-        editLocation = findViewById(R.id.edit_location);
+        ImageView editName = findViewById(R.id.edit_name);
+        ImageView editPhone = findViewById(R.id.edit_phone);
+        ImageView editLocation = findViewById(R.id.edit_location);
 
         editName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +157,7 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
-        changeEmail = findViewById(R.id.change_email);
+        TextView changeEmail = findViewById(R.id.change_email);
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,7 +246,7 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
-        changePassword = findViewById(R.id.change_password);
+        TextView changePassword = findViewById(R.id.change_password);
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -387,6 +382,57 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
+        TextView deleteAccount = findViewById(R.id.delete_account);
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
+                builder.setMessage("Are you sure you want to delete your account?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                if (user != null) {
+                                    rwd.deleteUser(userId);
+                                    user.delete()
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(UserProfileActivity.this,
+                                                                "Your account is deleted.",
+                                                                Toast.LENGTH_LONG).show();
+
+                                                        Intent intent = new Intent(
+                                                                UserProfileActivity.this,
+                                                                SignupActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        Toast.makeText(UserProfileActivity.this,
+                                                                "Failed to delete your account!",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                    progressBar.setVisibility(View.GONE);
+                                                }
+                                            });
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
         rwd = new ReadAndWriteDatabase(this);
         rwd.readProfileInfoForUser(userId, new ValueEventListener() {
             @Override
@@ -420,7 +466,7 @@ public class UserProfileActivity extends MainActivity {
                                     public boolean onResourceReady(Drawable resource, Object model,
                                                                    Target<Drawable> target, DataSource dataSource,
                                                                    boolean isFirstResource) {
-                                        loadingSpinner.setVisibility(View.GONE);
+                                        progressBar.setVisibility(View.GONE);
                                         return false;
                                     }
                                 })
@@ -428,7 +474,7 @@ public class UserProfileActivity extends MainActivity {
                                 .skipMemoryCache(true)
                                 .into(profilePicture);
                     } else {
-                        loadingSpinner.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }

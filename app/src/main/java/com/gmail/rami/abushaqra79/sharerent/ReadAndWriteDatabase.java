@@ -201,4 +201,11 @@ public class ReadAndWriteDatabase {
                     });
         }
     }
+
+    public void deleteUser(String userId) {
+        if (!TextUtils.isEmpty(userId)) {
+            storageReference.child("pictures/").child(userId + "/user_profile_picture.png").delete();
+            databaseReference.child("Users").child(userId).removeValue();
+        }
+    }
 }

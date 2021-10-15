@@ -163,9 +163,11 @@
                     android:paddingBottom="10dp"
                     android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:textColor="@color/color_primary_dark"
                     android:textStyle="bold"
-                    android:text="Change registered e-mail"
+                    android:text="Change e-mail"
                     android:textSize="12sp" />
 
                 <TextView
@@ -180,15 +182,36 @@
                     android:paddingBottom="10dp"
                     android:gravity="center"
                     android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:textColor="@color/color_primary_dark"
                     android:textStyle="bold"
                     android:text="Change password"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/delete_account"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:gravity="center"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColor="@color/color_primary_dark"
+                    android:textStyle="bold"
+                    android:text="Delete account"
+                    android:textSize="12sp" />
+
             </LinearLayout>
 
             <ProgressBar
-                android:id="@+id/loading_spinner"
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
