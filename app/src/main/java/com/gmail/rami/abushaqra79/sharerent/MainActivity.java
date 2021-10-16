@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     // TODO fix the listview inside scrollview in UserProfileActivity
     // TODO check if online payment can be done in OrderSummaryActivity
     // TODO send notifications to users in OrderSummaryActivity
-    // TODO update the add_information_dialog.xml in UserProfileActivity
 
     public static final int RESET_THE_CART = -100;
 

@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -87,12 +86,12 @@ public class UserProfileActivity extends MainActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout_menu_item:
-                auth.signOut();
-                Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
-                startActivity(intent);
-                return true;
+        if (item.getItemId() == R.id.logout_menu_item) {
+            auth.signOut();
+            Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -609,8 +608,8 @@ public class UserProfileActivity extends MainActivity {
 
         checkBox = dialogView.findViewById(R.id.upload_check);
 
-        Button btn = dialogView.findViewById(R.id.upload_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        TextView uploadBtn = dialogView.findViewById(R.id.upload_btn);
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -643,20 +642,51 @@ public class UserProfileActivity extends MainActivity {
             public void onClick(View v) {
                 boolean wantToCloseDialog = false;
 
-                String type = spinner.getSelectedItem().toString();
-
+                TextInputLayout descriptionLayout = dialogView.findViewById(R.id.description_layout);
+                TextInputLayout priceLayout = dialogView.findViewById(R.id.price_layout);
                 EditText descriptionText = dialogView.findViewById(R.id.title_description);
+                EditText priceText = dialogView.findViewById(R.id.title_price);
+
+                descriptionText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        descriptionLayout.setError(null);
+                    }
+                });
+
+                priceText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        priceLayout.setError(null);
+                    }
+                });
+
+                String type = spinner.getSelectedItem().toString();
                 String typeDescription = descriptionText.getText().toString();
+                String typeRentPrice = priceText.getText().toString().trim();
 
                 if (TextUtils.isEmpty(typeDescription)) {
-                    descriptionText.setError("Please add description");
+                    descriptionLayout.setError("Please add description");
                 }
 
-                EditText priceText = dialogView.findViewById(R.id.title_price);
-                String typeRentPrice = priceText.getText().toString();
-
                 if (TextUtils.isEmpty(typeRentPrice)) {
-                    priceText.setError("Please add rent price");
+                    priceLayout.setError("Please add rent price");
                 }
 
                 if (!checkBox.isChecked()) {

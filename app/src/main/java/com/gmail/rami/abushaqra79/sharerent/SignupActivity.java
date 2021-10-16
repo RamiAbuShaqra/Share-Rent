@@ -169,6 +169,7 @@ public class SignupActivity extends AppCompatActivity {
                                         Intent intent = new Intent(SignupActivity.this,
                                                 UserProfileActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                             });

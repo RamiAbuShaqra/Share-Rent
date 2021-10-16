@@ -43,7 +43,7 @@ public class ReadAndWriteDatabase {
     public ReadAndWriteDatabase(Activity activityContext) {
         this.activityContext = activityContext;
         database = FirebaseDatabase.getInstance(DATABASE_URL_LOCATION);
-        databaseReference = database.getReference();
+        databaseReference = database.getReference("Users");
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         storage = FirebaseStorage.getInstance();
@@ -54,32 +54,28 @@ public class ReadAndWriteDatabase {
      * Creating new user node under 'Users'
      */
     public void createUser(String userId, User user) {
-        databaseReference = database.getReference("Users");
         databaseReference.child(userId).child("user-info").setValue(user);
     }
 
     public void readProfileInfoForUser(String userId, ValueEventListener listener) {
         if (!TextUtils.isEmpty(userId)) {
-            databaseReference.child("Users").child(userId).child("user-info")
-                    .addListenerForSingleValueEvent(listener);
+            databaseReference.child(userId).child("user-info").addListenerForSingleValueEvent(listener);
         }
     }
 
     public void readRentItemsForUser(String userId, ChildEventListener listener) {
         if (!TextUtils.isEmpty(userId)) {
-            databaseReference.child("Users").child(userId).child("rent-items")
-                    .addChildEventListener(listener);
+            databaseReference.child(userId).child("rent-items").addChildEventListener(listener);
         }
     }
 
     public void fetchData(ValueEventListener listener) {
-            databaseReference.child("Users").addListenerForSingleValueEvent(listener);
+            databaseReference.addListenerForSingleValueEvent(listener);
     }
 
     public void saveUserInfo(String userId, String dbRef, String updatedInfo) {
         if (!TextUtils.isEmpty(userId)) {
-            databaseReference.child("Users").child(userId).child("user-info").child(dbRef)
-                        .setValue(updatedInfo);
+            databaseReference.child(userId).child("user-info").child(dbRef).setValue(updatedInfo);
         }
     }
 
@@ -105,8 +101,8 @@ public class ReadAndWriteDatabase {
                 if (task.isSuccessful()) {
                     Uri downloadUri = task.getResult();
 
-                    databaseReference.child("Users").child(userId).child("user-info")
-                            .child("profilePictureUrl").setValue(downloadUri.toString());
+                    databaseReference.child(userId).child("user-info").child("profilePictureUrl")
+                            .setValue(downloadUri.toString());
                 }
             }
         });
@@ -168,12 +164,12 @@ public class ReadAndWriteDatabase {
 
                     BabyGear babyGear = new BabyGear(type, description, price, downloadUri, randomId);
 
-                    String itemKey = databaseReference.child("Users").child(userId)
-                            .child("rent-items").push().getKey();
+                    String itemKey = databaseReference.child(userId).child("rent-items")
+                            .push().getKey();
 
                     if (itemKey != null) {
-                        databaseReference.child("Users").child(userId).child("rent-items")
-                                .child(itemKey).setValue(babyGear);
+                        databaseReference.child(userId).child("rent-items").child(itemKey)
+                                .setValue(babyGear);
                     }
                 }
             }
@@ -182,13 +178,13 @@ public class ReadAndWriteDatabase {
 
     public void removeRentItems(String userId, String key, String path) {
         if (!TextUtils.isEmpty(userId)) {
-            databaseReference.child("Users").child(userId).child("rent-items").child(key).removeValue();
+            databaseReference.child(userId).child("rent-items").child(key).removeValue();
 
             storageReference.child("Rent_Items").child(path).delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(activityContext, "File deleted successfully from Storage",
+                            Toast.makeText(activityContext, "Item deleted successfully",
                                     Toast.LENGTH_LONG).show();
                         }
                     })
@@ -205,7 +201,7 @@ public class ReadAndWriteDatabase {
     public void deleteUser(String userId) {
         if (!TextUtils.isEmpty(userId)) {
             storageReference.child("pictures/").child(userId + "/user_profile_picture.png").delete();
-            databaseReference.child("Users").child(userId).removeValue();
+            databaseReference.child(userId).removeValue();
         }
     }
 }
