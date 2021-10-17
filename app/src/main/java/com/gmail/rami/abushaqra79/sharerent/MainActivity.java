@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     // TODO add a condition for location in fetchResults() in ReviewItemsOptions activity
     // TODO modify the layouts for landscape mode
     // TODO reformat and clean the code for the whole project (comments, strings, styles)
-    // TODO delete user in UserProfileActivity
     // TODO handle delete or update the items properly in UserProfileActivity
     // TODO fix the listview inside scrollview in UserProfileActivity
     // TODO check if online payment can be done in OrderSummaryActivity

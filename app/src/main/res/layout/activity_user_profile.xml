@@ -248,6 +248,15 @@
 
     </ScrollView>
 
+    <TextView
+        android:id="@+id/list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:fontFamily="sans-serif-light"
+        android:text="No items added yet"/>
+
     <ListView
         android:id="@+id/list_of_offered_items"
         android:layout_width="match_parent"

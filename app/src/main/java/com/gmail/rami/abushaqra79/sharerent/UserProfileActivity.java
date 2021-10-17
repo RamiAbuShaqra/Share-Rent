@@ -60,6 +60,7 @@ public class UserProfileActivity extends MainActivity {
     private ProgressBar progressBar;
     private ArrayList<BabyGear> babyGears;
     private ArrayList<String> keysList;
+    private TextView listHeader;
     private ListView listView;
     private BabyGearAdapter babyGearAdapter;
     private CheckBox checkBox;
@@ -392,29 +393,38 @@ public class UserProfileActivity extends MainActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 progressBar.setVisibility(View.VISIBLE);
                                 if (user != null) {
-                                    rwd.deleteUser(userId);
-                                    user.delete()
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(UserProfileActivity.this,
-                                                                "Your account is deleted.",
-                                                                Toast.LENGTH_LONG).show();
+                                    rwd.deleteUser(userId, new FirebaseCallback() {
+                                        @Override
+                                        public void onResponse(boolean value) {
+                                            if (value) {
+                                                user.delete()
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    Toast.makeText(
+                                                                            UserProfileActivity.this,
+                                                                            "Your account is deleted.",
+                                                                            Toast.LENGTH_LONG).show();
 
-                                                        Intent intent = new Intent(
-                                                                UserProfileActivity.this,
-                                                                SignupActivity.class);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    } else {
-                                                        Toast.makeText(UserProfileActivity.this,
-                                                                "Failed to delete your account!",
-                                                                Toast.LENGTH_LONG).show();
-                                                    }
-                                                    progressBar.setVisibility(View.GONE);
-                                                }
-                                            });
+                                                                    Intent intent = new Intent(
+                                                                            UserProfileActivity.this,
+                                                                            SignupActivity.class);
+                                                                    startActivity(intent);
+                                                                    finish();
+                                                                } else {
+                                                                    Toast.makeText(
+                                                                            UserProfileActivity.this,
+                                                                            "Failed to delete your account!",
+                                                                            Toast.LENGTH_LONG).show();
+                                                                }
+                                                                progressBar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+                                            }
+                                        }
+                                    });
+
                                 }
                             }
                         })
@@ -449,8 +459,8 @@ public class UserProfileActivity extends MainActivity {
                     String profilePictureUrl = snapshot.child("profilePictureUrl").getValue().toString();
 
                     if (!TextUtils.isEmpty(profilePictureUrl)) {
-                        StorageReference reference = storageRef.child("pictures/").child(userId + "/")
-                                .child("user_profile_picture.png");
+                        StorageReference reference = storageRef.child(userId)
+                                .child("/Profile_Picture/user_profile_picture.png");
 
                         Glide.with(UserProfileActivity.this)
                                 .load(reference)
@@ -501,6 +511,12 @@ public class UserProfileActivity extends MainActivity {
                     babyGears.add(babyGear);
                     keysList.add(snapshot.getKey());
 
+                    if (babyGears.size() == 0) {
+                        listHeader.setText("No items added yet");
+                    } else {
+                        listHeader.setText("Tab on each item to 'Edit' or 'Delete'");
+                    }
+
                     babyGearAdapter = new BabyGearAdapter(
                             UserProfileActivity.this, R.layout.baby_gear_details, babyGears,
                             false);
@@ -537,12 +553,15 @@ public class UserProfileActivity extends MainActivity {
         babyGears = new ArrayList<>();
         keysList = new ArrayList<>();
 
+        listHeader = findViewById(R.id.list_header);
+
         listView = findViewById(R.id.list_of_offered_items);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UserProfileActivity.this);
-                builder.setMessage("Delete item?")
+                builder.setMessage("If you want to edit the item information, please select 'EDIT'\n" +
+                        "\nIf you want to delete the item, please select 'DELETE'")
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -557,7 +576,13 @@ public class UserProfileActivity extends MainActivity {
                                 startActivity(getIntent());
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                editItemInformation(position);
+                            }
+                        })
+                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (dialog != null) {
@@ -770,6 +795,90 @@ public class UserProfileActivity extends MainActivity {
 
                 if (wantToCloseDialog) {
                     alertDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void editItemInformation(int index) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.add_information_dialog, null);
+
+        EditText description = dialogView.findViewById(R.id.title_description);
+        EditText price = dialogView.findViewById(R.id.title_price);
+        checkBox = dialogView.findViewById(R.id.upload_check);
+
+        TextView uploadBtn = dialogView.findViewById(R.id.upload_btn);
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(intent, GET_FROM_GALLERY);
+            }
+        });
+
+        rwd.readSpecificItemInfo(userId, keysList.get(index), new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String savedDescription = snapshot.child("babyGearDescription").getValue().toString();
+                    String savedPrice = snapshot.child("rentPrice").getValue().toString();
+
+                    description.setText(savedDescription);
+                    price.setText(savedPrice);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.e(TAG, "Failed to read data", error.toException());
+            }
+        });
+
+        builder.setView(dialogView)
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newDescription = description.getText().toString();
+                String newPrice = price.getText().toString();
+
+                rwd.updateSpecificItemInfo(userId, keysList.get(index), newDescription, newPrice);
+
+                if (checkBox.isChecked()) {
+                    alertDialog.dismiss();
+                    rwd.updateItemPhoto(userId, keysList.get(index), imageUri, new FirebaseCallback() {
+                        @Override
+                        public void onResponse(boolean value) {
+                            if (value) {
+                                finish();
+                                startActivity(getIntent());
+                            }
+                        }
+                    });
+                } else {
+                    alertDialog.dismiss();
+
+                    finish();
+                    startActivity(getIntent());
                 }
             }
         });

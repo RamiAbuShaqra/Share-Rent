@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -69,6 +70,87 @@ public class ReadAndWriteDatabase {
         }
     }
 
+    public void readSpecificItemInfo(String userId, String key, ValueEventListener listener) {
+        if (!TextUtils.isEmpty(userId)) {
+            databaseReference.child(userId).child("rent-items").child(key)
+                    .addListenerForSingleValueEvent(listener);
+        }
+    }
+
+    public void updateSpecificItemInfo(String userId, String key, String description, String price) {
+        databaseReference.child(userId).child("rent-items").child(key).child("babyGearDescription")
+                .setValue(description);
+
+        databaseReference.child(userId).child("rent-items").child(key).child("rentPrice")
+                .setValue(price);
+    }
+
+    public void updateItemPhoto(String userId, String key, Uri imageUri, FirebaseCallback callback) {
+        String randomId = UUID.randomUUID() + ".png";
+        String path = userId + "/Rent_Items/" + randomId;
+        StorageReference ref = storageReference.child(path);
+
+        UploadTask uploadTask = ref.putFile(imageUri);
+
+        // Code for showing progressDialog while uploading
+        ProgressDialog progressDialog = new ProgressDialog(activityContext);
+
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(activityContext,"Item Updated", Toast.LENGTH_SHORT).show();
+
+                callback.onResponse(true);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(activityContext,"Item not Updated!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        progressDialog.setTitle("Adding item...");
+                        progressDialog.show();
+
+                        double progress
+                                = (100.0
+                                * snapshot.getBytesTransferred()
+                                / snapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                    }
+                });
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return ref.getDownloadUrl();
+            }
+        });
+
+        urlTask.addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    String downloadUri = task.getResult().toString();
+
+                    databaseReference.child(userId).child("rent-items").child(key)
+                            .child("imageUrl").setValue(downloadUri);
+
+                    databaseReference.child(userId).child("rent-items").child(key)
+                            .child("storagePath").setValue(randomId);
+                }
+            }
+        });
+    }
+
     public void fetchData(ValueEventListener listener) {
             databaseReference.addListenerForSingleValueEvent(listener);
     }
@@ -80,7 +162,7 @@ public class ReadAndWriteDatabase {
     }
 
     public void saveProfilePicture(String userId, Uri imageUri) {
-        String path = "pictures/" + userId + "/user_profile_picture.png";
+        String path = userId + "/Profile_Picture/user_profile_picture.png";
         StorageReference ref = storageReference.child(path);
 
         UploadTask uploadTask = ref.putFile(imageUri);
@@ -110,7 +192,7 @@ public class ReadAndWriteDatabase {
 
     public void saveRentItems(String userId, String type, String description, String price, Uri imageUri) {
         String randomId = UUID.randomUUID() + ".png";
-        String path = "Rent_Items/" + randomId;
+        String path = userId + "/Rent_Items/" + randomId;
         StorageReference ref = storageReference.child(path);
 
         UploadTask uploadTask = ref.putFile(imageUri);
@@ -180,7 +262,7 @@ public class ReadAndWriteDatabase {
         if (!TextUtils.isEmpty(userId)) {
             databaseReference.child(userId).child("rent-items").child(key).removeValue();
 
-            storageReference.child("Rent_Items").child(path).delete()
+            storageReference.child(userId).child("Rent_Items").child(path).delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -198,9 +280,29 @@ public class ReadAndWriteDatabase {
         }
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(String userId, FirebaseCallback callback) {
         if (!TextUtils.isEmpty(userId)) {
-            storageReference.child("pictures/").child(userId + "/user_profile_picture.png").delete();
+            storageReference.child(userId).child("Rent_Items").listAll()
+                    .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                        @Override
+                        public void onSuccess(ListResult listResult) {
+                            for (StorageReference item : listResult.getItems()) {
+                                item.delete();
+                            }
+
+                            callback.onResponse(true);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(activityContext, "An error occurred!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+            storageReference.child(userId).child("Profile_Picture/user_profile_picture.png").delete();
+
             databaseReference.child(userId).removeValue();
         }
     }
