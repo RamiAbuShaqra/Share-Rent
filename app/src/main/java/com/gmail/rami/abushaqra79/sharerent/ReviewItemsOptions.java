@@ -18,8 +18,6 @@ import java.util.ArrayList;
 
 public class ReviewItemsOptions extends MainActivity {
 
-    // TODO check if you need the bundle variables for destination and dates
-
     private static final String TAG = ReviewItemsOptions.class.getSimpleName();
     private ArrayList<BabyGear> results;
     private ArrayList<User> users;
@@ -44,8 +42,6 @@ public class ReviewItemsOptions extends MainActivity {
 
         Bundle bundle = getIntent().getExtras();
         String destination = bundle.getString("Destination");
-        String startDate = bundle.getString("Start Date");
-        String endDate = bundle.getString("End Date");
         ArrayList<String> items = bundle.getStringArrayList("Selected Items");
 
         results = new ArrayList<>();
@@ -53,11 +49,11 @@ public class ReviewItemsOptions extends MainActivity {
         listView = findViewById(R.id.review_items_list);
 
         for (int i = 0; i < items.size(); i++) {
-            fetchResults(items.get(i));
+            fetchResults(items.get(i), destination);
         }
     }
 
-    private void fetchResults(String type) {
+    private void fetchResults(String type, String location) {
         ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
         rwd.fetchData(new ValueEventListener() {
             @Override

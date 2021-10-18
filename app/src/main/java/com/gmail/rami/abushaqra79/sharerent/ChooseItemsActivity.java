@@ -3,23 +3,12 @@ package com.gmail.rami.abushaqra79.sharerent;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +19,6 @@ import java.util.Locale;
 
 public class ChooseItemsActivity extends MainActivity {
 
-    private static final String TAG = ChooseItemsActivity.class.getSimpleName();
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
@@ -46,55 +34,15 @@ public class ChooseItemsActivity extends MainActivity {
         String startDate = bundle.getString("Start Date");
         String endDate = bundle.getString("End Date");
 
-        AutoCompleteTextView location = findViewById(R.id.destination);
+        TextView destination = findViewById(R.id.destination);
         startRentalDate = findViewById(R.id.start_date);
         endRentalDate = findViewById(R.id.end_date);
 
-        location.setText(travelDestination);
+        destination.setText(travelDestination);
         startRentalDate.setText(startDate);
         endRentalDate.setText(endDate);
 
         myCalendar = Calendar.getInstance();
-
-        ArrayList<String> locations = new ArrayList<>();
-
-        ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
-        rwd.fetchData(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        String value = child.child("user-info").child("location").getValue().toString();
-                        locations.add(value);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Error! Not able to get data");
-            }
-        });
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, locations);
-        location.setAdapter(adapter);
-        location.setThreshold(1);
-
-        location.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                location.setError(null);
-            }
-        });
 
         DatePickerDialog.OnDateSetListener firstDate = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -217,25 +165,6 @@ public class ChooseItemsActivity extends MainActivity {
                     return;
                 }
 
-                String destination = location.getText().toString();
-                String startDate = startRentalDate.getText().toString();
-                String endDate = endRentalDate.getText().toString();
-
-                if (destination.equals("")) {
-                    location.setError("Please enter a destination");
-                    return;
-                }
-
-                if (startDate.equals("")) {
-                    startRentalDate.setError("Please select start date");
-                    return;
-                }
-
-                if (endDate.equals("")) {
-                    endRentalDate.setError("please select end date");
-                    return;
-                }
-
                 ArrayList<String> items = new ArrayList<>();
 
                 if (strollerLayout.isSelected()) {
@@ -267,9 +196,7 @@ public class ChooseItemsActivity extends MainActivity {
                 }
 
                 Intent intent = new Intent(ChooseItemsActivity.this, ReviewItemsOptions.class);
-                intent.putExtra("Destination", destination);
-                intent.putExtra("Start Date", startDate);
-                intent.putExtra("End Date", endDate);
+                intent.putExtra("Destination", travelDestination);
                 intent.putStringArrayListExtra("Selected Items", items);
                 startActivity(intent);
             }

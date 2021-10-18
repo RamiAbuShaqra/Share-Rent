@@ -11,24 +11,19 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -36,11 +31,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     // TODO check the read and write rules in realtime database
-    // TODO make dropdown list for specified location in MainActivity
     // TODO add a condition for location in fetchResults() in ReviewItemsOptions activity
     // TODO modify the layouts for landscape mode
     // TODO reformat and clean the code for the whole project (comments, strings, styles)
-    // TODO handle delete or update the items properly in UserProfileActivity
     // TODO fix the listview inside scrollview in UserProfileActivity
     // TODO check if online payment can be done in OrderSummaryActivity
     // TODO send notifications to users in OrderSummaryActivity
@@ -50,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     public static TextView cartTV;
 
+    private Spinner cities;
     private Calendar myCalendar;
     private EditText startRentalDate;
     private EditText endRentalDate;
@@ -105,51 +99,83 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        ArrayList<String> locations = new ArrayList<>();
+        String[] countryList = new String[]
+                {"Select Country..", "Bahrain", "Egypt", "Jordan", "Kuwait", "Oman", "Qatar",
+                        "Saudi Arabia", "United Arab Emirates"};
 
-        ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
-        rwd.fetchData(new ValueEventListener() {
+        String[] bahrain = new String[] {"Select City..", "Manama"};
+        String[] egypt = new String[] {"Select City..", "Cairo", "Alexandria"};
+        String[] jordan = new String[] {"Select City..", "Amman", "Irbid", "Aqaba"};
+        String[] kuwait = new String[] {"Select City..", "Kuwait City"};
+        String[] oman = new String[] {"Select City..", "Muscat", "Salalah"};
+        String[] qatar = new String[] {"Select City..", "Doha"};
+        String[] saudiArabia = new String[] {"Select City..", "Riyadh", "Dammam", "Jeddah"};
+        String[] emirates = new String[] {"Select City..", "Abu Dhabi", "Dubai", "Sharjah"};
+
+        Spinner countries = findViewById(R.id.countries_list);
+        cities = findViewById(R.id.cities_list);
+        cities.setEnabled(false);
+        cities.setClickable(false);
+
+        ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, countryList);
+        countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        countries.setAdapter(countriesAdapter);
+
+        countries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot child : snapshot.getChildren()) {
-                        String value = child.child("user-info").child("location").getValue().toString();
-                        locations.add(value);
-                    }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedCountry = countries.getSelectedItem().toString();
+
+                switch (selectedCountry) {
+                    case "Bahrain" :
+                        settingSpinnerAdapter(bahrain);
+                        break;
+
+                    case "Egypt" :
+                        settingSpinnerAdapter(egypt);
+                        break;
+
+                    case "Jordan" :
+                        settingSpinnerAdapter(jordan);
+                        break;
+
+                    case "Kuwait" :
+                        settingSpinnerAdapter(kuwait);
+                        break;
+
+                    case "Oman" :
+                        settingSpinnerAdapter(oman);
+                        break;
+
+                    case "Qatar" :
+                        settingSpinnerAdapter(qatar);
+                        break;
+
+                    case "Saudi Arabia" :
+                        settingSpinnerAdapter(saudiArabia);
+                        break;
+
+                    case "United Arab Emirates" :
+                        settingSpinnerAdapter(emirates);
+                        break;
+
+                    default:
+                        settingSpinnerAdapter(new String[] {"Select City.."});
+                        cities.setEnabled(false);
+                        cities.setClickable(false);
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("TAG", "Error! Not able to get data");
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, locations);
-        AutoCompleteTextView location = findViewById(R.id.locations);
-        location.setAdapter(adapter);
-        location.setThreshold(1);
 
         myCalendar = Calendar.getInstance();
 
         startRentalDate = findViewById(R.id.start_date);
         endRentalDate = findViewById(R.id.end_date);
-
-        location.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                location.setError(null);
-            }
-        });
 
         startRentalDate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -237,12 +263,18 @@ public class MainActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String destination = location.getText().toString();
+                String country = countries.getSelectedItem().toString();
+                String city = cities.getSelectedItem().toString();
                 String startDate = startRentalDate.getText().toString();
                 String endDate = endRentalDate.getText().toString();
 
-                if (destination.equals("")) {
-                    location.setError("Please enter a destination");
+                if (country.equals("Select Country..")) {
+                    ((TextView)countries.getSelectedView()).setError("Please select a country");
+                    return;
+                }
+
+                if (city.equals("Select City..")) {
+                    ((TextView)cities.getSelectedView()).setError("Please select a city");
                     return;
                 }
 
@@ -255,6 +287,8 @@ public class MainActivity extends AppCompatActivity {
                     endRentalDate.setError("please select end date");
                     return;
                 }
+
+                String destination = city + ", " + country;
 
                 Intent intent = new Intent(MainActivity.this, ChooseItemsActivity.class);
                 intent.putExtra("Destination", destination);
@@ -272,6 +306,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void settingSpinnerAdapter(String[] array) {
+        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_spinner_item, array);
+        citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cities.setAdapter(citiesAdapter);
+        cities.setEnabled(true);
+        cities.setClickable(true);
     }
 
     private String updateLabel() {

@@ -54,16 +54,53 @@
                     android:paddingRight="5dp"
                     android:src="@drawable/location_symbol" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/locations"
+                <Spinner
+                    android:id="@+id/countries_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:dropDownWidth="wrap_content"
-                    android:hint="@string/auto_complete_hint"
-                    android:inputType="text|textAutoComplete"
                     android:paddingStart="0dp"
-                    android:paddingEnd="5dp" />
+                    android:paddingEnd="5dp"
+                    android:dropDownWidth="wrap_content"
+                    android:inputType="text"
+                    android:backgroundTint="@android:color/transparent"
+                    android:spinnerMode="dropdown"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:hint="Choose Country"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/text_entry_background"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/location_image_description"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:src="@drawable/location_symbol" />
+
+                <Spinner
+                    android:id="@+id/cities_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="5dp"
+                    android:dropDownWidth="wrap_content"
+                    android:inputType="text"
+                    android:backgroundTint="@android:color/transparent"
+                    android:spinnerMode="dropdown"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:hint="Choose City" />
 
             </LinearLayout>
 
