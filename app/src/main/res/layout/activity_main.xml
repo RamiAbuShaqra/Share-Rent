@@ -65,8 +65,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:spinnerMode="dropdown"
                     android:background="@android:drawable/btn_dropdown"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:hint="Choose Country"/>
+                    android:foreground="?android:attr/selectableItemBackground" />
 
             </LinearLayout>
 
@@ -99,8 +98,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:spinnerMode="dropdown"
                     android:background="@android:drawable/btn_dropdown"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:hint="Choose City" />
+                    android:foreground="?android:attr/selectableItemBackground" />
 
             </LinearLayout>
 

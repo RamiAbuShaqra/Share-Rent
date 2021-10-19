@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        String[] countryList = new String[]
+        String[] countriesList = new String[]
                 {"Select Country..", "Bahrain", "Egypt", "Jordan", "Kuwait", "Oman", "Qatar",
                         "Saudi Arabia", "United Arab Emirates"};
 
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         cities.setClickable(false);
 
         ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, countryList);
+                android.R.layout.simple_spinner_item, countriesList);
         countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countries.setAdapter(countriesAdapter);
 

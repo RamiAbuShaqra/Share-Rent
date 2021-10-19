@@ -153,7 +153,7 @@ public class UserProfileActivity extends MainActivity {
         editLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserInfoDialog(R.layout.update_location_dialog, userLocation, "location");
+                updateUserLocationDialog();
             }
         });
 
@@ -624,12 +624,9 @@ public class UserProfileActivity extends MainActivity {
     private void showCompleteInformationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        // Get the layout inflater
-        LayoutInflater inflater = getLayoutInflater();
-
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        View dialogView = inflater.inflate(R.layout.add_information_dialog, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.add_information_dialog, null);
 
         checkBox = dialogView.findViewById(R.id.upload_check);
 
@@ -736,9 +733,7 @@ public class UserProfileActivity extends MainActivity {
     private void updateUserInfoDialog(int layoutId, TextView textField, String dbRef) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        LayoutInflater inflater = getLayoutInflater();
-
-        View dialogView = inflater.inflate(layoutId, null);
+        View dialogView = getLayoutInflater().inflate(layoutId, null);
 
         TextInputLayout inputLayout = dialogView.findViewById(R.id.info_input_layout);
         EditText editText = dialogView.findViewById(R.id.update_info);
@@ -790,6 +785,63 @@ public class UserProfileActivity extends MainActivity {
                 if (!TextUtils.isEmpty(updatedInfo)) {
                     setTheTextFields(textField, updatedInfo);
                     rwd.saveUserInfo(userId, dbRef, updatedInfo);
+                    wantToCloseDialog = true;
+                }
+
+                if (wantToCloseDialog) {
+                    alertDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void updateUserLocationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.update_location_dialog, null);
+
+        String[] citiesList = new String[]
+                {"Select City..", "Abu Dhabi", "Alexandria", "Amman", "Aqaba", "Cairo",
+                        "Dammam", "Doha", "Dubai", "Irbid", "Jeddah", "Kuwait City",
+                        "Manama", "Muscat", "Riyadh", "Salalah", "Sharjah"};
+
+        Spinner cities = dialogView.findViewById(R.id.cities_list);
+
+        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(UserProfileActivity.this,
+                android.R.layout.simple_spinner_item, citiesList);
+        citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cities.setAdapter(citiesAdapter);
+
+        builder.setView(dialogView)
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean wantToCloseDialog = false;
+
+                String city = cities.getSelectedItem().toString();
+
+                if (city.equals("Select City..")) {
+                    ((TextView)cities.getSelectedView()).setError("Please select a city");
+                } else {
+                    setTheTextFields(userLocation, city);
+                    rwd.saveUserInfo(userId, "location", city);
                     wantToCloseDialog = true;
                 }
 

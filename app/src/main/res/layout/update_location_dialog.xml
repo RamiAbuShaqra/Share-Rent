@@ -7,31 +7,32 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Update your destination:"
+        android:layout_margin="20dp"
+        android:text="Update your location:"
         android:textSize="18sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/info_input_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp"
+        android:background="@drawable/text_entry_background">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/update_info"
+        <Spinner
+            android:id="@+id/cities_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:hint="City name.."
-            android:autofillHints="User location"
-            android:inputType="textCapWords"/>
+            android:paddingStart="0dp"
+            android:paddingEnd="5dp"
+            android:dropDownWidth="wrap_content"
+            android:inputType="text"
+            android:backgroundTint="@android:color/transparent"
+            android:spinnerMode="dropdown"
+            android:background="@android:drawable/btn_dropdown"
+            android:foreground="?android:attr/selectableItemBackground" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    </FrameLayout>
 
 </LinearLayout>
