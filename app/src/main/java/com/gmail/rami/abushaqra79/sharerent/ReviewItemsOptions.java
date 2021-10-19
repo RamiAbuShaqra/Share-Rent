@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +24,12 @@ public class ReviewItemsOptions extends MainActivity {
     private ArrayList<BabyGear> results;
     private ArrayList<User> users;
     private ListView listView;
+
+    /** TextView that is displayed when the list is empty */
+    private TextView emptyStateTextView;
+
+    /** Spinner that is displayed until the app fetches the data */
+    private ProgressBar progressBar;
 
     /**
      * Obtain the previous instance of ChooseItemsActivity.java from the back stack
@@ -46,7 +54,11 @@ public class ReviewItemsOptions extends MainActivity {
 
         results = new ArrayList<>();
         users = new ArrayList<>();
+
+        progressBar = findViewById(R.id.loading_spinner);
+        emptyStateTextView = findViewById(R.id.empty_view);
         listView = findViewById(R.id.review_items_list);
+        listView.setEmptyView(emptyStateTextView);
 
         for (int i = 0; i < items.size(); i++) {
             fetchResults(items.get(i), destination);
@@ -63,30 +75,58 @@ public class ReviewItemsOptions extends MainActivity {
                         if (child.hasChild("rent-items")) {
                             if (child.child("rent-items").hasChildren()) {
                                 for (DataSnapshot subChild : child.child("rent-items").getChildren()) {
-                                    String value = subChild.child("babyGearType").getValue().toString();
-                                    if (value.equals(type)) {
-                                        String description = subChild.child("babyGearDescription").getValue().toString();
-                                        String price = subChild.child("rentPrice").getValue().toString();
-                                        String imageUrl = subChild.child("imageUrl").getValue().toString();
-                                        String storagePath = subChild.child("storagePath").getValue().toString();
+                                    String typeValue = subChild.child("babyGearType")
+                                            .getValue().toString();
 
-                                        BabyGear gear = new BabyGear(value, description, price, imageUrl, storagePath);
-                                        results.add(gear);
+                                    if (typeValue.equals(type)) {
+                                        String locationValue = child.child("user-info")
+                                                .child("location").getValue().toString();
+                                        String[] city = location.split(",");
+
+                                        if (locationValue.equals(city[0])) {
+                                            String description = subChild.child("babyGearDescription")
+                                                    .getValue().toString();
+
+                                            String price = subChild.child("rentPrice")
+                                                    .getValue().toString();
+
+                                            String imageUrl = subChild.child("imageUrl")
+                                                    .getValue().toString();
+
+                                            String storagePath = subChild.child("storagePath")
+                                                    .getValue().toString();
+
+                                            BabyGear gear = new BabyGear(typeValue, description,
+                                                    price, imageUrl, storagePath);
+                                            results.add(gear);
+
+                                            String email = child.child("user-info")
+                                                    .child("email").getValue().toString();
+
+                                            String name = child.child("user-info")
+                                                    .child("name").getValue().toString();
+
+                                            String phone = child.child("user-info")
+                                                    .child("phoneNumber").getValue().toString();
+
+                                            String location = child.child("user-info")
+                                                    .child("location").getValue().toString();
+
+                                            String picture = child.child("user-info")
+                                                    .child("profilePictureUrl").getValue().toString();
+
+                                            User user = new User(email, name, phone, location, picture);
+                                            users.add(user);
+                                        }
                                     }
                                 }
                             }
                         }
-
-                        String email = child.child("user-info").child("email").getValue().toString();
-                        String name = child.child("user-info").child("name").getValue().toString();
-                        String phone = child.child("user-info").child("phoneNumber").getValue().toString();
-                        String location = child.child("user-info").child("location").getValue().toString();
-                        String picture = child.child("user-info").child("profilePictureUrl").getValue().toString();
-
-                        User user = new User(email, name, phone, location, picture);
-                        users.add(user);
                     }
                 }
+
+                progressBar.setVisibility(View.GONE);
+                emptyStateTextView.setText("No results found.");
 
                 BabyGearAdapter adapter = new BabyGearAdapter(ReviewItemsOptions.this,
                         R.layout.baby_gear_details, results, false);
@@ -98,7 +138,8 @@ public class ReviewItemsOptions extends MainActivity {
                         BabyGear currentGear = adapter.getItem(position);
                         User currentUser = users.get(position);
 
-                        Intent intent = new Intent(ReviewItemsOptions.this, SelectedItemActivity.class);
+                        Intent intent = new Intent(ReviewItemsOptions.this,
+                                SelectedItemActivity.class);
                         intent.putExtra("Type", currentGear.getBabyGearType());
                         intent.putExtra("Description", currentGear.getBabyGearDescription());
                         intent.putExtra("Rent Price", currentGear.getRentPrice());

@@ -31,7 +31,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     // TODO check the read and write rules in realtime database
-    // TODO add a condition for location in fetchResults() in ReviewItemsOptions activity
     // TODO modify the layouts for landscape mode
     // TODO reformat and clean the code for the whole project (comments, strings, styles)
     // TODO fix the listview inside scrollview in UserProfileActivity
