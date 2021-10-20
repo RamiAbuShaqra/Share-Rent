@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     // TODO check if online payment can be done in OrderSummaryActivity
     // TODO send notifications to users in OrderSummaryActivity
 
+    // TODO BUG ---> selected city not saved in MainActivity when rotating screen
+
     public static final int RESET_THE_CART = -100;
 
     @SuppressLint("StaticFieldLeak")
@@ -113,8 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
         Spinner countries = findViewById(R.id.countries_list);
         cities = findViewById(R.id.cities_list);
-        cities.setEnabled(false);
-        cities.setClickable(false);
 
         ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, countriesList);
