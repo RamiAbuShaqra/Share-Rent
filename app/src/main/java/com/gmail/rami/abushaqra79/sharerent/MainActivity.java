@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     // TODO send notifications to users in OrderSummaryActivity
 
     // TODO BUG ---> selected city not saved in MainActivity when rotating screen
+    // TODO BUG ---> logged in user should be automatically logged out if the app is in background
+    // TODO BUG ---> if the user updated the photo of his item, it is not updated directly (Async)
 
     public static final int RESET_THE_CART = -100;
 
