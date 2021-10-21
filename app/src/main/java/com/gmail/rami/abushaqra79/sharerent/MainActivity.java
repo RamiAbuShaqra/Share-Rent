@@ -36,8 +36,11 @@ public class MainActivity extends AppCompatActivity {
     // TODO fix the listview inside scrollview in UserProfileActivity
     // TODO check if online payment can be done in OrderSummaryActivity
     // TODO send notifications to users in OrderSummaryActivity
+    // TODO handle the animation when clicking Add to Cart button in SelectedItemActivity
 
     // TODO BUG ---> selected city not saved in MainActivity when rotating screen
+    // TODO BUG ---> selected items (categories) not saved in ChooseItemsActivity when rotating screen
+    // TODO BUG ---> if a NEW user logged out then logged in (without killing the app), all user personal info will be reset
     // TODO BUG ---> logged in user should be automatically logged out if the app is in background
     // TODO BUG ---> if the user updated the photo of his item, it is not updated directly (Async)
 
