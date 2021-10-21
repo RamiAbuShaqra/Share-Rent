@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ReviewItemsOptions">
 
     <ListView
         android:id="@+id/review_items_list"
@@ -11,8 +12,7 @@
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp"
-        android:drawSelectorOnTop="true"
-        tools:context=".ReviewItemsOptions"/>
+        android:drawSelectorOnTop="true" />
 
     <TextView
         android:id="@+id/empty_view"

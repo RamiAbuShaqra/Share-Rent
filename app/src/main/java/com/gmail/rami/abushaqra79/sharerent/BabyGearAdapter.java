@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,8 +53,9 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
         Glide.with(context).load(imageUrl).into(babyGearPhoto);
 
         ImageView deleteItem = convertView.findViewById(R.id.delete_item);
+        FrameLayout trashLayout = convertView.findViewById(R.id.trash_layout);
         if (isOrderSummary) {
-            deleteItem.setVisibility(View.VISIBLE);
+            trashLayout.setVisibility(View.VISIBLE);
 
             // setting OnClickListener to the delete imageview.
             // The trick is to call performItemClick and pass this view.
@@ -68,7 +70,7 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
                 }
             });
         } else {
-            deleteItem.setVisibility(View.GONE);
+            trashLayout.setVisibility(View.GONE);
         }
 
         return convertView;
