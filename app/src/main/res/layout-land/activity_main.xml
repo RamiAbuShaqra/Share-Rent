@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:contentDescription="@string/image_description"
+            android:contentDescription="@string/application_main_image"
             android:scaleType="centerCrop"
             android:src="@drawable/app_logo" />
 
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:contentDescription="@string/location_image_description"
+                    android:contentDescription="@string/location_symbol"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:src="@drawable/location_symbol" />
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:contentDescription="@string/location_image_description"
+                    android:contentDescription="@string/location_symbol"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:src="@drawable/location_symbol" />

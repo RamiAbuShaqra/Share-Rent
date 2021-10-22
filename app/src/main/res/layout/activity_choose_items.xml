@@ -111,7 +111,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/stroller"
-                    android:contentDescription="Stroller" />
+                    android:contentDescription="@string/reference_image_stroller" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -145,7 +145,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/bed"
-                    android:contentDescription="Bed" />
+                    android:contentDescription="@string/reference_image_bed" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -179,7 +179,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/car_seat"
-                    android:contentDescription="Car Seat" />
+                    android:contentDescription="@string/reference_image_car_seat" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -213,7 +213,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/high_chair"
-                    android:contentDescription="High Chair" />
+                    android:contentDescription="@string/reference_image_high_chair" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -247,7 +247,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/bath_tub"
-                    android:contentDescription="Bath Tub" />
+                    android:contentDescription="@string/reference_image_bath_tub" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -281,7 +281,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/bouncer"
-                    android:contentDescription="Bouncer" />
+                    android:contentDescription="@string/reference_image_bouncer" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -315,7 +315,7 @@
                     android:layout_gravity="center"
                     android:padding="10dp"
                     android:src="@drawable/sterilizer"
-                    android:contentDescription="Sterilizer" />
+                    android:contentDescription="@string/reference_image_sterilizer" />
 
                 <TextView
                     android:layout_width="0dp"

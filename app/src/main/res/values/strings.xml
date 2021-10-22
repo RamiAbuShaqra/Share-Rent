@@ -1,9 +1,27 @@
 <resources>
     <string name="app_name">Share Rent</string>
 
-    <string name="image_description">Share Rent Logo</string>
+    <!-- Images content descriptions -->
+    <string name="application_main_image">Application Main Image</string>
+    <string name="reference_image_stroller">Stroller</string>
+    <string name="reference_image_bed">Bed</string>
+    <string name="reference_image_car_seat">Car Seat</string>
+    <string name="reference_image_high_chair">High Chair</string>
+    <string name="reference_image_bath_tub">Bath Tub</string>
+    <string name="reference_image_bouncer">Bouncer</string>
+    <string name="reference_image_sterilizer">Sterilizer</string>
+    <string name="location_symbol">Location Symbol</string>
+    <string name="shopping_cart_symbol">Shopping Cart Symbol</string>
+    <string name="trash_symbol">Trash Symbol</string>
+    <string name="user_symbol">User Symbol</string>
+    <string name="phone_symbol">Phone Symbol</string>
+    <string name="editing_pen_symbol">Editing Pen Symbol</string>
+    <string name="baby_gear_item_photo">Photo of Baby Gear Item</string>
+    <string name="item_provider_profile_picture">Item Provider Profile Picture</string>
+    <string name="registered_user_profile_picture">Registered User Profile Picture</string>
+
+
     <string name="intro_text">Feel like home with just one click away.. All your needs for baby gear rentals are here!</string>
-    <string name="location_image_description">Location symbol</string>
     <string name="auto_complete_hint">Enter city name</string>
     <string name="rental_start_hint">Rental start</string>
     <string name="rental_end_hint">Rental end</string>

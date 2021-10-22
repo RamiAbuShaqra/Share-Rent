@@ -15,7 +15,7 @@
         android:layout_marginEnd="25dp"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="12dp"
-        android:contentDescription="Shopping Cart"
+        android:contentDescription="@string/shopping_cart_symbol"
         android:gravity="center"
         android:src="@drawable/shopping_cart" />
 

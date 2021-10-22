@@ -19,7 +19,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/list_border"
-            android:contentDescription="The photo of selected item"
+            android:contentDescription="@string/baby_gear_item_photo"
             android:padding="1dp"
             android:scaleType="centerInside" />
 
@@ -84,7 +84,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Shopping cart"
+                    android:contentDescription="@string/shopping_cart_symbol"
                     android:padding="6dp"
                     android:src="@drawable/shopping_cart" />
 
@@ -142,7 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:attr/selectableItemBackground"
-                        android:contentDescription="Item provider picture"
+                        android:contentDescription="@string/item_provider_profile_picture"
                         android:scaleType="centerCrop"
                         android:src="@drawable/user_photo" />
                 </androidx.cardview.widget.CardView>

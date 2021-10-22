@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:contentDescription="Stroller"
+                        android:contentDescription="@string/reference_image_stroller"
                         android:padding="10dp"
                         android:src="@drawable/stroller"
                         tools:ignore="NestedWeights" />
@@ -152,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:contentDescription="Bed"
+                        android:contentDescription="@string/reference_image_bed"
                         android:padding="10dp"
                         android:src="@drawable/bed"
                         tools:ignore="NestedWeights" />
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:contentDescription="Car Seat"
+                        android:contentDescription="@string/reference_image_car_seat"
                         android:padding="10dp"
                         android:src="@drawable/car_seat"
                         tools:ignore="NestedWeights" />
@@ -232,7 +232,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:contentDescription="High Chair"
+                        android:contentDescription="@string/reference_image_high_chair"
                         android:padding="10dp"
                         android:src="@drawable/high_chair"
                         tools:ignore="NestedWeights" />
@@ -276,7 +276,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:contentDescription="Bath Tub"
+                        android:contentDescription="@string/reference_image_bath_tub"
                         android:padding="10dp"
                         android:src="@drawable/bath_tub"
                         tools:ignore="NestedWeights" />
@@ -312,7 +312,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:contentDescription="Bouncer"
+                        android:contentDescription="@string/reference_image_bouncer"
                         android:padding="10dp"
                         android:src="@drawable/bouncer"
                         tools:ignore="NestedWeights" />
@@ -349,7 +349,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:contentDescription="Sterilizer"
+                    android:contentDescription="@string/reference_image_sterilizer"
                     android:padding="10dp"
                     android:src="@drawable/sterilizer" />
 
