@@ -31,6 +31,11 @@ public class OrderSummaryActivity extends AppCompatActivity {
         TextView totalQuantity = findViewById(R.id.total_quantity_of_items);
         totalQuantity.setText(String.valueOf(items.size()));
 
+        LinearLayout daysSummary = findViewById(R.id.days_summary);
+        if (items.size() == 0) {
+            daysSummary.setVisibility(View.GONE);
+        }
+
         double rentPrice = 0;
         for (int i = 0; i < items.size(); i++) {
             rentPrice += Double.parseDouble(items.get(i).getRentPrice());
@@ -38,6 +43,16 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         TextView totalPrice = findViewById(R.id.total_price);
         totalPrice.setText(String.valueOf(rentPrice));
+
+        int numberOfDays = PreferenceActivity.CartPreferenceFragment.getNumberOfRentDays();
+
+        TextView days = findViewById(R.id.number_of_days);
+        days.setText(String.valueOf(numberOfDays));
+
+        double finalPrice = rentPrice * numberOfDays;
+
+        TextView finalTotalPrice = findViewById(R.id.final_total_price);
+        finalTotalPrice.setText(String.valueOf(finalPrice));
 
         BabyGearAdapter adapter = new BabyGearAdapter(this, R.layout.baby_gear_details,
                 items, true);

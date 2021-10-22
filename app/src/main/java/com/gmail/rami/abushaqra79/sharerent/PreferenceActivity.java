@@ -49,6 +49,21 @@ public class PreferenceActivity extends AppCompatActivity {
             return prefs.getInt("cart_items", 0);
         }
 
+        public static void setNumberOfRentDays(int number) {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("number_of_days", number);
+            editor.apply();
+        }
+
+        public static int getNumberOfRentDays() {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
+            return prefs.getInt("number_of_days", 0);
+        }
+
         public static void addItemToPreference(ArrayList<BabyGear> list) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());

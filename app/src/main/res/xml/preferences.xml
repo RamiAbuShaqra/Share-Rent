@@ -6,6 +6,11 @@
         android:key="cart_items"
         android:title="Number of items in the Cart" />
 
+    <Preference
+        android:defaultValue="0"
+        android:key="number_of_days"
+        android:title="Total number of rent days" />
+
     <ListPreference
         android:defaultValue=""
         android:key="summary_items"

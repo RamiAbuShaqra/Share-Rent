@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class ChooseItemsActivity extends MainActivity {
 
@@ -195,6 +196,10 @@ public class ChooseItemsActivity extends MainActivity {
                     items.add("Sterilizer");
                 }
 
+                String firstDate = startRentalDate.getText().toString();
+                String secondDate = endRentalDate.getText().toString();
+                numberOfDays(firstDate, secondDate);
+
                 Intent intent = new Intent(ChooseItemsActivity.this, ReviewItemsOptions.class);
                 intent.putExtra("Destination", travelDestination);
                 intent.putStringArrayListExtra("Selected Items", items);
@@ -204,8 +209,7 @@ public class ChooseItemsActivity extends MainActivity {
     }
 
     private String updateLabel() {
-        String dateFormat = "dd/MM/yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.ROOT);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
 
         return simpleDateFormat.format(myCalendar.getTime());
     }
@@ -226,5 +230,24 @@ public class ChooseItemsActivity extends MainActivity {
         }
 
         return time;
+    }
+
+    private void numberOfDays(String firstDate, String secondDate) {
+        int totalDays = 0;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
+
+        try {
+            Date date_1 = simpleDateFormat.parse(firstDate);
+            Date date_2 = simpleDateFormat.parse(secondDate);
+
+            if (date_1 != null && date_2 != null) {
+                long diff = date_2.getTime() - date_1.getTime();
+                totalDays = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        PreferenceActivity.CartPreferenceFragment.setNumberOfRentDays(totalDays);
     }
 }

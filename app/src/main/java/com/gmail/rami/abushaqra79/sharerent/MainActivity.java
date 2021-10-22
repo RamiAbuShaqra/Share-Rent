@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     // TODO reformat and clean the code for the whole project (comments, strings, styles)
     // TODO check if online payment can be done in OrderSummaryActivity
     // TODO send notifications to users in OrderSummaryActivity
-    // TODO calculate the final price based on the number of days
 
     // TODO BUG ---> selected city not saved in MainActivity when rotating screen
     // TODO BUG ---> selected items (categories) not saved in ChooseItemsActivity when rotating screen
@@ -320,8 +319,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String updateLabel() {
-        String dateFormat = "dd/MM/yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.ROOT);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
 
         return simpleDateFormat.format(myCalendar.getTime());
     }
