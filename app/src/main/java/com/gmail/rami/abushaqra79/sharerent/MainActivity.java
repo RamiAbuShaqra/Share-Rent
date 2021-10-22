@@ -32,10 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO check the read and write rules in realtime database
     // TODO reformat and clean the code for the whole project (comments, strings, styles)
-    // TODO fix the listview inside scrollview in UserProfileActivity
     // TODO check if online payment can be done in OrderSummaryActivity
     // TODO send notifications to users in OrderSummaryActivity
-    // TODO handle the animation when clicking Add to Cart button in SelectedItemActivity
     // TODO calculate the final price based on the number of days
 
     // TODO BUG ---> selected city not saved in MainActivity when rotating screen

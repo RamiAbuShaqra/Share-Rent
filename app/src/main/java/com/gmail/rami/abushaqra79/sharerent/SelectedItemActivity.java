@@ -2,8 +2,10 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.Nullable;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,6 +36,8 @@ public class SelectedItemActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_item);
+
+        Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
         Bundle bundle = getIntent().getExtras();
         String type = bundle.getString("Type");
@@ -72,6 +76,8 @@ public class SelectedItemActivity extends MainActivity {
                 itemsToRent.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
                 PreferenceActivity.CartPreferenceFragment.addItemToPreference(itemsToRent);
+
+                vibrator.vibrate(100);
 
                 Toast.makeText(SelectedItemActivity.this, "Added to Cart.",
                         Toast.LENGTH_LONG).show();

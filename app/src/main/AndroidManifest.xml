@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gmail.rami.abushaqra79.sharerent">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name="com.gmail.rami.abushaqra79.MyApplication"
         android:allowBackup="true"
