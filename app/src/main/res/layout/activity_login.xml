@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"
                 android:fontFamily="sans-serif"
-                android:text="@string/sign_up"
+                android:text="@string/action_sign_up"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

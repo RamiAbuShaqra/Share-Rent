@@ -1,6 +1,117 @@
 <resources>
     <string name="app_name">Share Rent</string>
 
+    <!-- String Arrays for countries, cities, and items -->
+    <string-array name="countries_list">
+        <item>Select Country..</item>
+        <item>Bahrain</item>
+        <item>Egypt</item>
+        <item>Jordan</item>
+        <item>Kuwait</item>
+        <item>Oman</item>
+        <item>Qatar</item>
+        <item>Saudi Arabia</item>
+        <item>United Arab Emirates</item>
+    </string-array>
+
+    <string-array name="cities_list">
+        <item>Select City..</item>
+        <item>Abu Dhabi</item>
+        <item>Alexandria</item>
+        <item>Amman</item>
+        <item>Aqaba</item>
+        <item>Cairo</item>
+        <item>Dammam</item>
+        <item>Doha</item>
+        <item>Dubai</item>
+        <item>Irbid</item>
+        <item>Jeddah</item>
+        <item>Kuwait City</item>
+        <item>Manama</item>
+        <item>Muscat</item>
+        <item>Riyadh</item>
+        <item>Salalah</item>
+        <item>Sharjah</item>
+    </string-array>
+
+    <string-array name="no_selection">
+        <item>Select City..</item>
+    </string-array>
+
+    <string-array name="bahrain">
+        <item>Select City..</item>
+        <item>Manama</item>
+    </string-array>
+
+    <string-array name="egypt">
+        <item>Select City..</item>
+        <item>Cairo</item>
+        <item>Alexandria</item>
+    </string-array>
+
+    <string-array name="jordan">
+        <item>Select City..</item>
+        <item>Amman</item>
+        <item>Irbid</item>
+        <item>Aqaba</item>
+    </string-array>
+
+    <string-array name="kuwait">
+        <item>Select City..</item>
+        <item>Kuwait City</item>
+    </string-array>
+
+    <string-array name="oman">
+        <item>Select City..</item>
+        <item>Muscat</item>
+        <item>Salalah</item>
+    </string-array>
+
+    <string-array name="qatar">
+        <item>Select City..</item>
+        <item>Doha</item>
+    </string-array>
+
+    <string-array name="saudi_arabia">
+        <item>Select City..</item>
+        <item>Riyadh</item>
+        <item>Dammam</item>
+        <item>Jeddah</item>
+    </string-array>
+
+    <string-array name="emirates">
+        <item>Select City..</item>
+        <item>Abu Dhabi</item>
+        <item>Dubai</item>
+        <item>Sharjah</item>
+    </string-array>
+
+    <string-array name="baby_gear_items">
+        <item>Select an item..</item>
+        <item>Stroller</item>
+        <item>Bed</item>
+        <item>Car Seat</item>
+        <item>High Chair</item>
+        <item>Bath Tub</item>
+        <item>Bouncer</item>
+        <item>Sterilizer</item>
+    </string-array>
+
+    <!-- Buttons and clickable texts -->
+    <string name="continue_button">Continue</string>
+    <string name="action_login">Login</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_sign_in"><u>Sign in</u></string>
+    <string name="action_sign_up"><u>Sign Up</u></string>
+    <string name="action_register">Register</string>
+    <string name="forget_password"><u>Forgot Password?</u></string>
+    <string name="action_reset_password">Reset Password</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="action_change_email">Change e-mail</string>
+    <string name="action_change_password">Change password</string>
+    <string name="action_delete_account">Delete account</string>
+    <string name="action_select_from_gallery">Select from gallery</string>
+
     <!-- Images content descriptions -->
     <string name="application_main_image">Application Main Image</string>
     <string name="reference_image_stroller">Stroller</string>
@@ -21,25 +132,23 @@
     <string name="registered_user_profile_picture">Registered User Profile Picture</string>
 
 
+
+
+
+
+
     <string name="intro_text">Feel like home with just one click away.. All your needs for baby gear rentals are here!</string>
     <string name="auto_complete_hint">Enter city name</string>
     <string name="rental_start_hint">Rental start</string>
     <string name="rental_end_hint">Rental end</string>
-    <string name="continue_button">Continue</string>
     <string name="first_signup_text">Do you have a baby gear essentials and want to rent them?</string>
     <string name="second_signup_text">Join us and earn money!</string>
-    <string name="sign_up"><u>Sign Up</u></string>
     <string name="create_account">Create Account</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="action_register">Register</string>
     <string name="already_registered">Already registered?</string>
     <string name="not_registered">Not registered?</string>
-    <string name="go_to_sign_in"><u>Sign in</u></string>
-    <string name="action_login">Login</string>
-    <string name="forget_password"><u>Forgot Password?</u></string>
-
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>

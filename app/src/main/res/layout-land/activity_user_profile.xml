@@ -162,7 +162,7 @@
                 android:focusable="true"
                 android:textColor="@color/color_primary_dark"
                 android:textStyle="bold"
-                android:text="Change e-mail"
+                android:text="@string/action_change_email"
                 android:textSize="15sp" />
 
             <TextView
@@ -180,7 +180,7 @@
                 android:focusable="true"
                 android:textColor="@color/color_primary_dark"
                 android:textStyle="bold"
-                android:text="Change password"
+                android:text="@string/action_change_password"
                 android:textSize="15sp" />
 
             <TextView
@@ -199,7 +199,7 @@
                 android:focusable="true"
                 android:textColor="@color/color_primary_dark"
                 android:textStyle="bold"
-                android:text="Delete account"
+                android:text="@string/action_delete_account"
                 android:textSize="15sp" />
 
         </LinearLayout>

@@ -799,15 +799,11 @@ public class UserProfileActivity extends MainActivity {
 
         View dialogView = getLayoutInflater().inflate(R.layout.update_location_dialog, null);
 
-        String[] citiesList = new String[]
-                {"Select City..", "Abu Dhabi", "Alexandria", "Amman", "Aqaba", "Cairo",
-                        "Dammam", "Doha", "Dubai", "Irbid", "Jeddah", "Kuwait City",
-                        "Manama", "Muscat", "Riyadh", "Salalah", "Sharjah"};
-
         Spinner cities = dialogView.findViewById(R.id.cities_list);
 
-        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(UserProfileActivity.this,
-                android.R.layout.simple_spinner_item, citiesList);
+        ArrayAdapter<CharSequence> citiesAdapter = ArrayAdapter.createFromResource(
+                UserProfileActivity.this, R.array.cities_list,
+                android.R.layout.simple_spinner_item);
         citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cities.setAdapter(citiesAdapter);
 

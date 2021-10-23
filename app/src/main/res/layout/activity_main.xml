@@ -213,7 +213,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/sign_up"
+                android:text="@string/action_sign_up"
                 android:textStyle="bold" />
 
         </LinearLayout>

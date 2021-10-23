@@ -105,7 +105,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="6dp"
-                                android:text="Add to Cart"
+                                android:text="@string/add_to_cart"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 

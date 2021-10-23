@@ -336,7 +336,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@color/base_color">
+                android:background="@drawable/btn_background">
 
                 <TextView
                     android:id="@+id/continue_btn"

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO BUG ---> if a NEW user logged out then logged in (without killing the app), all user personal info will be reset
     // TODO BUG ---> logged in user should be automatically logged out if the app is in background
     // TODO BUG ---> if the user updated the photo of his item, it is not updated directly (Async)
+    // TODO BUG ---> the string-array doesn't work for the baby gear items spinner
 
     public static final int RESET_THE_CART = -100;
 
@@ -102,24 +103,11 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         }
 
-        String[] countriesList = new String[]
-                {"Select Country..", "Bahrain", "Egypt", "Jordan", "Kuwait", "Oman", "Qatar",
-                        "Saudi Arabia", "United Arab Emirates"};
-
-        String[] bahrain = new String[] {"Select City..", "Manama"};
-        String[] egypt = new String[] {"Select City..", "Cairo", "Alexandria"};
-        String[] jordan = new String[] {"Select City..", "Amman", "Irbid", "Aqaba"};
-        String[] kuwait = new String[] {"Select City..", "Kuwait City"};
-        String[] oman = new String[] {"Select City..", "Muscat", "Salalah"};
-        String[] qatar = new String[] {"Select City..", "Doha"};
-        String[] saudiArabia = new String[] {"Select City..", "Riyadh", "Dammam", "Jeddah"};
-        String[] emirates = new String[] {"Select City..", "Abu Dhabi", "Dubai", "Sharjah"};
-
         Spinner countries = findViewById(R.id.countries_list);
         cities = findViewById(R.id.cities_list);
 
-        ArrayAdapter<String> countriesAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, countriesList);
+        ArrayAdapter<CharSequence> countriesAdapter = ArrayAdapter.createFromResource(this,
+                R.array.countries_list, android.R.layout.simple_spinner_item);
         countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countries.setAdapter(countriesAdapter);
 
@@ -130,39 +118,39 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (selectedCountry) {
                     case "Bahrain" :
-                        settingSpinnerAdapter(bahrain);
+                        settingSpinnerAdapter(R.array.bahrain);
                         break;
 
                     case "Egypt" :
-                        settingSpinnerAdapter(egypt);
+                        settingSpinnerAdapter(R.array.egypt);
                         break;
 
                     case "Jordan" :
-                        settingSpinnerAdapter(jordan);
+                        settingSpinnerAdapter(R.array.jordan);
                         break;
 
                     case "Kuwait" :
-                        settingSpinnerAdapter(kuwait);
+                        settingSpinnerAdapter(R.array.kuwait);
                         break;
 
                     case "Oman" :
-                        settingSpinnerAdapter(oman);
+                        settingSpinnerAdapter(R.array.oman);
                         break;
 
                     case "Qatar" :
-                        settingSpinnerAdapter(qatar);
+                        settingSpinnerAdapter(R.array.qatar);
                         break;
 
                     case "Saudi Arabia" :
-                        settingSpinnerAdapter(saudiArabia);
+                        settingSpinnerAdapter(R.array.saudi_arabia);
                         break;
 
                     case "United Arab Emirates" :
-                        settingSpinnerAdapter(emirates);
+                        settingSpinnerAdapter(R.array.emirates);
                         break;
 
                     default:
-                        settingSpinnerAdapter(new String[] {"Select City.."});
+                        settingSpinnerAdapter(R.array.no_selection);
                         cities.setEnabled(false);
                         cities.setClickable(false);
                 }
@@ -309,9 +297,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void settingSpinnerAdapter(String[] array) {
-        ArrayAdapter<String> citiesAdapter = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_spinner_item, array);
+    private void settingSpinnerAdapter(int arrayResource) {
+        ArrayAdapter<CharSequence> citiesAdapter = ArrayAdapter.createFromResource(
+                MainActivity.this, arrayResource, android.R.layout.simple_spinner_item);
         citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cities.setAdapter(citiesAdapter);
         cities.setEnabled(true);
