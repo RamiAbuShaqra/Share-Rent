@@ -145,9 +145,13 @@ public class ReviewItemsOptions extends MainActivity {
                         intent.putExtra("Rent Price", currentGear.getRentPrice());
                         intent.putExtra("Image URL", currentGear.getImageUrl());
                         intent.putExtra("Storage Path", currentGear.getStoragePath());
-                        intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
+
                         intent.putExtra("Item Provider Email", currentUser.getEmail());
+                        intent.putExtra("Item Provider Name", currentUser.getName());
                         intent.putExtra("Item Provider Phone Number", currentUser.getPhoneNumber());
+                        intent.putExtra("Item Provider Location", currentUser.getLocation());
+                        intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
+
                         startActivity(intent);
                     }
                 });

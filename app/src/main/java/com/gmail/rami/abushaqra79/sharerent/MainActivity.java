@@ -30,18 +30,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    // TODO check the read and write rules in realtime database
-    // TODO reformat and clean the code for the whole project (comments, strings, styles)
-    // TODO check if online payment can be done in OrderSummaryActivity
-    // TODO send notifications to users in OrderSummaryActivity
-
-    // TODO BUG ---> selected city not saved in MainActivity when rotating screen
-    // TODO BUG ---> selected items (categories) not saved in ChooseItemsActivity when rotating screen
-    // TODO BUG ---> if a NEW user logged out then logged in (without killing the app), all user personal info will be reset
-    // TODO BUG ---> logged in user should be automatically logged out if the app is in background
-    // TODO BUG ---> if the user updated the photo of his item, it is not updated directly (Async)
-    // TODO BUG ---> the string-array doesn't work for the baby gear items spinner
-
     public static final int RESET_THE_CART = -100;
 
     @SuppressLint("StaticFieldLeak")

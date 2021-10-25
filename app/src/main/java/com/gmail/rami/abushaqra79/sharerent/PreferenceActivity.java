@@ -90,5 +90,32 @@ public class PreferenceActivity extends AppCompatActivity {
                 return new ArrayList<>();
             } else return items;
         }
+
+        public static void addItemProviderToPreference(ArrayList<User> list) {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
+            SharedPreferences.Editor editor = prefs.edit();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(list);
+
+            editor.putString("items_providers", json);
+            editor.apply();
+        }
+
+        public static ArrayList<User> getSummaryOfItemsProviders() {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
+            String json = prefs.getString("items_providers", "");
+
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<User>>() {}.getType();
+
+            ArrayList<User> users = gson.fromJson(json, type);
+
+            if (users == null){
+                return new ArrayList<>();
+            } else return users;
+        }
     }
 }

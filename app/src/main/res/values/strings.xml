@@ -112,6 +112,22 @@
     <string name="action_delete_account">Delete account</string>
     <string name="action_select_from_gallery">Select from gallery</string>
 
+    <!-- EditTexts and TextViews hints and autofill -->
+    <string name="rental_start_hint">Rental start</string>
+    <string name="rental_end_hint">Rental end</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="name_hint">Name</string>
+    <string name="phone_number_hint">Phone number</string>
+    <string name="location_hint">Location</string>
+    <string name="description_hint">Description..</string>
+    <string name="rent_price_hint">Price..</string>
+    <string name="new_email_hint">New e-mail</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password_hint">Confirm New Password</string>
+
     <!-- Images content descriptions -->
     <string name="application_main_image">Application Main Image</string>
     <string name="reference_image_stroller">Stroller</string>
@@ -139,14 +155,9 @@
 
     <string name="intro_text">Feel like home with just one click away.. All your needs for baby gear rentals are here!</string>
     <string name="auto_complete_hint">Enter city name</string>
-    <string name="rental_start_hint">Rental start</string>
-    <string name="rental_end_hint">Rental end</string>
     <string name="first_signup_text">Do you have a baby gear essentials and want to rent them?</string>
     <string name="second_signup_text">Join us and earn money!</string>
     <string name="create_account">Create Account</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="confirm_password">Confirm Password</string>
     <string name="already_registered">Already registered?</string>
     <string name="not_registered">Not registered?</string>
     <string name="invalid_username">Not a valid username</string>

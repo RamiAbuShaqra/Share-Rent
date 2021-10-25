@@ -18,7 +18,8 @@ import java.util.ArrayList;
 
 public class SelectedItemActivity extends MainActivity {
 
-    public static ArrayList<BabyGear> itemsToRent;
+    private ArrayList<BabyGear> itemsToRent;
+    private ArrayList<User> itemsProviders;
 
     /**
      * Obtain the previous instance of ReviewItemsOptions.java from the back stack
@@ -40,19 +41,24 @@ public class SelectedItemActivity extends MainActivity {
         Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
         Bundle bundle = getIntent().getExtras();
+
         String type = bundle.getString("Type");
         String description = bundle.getString("Description");
         String rentPrice = bundle.getString("Rent Price");
         String imageUrl = bundle.getString("Image URL");
         String storagePath = bundle.getString("Storage Path");
-        String picture = bundle.getString("Item Provider Picture");
+
         String email = bundle.getString("Item Provider Email");
+        String name = bundle.getString("Item Provider Name");
         String phone = bundle.getString("Item Provider Phone Number");
+        String location = bundle.getString("Item Provider Location");
+        String picture = bundle.getString("Item Provider Picture");
 
         ImageView photo = findViewById(R.id.selected_item_photo);
         TextView details = findViewById(R.id.selected_item_description);
         TextView price = findViewById(R.id.rent_price);
         ImageView userPicture = findViewById(R.id.item_provider_picture);
+        TextView userName = findViewById(R.id.item_provider_name);
         TextView userEmail = findViewById(R.id.item_provider_email);
         TextView userPhoneNumber = findViewById(R.id.item_provider_phone);
 
@@ -61,6 +67,7 @@ public class SelectedItemActivity extends MainActivity {
         price.setText(rentPrice);
 
         Glide.with(this).load(picture).into(userPicture);
+        userName.setText(name);
         userEmail.setText(email);
         userPhoneNumber.setText(phone);
 
@@ -72,10 +79,12 @@ public class SelectedItemActivity extends MainActivity {
                 cartTV.setText(String.valueOf(itemsInShoppingCart));
 
                 itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
-                
                 itemsToRent.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
-
                 PreferenceActivity.CartPreferenceFragment.addItemToPreference(itemsToRent);
+
+                itemsProviders = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
+                itemsProviders.add(new User(email, name, phone, location, picture));
+                PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(itemsProviders);
 
                 vibrator.vibrate(100);
 

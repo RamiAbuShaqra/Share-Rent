@@ -174,6 +174,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/item_provider_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="4dp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Name" />
+
+                    <TextView
                         android:id="@+id/item_provider_email"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -182,7 +194,6 @@
                         android:gravity="center_vertical"
                         android:paddingStart="20dp"
                         android:paddingEnd="4dp"
-                        android:paddingTop="30dp"
                         android:textSize="18sp"
                         app:drawableLeftCompat="@drawable/email_symbol"
                         tools:text="Email" />
@@ -196,7 +207,6 @@
                         android:gravity="center_vertical"
                         android:paddingStart="20dp"
                         android:paddingEnd="4dp"
-                        android:paddingBottom="30dp"
                         android:textSize="18sp"
                         app:drawableLeftCompat="@drawable/phone_symbol"
                         tools:text="Phone" />

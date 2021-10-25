@@ -27,7 +27,7 @@
             android:id="@+id/new_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="New e-mail"
+            android:hint="@string/new_email_hint"
             android:autofillHints="emailAddress"
             android:inputType="textEmailAddress"/>
 

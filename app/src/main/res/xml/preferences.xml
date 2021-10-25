@@ -16,4 +16,9 @@
         android:key="summary_items"
         android:title="Items to be ordered" />
 
+    <ListPreference
+        android:defaultValue=""
+        android:key="items_providers"
+        android:title="Provider of the items to be ordered" />
+
 </PreferenceScreen>

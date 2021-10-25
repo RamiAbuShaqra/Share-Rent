@@ -26,6 +26,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal"
                 app:cardCornerRadius="65dp">
+
                 <ImageView
                     android:id="@+id/profile_picture"
                     android:layout_height="match_parent"
@@ -59,7 +60,7 @@
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:background="@drawable/text_entry_background"
-                    android:hint="Name"/>
+                    android:hint="@string/name_hint"/>
 
                 <ImageView
                     android:id="@+id/edit_name"
@@ -96,7 +97,7 @@
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:background="@drawable/text_entry_background"
-                    android:hint="Phone number"/>
+                    android:hint="@string/phone_number_hint"/>
 
                 <ImageView
                     android:id="@+id/edit_phone"
@@ -133,7 +134,7 @@
                     android:layout_gravity="center"
                     android:padding="5dp"
                     android:background="@drawable/text_entry_background"
-                    android:hint="Location"/>
+                    android:hint="@string/location_hint"/>
 
                 <ImageView
                     android:id="@+id/edit_location"

@@ -20,6 +20,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private String message;
 
     private ArrayList<BabyGear> items;
+    private ArrayList<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                     items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
                                     items.remove(position);
                                     PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
+
+                                    users = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
+                                    users.remove(position);
+                                    PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
 
                                     int shoppingCart = PreferenceActivity.CartPreferenceFragment
                                             .updateCart(-1);
