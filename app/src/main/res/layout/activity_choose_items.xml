@@ -88,7 +88,7 @@
                 android:paddingEnd="10dp"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="What do you want to rent?" />
+                android:text="@string/choose_items_question" />
 
             <LinearLayout
                 android:id="@+id/stroller_layout"
@@ -120,7 +120,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="Stroller"/>
+                    android:text="@string/stroller_item"/>
 
             </LinearLayout>
 
@@ -154,7 +154,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="Bed"/>
+                    android:text="@string/bed_item"/>
 
             </LinearLayout>
 
@@ -188,7 +188,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="Car Seat"/>
+                    android:text="@string/car_seat_item"/>
 
             </LinearLayout>
 
@@ -222,7 +222,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="High Chair"/>
+                    android:text="@string/high_chair_item"/>
 
             </LinearLayout>
 
@@ -256,7 +256,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="Bath Tub"/>
+                    android:text="@string/bath_tub_item"/>
 
             </LinearLayout>
 
@@ -290,7 +290,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="Bouncer"/>
+                    android:text="@string/bouncer_item"/>
 
             </LinearLayout>
 
@@ -324,7 +324,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="28sp"
-                    android:text="Sterilizer"/>
+                    android:text="@string/sterilizer_item"/>
 
             </LinearLayout>
 

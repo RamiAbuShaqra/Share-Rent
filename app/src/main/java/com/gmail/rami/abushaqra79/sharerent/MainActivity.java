@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int RESET_THE_CART = -100;
 
     @SuppressLint("StaticFieldLeak")
-    public static TextView cartTV;
+    public static TextView cartTV; // The number of items in the cart
 
     private Spinner cities;
     private Calendar myCalendar;
@@ -44,18 +43,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
+        // Get the current number of items in the cart from Shared Preferences
         int numberOfItems = PreferenceActivity.CartPreferenceFragment.updateCart(0);
 
         RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.shopping_cart).getActionView();
         cartTV = badgeLayout.findViewById(R.id.number_of_items_in_cart);
         cartTV.setText(String.valueOf(numberOfItems));
 
-        badgeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent orderSummary = new Intent(MainActivity.this, OrderSummaryActivity.class);
-                startActivity(orderSummary);
-            }
+        badgeLayout.setOnClickListener(v -> {
+            Intent orderSummary = new Intent(MainActivity.this, OrderSummaryActivity.class);
+            startActivity(orderSummary);
         });
 
         return true;
@@ -77,16 +74,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // get shared preferences
+        // Get shared preferences
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // first time run?
+        // First time run?
         if (pref.getBoolean("firstTimeRun", true)) {
-            // reset the shared preferences by passing -100 and make the cart items = 0
+            // Reset the shared preferences by passing -100 and make the cart items = 0
             PreferenceActivity.CartPreferenceFragment.updateCart(RESET_THE_CART);
-            // get the preferences editor
+            // Get the preferences editor
             SharedPreferences.Editor editor = pref.edit();
-            // avoid for next run
+            // Avoid for next run
             editor.putBoolean("firstTimeRun", false);
             editor.apply();
         }
@@ -94,46 +91,48 @@ public class MainActivity extends AppCompatActivity {
         Spinner countries = findViewById(R.id.countries_list);
         cities = findViewById(R.id.cities_list);
 
+        // Create ArrayAdapter for the countries list and attach it to the spinner
         ArrayAdapter<CharSequence> countriesAdapter = ArrayAdapter.createFromResource(this,
                 R.array.countries_list, android.R.layout.simple_spinner_item);
         countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countries.setAdapter(countriesAdapter);
 
+        // Check the selected country and populate the cities array based on the selection
         countries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedCountry = countries.getSelectedItem().toString();
 
                 switch (selectedCountry) {
-                    case "Bahrain" :
+                    case "Bahrain":
                         settingSpinnerAdapter(R.array.bahrain);
                         break;
 
-                    case "Egypt" :
+                    case "Egypt":
                         settingSpinnerAdapter(R.array.egypt);
                         break;
 
-                    case "Jordan" :
+                    case "Jordan":
                         settingSpinnerAdapter(R.array.jordan);
                         break;
 
-                    case "Kuwait" :
+                    case "Kuwait":
                         settingSpinnerAdapter(R.array.kuwait);
                         break;
 
-                    case "Oman" :
+                    case "Oman":
                         settingSpinnerAdapter(R.array.oman);
                         break;
 
-                    case "Qatar" :
+                    case "Qatar":
                         settingSpinnerAdapter(R.array.qatar);
                         break;
 
-                    case "Saudi Arabia" :
+                    case "Saudi Arabia":
                         settingSpinnerAdapter(R.array.saudi_arabia);
                         break;
 
-                    case "United Arab Emirates" :
+                    case "United Arab Emirates":
                         settingSpinnerAdapter(R.array.emirates);
                         break;
 
@@ -184,107 +183,99 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DatePickerDialog.OnDateSetListener firstDate = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DatePickerDialog.OnDateSetListener firstDate = (view, year, monthOfYear, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                startRentalDate.setText(updateLabel());
-            }
+            startRentalDate.setText(updateLabel());
         };
 
-        DatePickerDialog.OnDateSetListener secondDate = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DatePickerDialog.OnDateSetListener secondDate = (view, year, monthOfYear, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                endRentalDate.setText(updateLabel());
-            }
+            endRentalDate.setText(updateLabel());
         };
 
-        startRentalDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePicker = new DatePickerDialog(MainActivity.this,
-                        firstDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH));
+        // When the date field is clicked, show the date picker
+        startRentalDate.setOnClickListener(v -> {
+            DatePickerDialog datePicker = new DatePickerDialog(MainActivity.this,
+                    firstDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH));
 
-                // Set today's date as minimum date and all the past dates are disabled
-                datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                datePicker.show();
-            }
+            // Set today's date as minimum date and all the past dates are disabled
+            datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            datePicker.show();
         });
 
-        endRentalDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePicker = new DatePickerDialog(MainActivity.this,
-                        secondDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH));
+        // When the date field is clicked, show the date picker
+        endRentalDate.setOnClickListener(v -> {
+            DatePickerDialog datePicker = new DatePickerDialog(MainActivity.this,
+                    secondDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH));
 
-                if (getStartDate() == 0) {
-                    datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                } else {
-                    datePicker.getDatePicker().setMinDate(getStartDate());
-                }
-
-                datePicker.show();
+            if (getStartDate() == 0) {
+                datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            } else {
+                // Set the minimum date to be the day after the start date
+                datePicker.getDatePicker().setMinDate(getStartDate());
             }
+
+            datePicker.show();
         });
 
         TextView continueBtn = findViewById(R.id.continue_btn);
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String country = countries.getSelectedItem().toString();
-                String city = cities.getSelectedItem().toString();
-                String startDate = startRentalDate.getText().toString();
-                String endDate = endRentalDate.getText().toString();
+        continueBtn.setOnClickListener(v -> {
+            String country = countries.getSelectedItem().toString();
+            String city = cities.getSelectedItem().toString();
+            String startDate = startRentalDate.getText().toString();
+            String endDate = endRentalDate.getText().toString();
 
-                if (country.equals("Select Country..")) {
-                    ((TextView)countries.getSelectedView()).setError("Please select a country");
-                    return;
-                }
-
-                if (city.equals("Select City..")) {
-                    ((TextView)cities.getSelectedView()).setError("Please select a city");
-                    return;
-                }
-
-                if (startDate.equals("")) {
-                    startRentalDate.setError("Please select start date");
-                    return;
-                }
-
-                if (endDate.equals("")) {
-                    endRentalDate.setError("please select end date");
-                    return;
-                }
-
-                String destination = city + ", " + country;
-
-                Intent intent = new Intent(MainActivity.this, ChooseItemsActivity.class);
-                intent.putExtra("Destination", destination);
-                intent.putExtra("Start Date", startDate);
-                intent.putExtra("End Date", endDate);
-                startActivity(intent);
+            if (country.equals("Select Country..")) {
+                ((TextView) countries.getSelectedView()).setError("Please select a country");
+                return;
             }
+
+            if (city.equals("Select City..")) {
+                ((TextView) cities.getSelectedView()).setError("Please select a city");
+                return;
+            }
+
+            if (startDate.equals("")) {
+                startRentalDate.setError("Please select start date");
+                return;
+            }
+
+            if (endDate.equals("")) {
+                endRentalDate.setError("please select end date");
+                return;
+            }
+
+            String destination = city + ", " + country;
+
+            Intent intent = new Intent(MainActivity.this, ChooseItemsActivity.class);
+            intent.putExtra("Destination", destination);
+            intent.putExtra("Start Date", startDate);
+            intent.putExtra("End Date", endDate);
+            startActivity(intent);
         });
 
+        // Direct the user to sign up page
         TextView signUpPage = findViewById(R.id.sign_up_page);
-        signUpPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
+        signUpPage.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+            startActivity(intent);
         });
     }
 
+    /**
+     * Create ArrayAdapter for the cities list based on the country selection
+     * and attach it to the spinner.
+     *
+     * @param arrayResource the string-array of cities for the selected country.
+     */
     private void settingSpinnerAdapter(int arrayResource) {
         ArrayAdapter<CharSequence> citiesAdapter = ArrayAdapter.createFromResource(
                 MainActivity.this, arrayResource, android.R.layout.simple_spinner_item);
@@ -294,12 +285,23 @@ public class MainActivity extends AppCompatActivity {
         cities.setClickable(true);
     }
 
+    /**
+     * Get the selected date as String.
+     *
+     * @return a selected date in a format of (dd/MM/yyyy)
+     */
     private String updateLabel() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
 
         return simpleDateFormat.format(myCalendar.getTime());
     }
 
+    /**
+     * Get the selected start date so the click listener of the end date can set the minimum date
+     * as the day after of that date.
+     *
+     * @return a selected start date as a long time in milliseconds, or 0 if start date not selected
+     */
     private long getStartDate() {
         final long EXTRA_DAY = 86400000; // 86,400,000 millisecond in one day.
         long time = 0;

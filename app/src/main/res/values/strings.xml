@@ -124,8 +124,8 @@
     <string name="description_hint">Description..</string>
     <string name="rent_price_hint">Price..</string>
     <string name="new_email_hint">New e-mail</string>
-    <string name="current_password">Current Password</string>
-    <string name="new_password">New Password</string>
+    <string name="current_password_hint">Current Password</string>
+    <string name="new_password_hint">New Password</string>
     <string name="confirm_new_password_hint">Confirm New Password</string>
 
     <!-- Images content descriptions -->
@@ -147,20 +147,41 @@
     <string name="item_provider_profile_picture">Item Provider Profile Picture</string>
     <string name="registered_user_profile_picture">Registered User Profile Picture</string>
 
-
-
-
-
-
-
+    <!-- Texts distributed around the app -->
+    <string name="choose_items_question">What do you want to rent?</string>
+    <string name="stroller_item">Stroller</string>
+    <string name="bed_item">Bed</string>
+    <string name="car_seat_item">Car Seat</string>
+    <string name="high_chair_item">High Chair</string>
+    <string name="bath_tub_item">Bath Tub</string>
+    <string name="bouncer_item">Bouncer</string>
+    <string name="sterilizer_item">Sterilizer</string>
+    <string name="not_registered">Not registered?</string>
     <string name="intro_text">Feel like home with just one click away.. All your needs for baby gear rentals are here!</string>
-    <string name="auto_complete_hint">Enter city name</string>
-    <string name="first_signup_text">Do you have a baby gear essentials and want to rent them?</string>
-    <string name="second_signup_text">Join us and earn money!</string>
+    <string name="item_provider">Do you have a baby gear essentials and want to rent them?</string>
+    <string name="join_now">Join us and earn money!</string>
+    <string name="total_price">Total Price&#160;</string>
+    <string name="currency">&#160;$</string>
+    <string name="multiplication">&#160;X&#160;</string>
+    <string name="days_text">&#160;days =&#160;</string>
+    <string name="proceed_to_rent">Proceed to Rent (</string>
+    <string name="items_text">&#160;items)</string>
+    <string name="reset_password_text">Please enter your registered e-mail to send you a password-reset link</string>
+    <string name="price_per_day">$ / day</string>
+    <string name="item_provider_information">Item provider information:</string>
     <string name="create_account">Create Account</string>
     <string name="already_registered">Already registered?</string>
-    <string name="not_registered">Not registered?</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="offered_items_question">What can you offer for renting?</string>
+    <string name="list_header_text">No items added yet</string>
+    <string name="enter_description">Enter a description for your item:</string>
+    <string name="enter_rent_price">Enter a rent price ($):</string>
+    <string name="upload_photo">Upload a photo for your item:</string>
+    <string name="enter_new_email">Enter a new e-mail:</string>
+    <string name="enter_passwords">Enter current and new passwords:</string>
+    <string name="update_location">Update your location:</string>
+    <string name="update_name">Update your name:</string>
+    <string name="update_phone_number">Update your phone number:</string>
+    <string name="menu_Login_status">Login Status</string>
+    <string name="menu_shopping_cart">Shopping Cart</string>
+
 </resources>

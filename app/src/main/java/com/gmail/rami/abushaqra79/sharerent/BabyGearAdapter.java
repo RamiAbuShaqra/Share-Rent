@@ -31,9 +31,10 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        // Check if there is a recycled view to be used, otherwise create one
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.baby_gear_details,
-                    parent,false);
+                    parent, false);
         }
 
         BabyGear currentBabyGear = getItem(position);
@@ -50,6 +51,7 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
         ImageView babyGearPhoto = convertView.findViewById(R.id.item_photo);
         String imageUrl = currentBabyGear.getImageUrl();
 
+        // Setting the item photo to ImageView using Glide library
         Glide.with(context).load(imageUrl).into(babyGearPhoto);
 
         ImageView deleteItem = convertView.findViewById(R.id.delete_item);
@@ -62,12 +64,9 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
             // We will be able to catch this view in onItemClickListener’s onItemClick method.
             // According to the official doc, performItemClick method calls the OnItemClickListener
             // if it is defined.
-            deleteItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Let the event be handled in onItemClick()
-                    ((ListView) parent).performItemClick(v, position, 0);
-                }
+            deleteItem.setOnClickListener(v -> {
+                // Let the event be handled in onItemClick()
+                ((ListView) parent).performItemClick(v, position, 0);
             });
         } else {
             trashLayout.setVisibility(View.GONE);

@@ -195,14 +195,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="@string/first_signup_text"
+                android:text="@string/item_provider"
                 android:textStyle="italic" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="@string/second_signup_text"
+                android:text="@string/join_now"
                 android:textStyle="italic" />
 
             <TextView

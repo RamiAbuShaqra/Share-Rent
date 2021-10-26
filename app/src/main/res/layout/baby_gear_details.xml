@@ -76,7 +76,7 @@
                     android:paddingStart="2dp"
                     android:paddingEnd="8dp"
                     android:paddingBottom="8dp"
-                    android:text="$ / day"
+                    android:text="@string/price_per_day"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 

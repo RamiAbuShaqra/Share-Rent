@@ -31,6 +31,12 @@ public class PreferenceActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
         }
 
+        /**
+         * Update the number of items in the shopping cart.
+         *
+         * @param items number of items to be added or removed from cart.
+         * @return the current number of items in the cart.
+         */
         public static int updateCart(int items) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
@@ -49,6 +55,11 @@ public class PreferenceActivity extends AppCompatActivity {
             return prefs.getInt("cart_items", 0);
         }
 
+        /**
+         * Save the number of days for renting items in the Shared Preferences.
+         *
+         * @param number the number of days to be saved.
+         */
         public static void setNumberOfRentDays(int number) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
@@ -58,12 +69,22 @@ public class PreferenceActivity extends AppCompatActivity {
             editor.apply();
         }
 
+        /**
+         * Retrieve the number of days for renting items from the Shared Preferences.
+         *
+         * @return the number of days saved in Shared Preferences.
+         */
         public static int getNumberOfRentDays() {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
             return prefs.getInt("number_of_days", 0);
         }
 
+        /**
+         * Save a list of items that were added to cart.
+         *
+         * @param list the list of items that were added to cart.
+         */
         public static void addItemToPreference(ArrayList<BabyGear> list) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
@@ -76,6 +97,11 @@ public class PreferenceActivity extends AppCompatActivity {
             editor.apply();
         }
 
+        /**
+         * Get the list of items that were added to cart.
+         *
+         * @return list of baby gear items in the cart.
+         */
         public static ArrayList<BabyGear> getSummaryOfItems() {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
@@ -91,6 +117,11 @@ public class PreferenceActivity extends AppCompatActivity {
             } else return items;
         }
 
+        /**
+         * Save a list of users (item providers) for the items added in the cart.
+         *
+         * @param list the list of users to be saved.
+         */
         public static void addItemProviderToPreference(ArrayList<User> list) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
@@ -103,6 +134,11 @@ public class PreferenceActivity extends AppCompatActivity {
             editor.apply();
         }
 
+        /**
+         * Get the list of users (item providers) for the items in the cart.
+         *
+         * @return the list of users (item providers) for items in the cart.
+         */
         public static ArrayList<User> getSummaryOfItemsProviders() {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());

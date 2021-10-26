@@ -230,7 +230,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:textSize="18sp"
-            android:text="What can you offer for renting?"/>
+            android:text="@string/offered_items_question"/>
 
         <Spinner
             android:id="@+id/baby_gear_list"
@@ -248,7 +248,7 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:fontFamily="sans-serif-light"
-            android:text="No items added yet"/>
+            android:text="@string/list_header_text"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"

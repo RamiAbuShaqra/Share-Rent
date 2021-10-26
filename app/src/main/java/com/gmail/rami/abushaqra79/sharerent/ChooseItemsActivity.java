@@ -3,8 +3,6 @@ package com.gmail.rami.abushaqra79.sharerent;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +27,7 @@ public class ChooseItemsActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_items);
 
+        // Get Intent with extras as a bundle
         Bundle bundle = getIntent().getExtras();
 
         String travelDestination = bundle.getString("Destination");
@@ -45,175 +44,141 @@ public class ChooseItemsActivity extends MainActivity {
 
         myCalendar = Calendar.getInstance();
 
-        DatePickerDialog.OnDateSetListener firstDate = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DatePickerDialog.OnDateSetListener firstDate = (view, year, monthOfYear, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                startRentalDate.setText(updateLabel());
-            }
+            startRentalDate.setText(updateLabel());
         };
 
-        DatePickerDialog.OnDateSetListener secondDate = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        DatePickerDialog.OnDateSetListener secondDate = (view, year, monthOfYear, dayOfMonth) -> {
+            myCalendar.set(Calendar.YEAR, year);
+            myCalendar.set(Calendar.MONTH, monthOfYear);
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                endRentalDate.setText(updateLabel());
-            }
+            endRentalDate.setText(updateLabel());
         };
 
-        startRentalDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePicker = new DatePickerDialog(ChooseItemsActivity.this,
-                        firstDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH));
+        // When the date field is clicked, show the date picker
+        startRentalDate.setOnClickListener(v -> {
+            DatePickerDialog datePicker = new DatePickerDialog(ChooseItemsActivity.this,
+                    firstDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH));
 
-                // Set today's date as minimum date and all the past dates are disabled
-                datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                datePicker.show();
-            }
+            // Set today's date as minimum date and all the past dates are disabled
+            datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            datePicker.show();
         });
 
-        endRentalDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePicker = new DatePickerDialog(ChooseItemsActivity.this,
-                        secondDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH));
+        // When the date field is clicked, show the date picker
+        endRentalDate.setOnClickListener(v -> {
+            DatePickerDialog datePicker = new DatePickerDialog(ChooseItemsActivity.this,
+                    secondDate, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH));
 
-                if (getStartDate() == 0) {
-                    datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                } else {
-                    datePicker.getDatePicker().setMinDate(getStartDate());
-                }
-
-                datePicker.show();
+            if (getStartDate() == 0) {
+                datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            } else {
+                // Set the minimum date to be the day after the start date
+                datePicker.getDatePicker().setMinDate(getStartDate());
             }
+
+            datePicker.show();
         });
 
         LinearLayout strollerLayout = findViewById(R.id.stroller_layout);
-        strollerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                strollerLayout.setSelected(!strollerLayout.isSelected());
-            }
-        });
+        strollerLayout.setOnClickListener(v -> strollerLayout.setSelected(!strollerLayout.isSelected()));
 
         LinearLayout bedLayout = findViewById(R.id.bed_layout);
-        bedLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bedLayout.setSelected(!bedLayout.isSelected());
-            }
-        });
+        bedLayout.setOnClickListener(v -> bedLayout.setSelected(!bedLayout.isSelected()));
 
         LinearLayout carSeatLayout = findViewById(R.id.car_seat_layout);
-        carSeatLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                carSeatLayout.setSelected(!carSeatLayout.isSelected());
-            }
-        });
+        carSeatLayout.setOnClickListener(v -> carSeatLayout.setSelected(!carSeatLayout.isSelected()));
 
         LinearLayout highChairLayout = findViewById(R.id.high_chair_layout);
-        highChairLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                highChairLayout.setSelected(!highChairLayout.isSelected());
-            }
-        });
+        highChairLayout.setOnClickListener(v -> highChairLayout.setSelected(!highChairLayout.isSelected()));
 
         LinearLayout bathTubLayout = findViewById(R.id.bath_tub_layout);
-        bathTubLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bathTubLayout.setSelected(!bathTubLayout.isSelected());
-            }
-        });
+        bathTubLayout.setOnClickListener(v -> bathTubLayout.setSelected(!bathTubLayout.isSelected()));
 
         LinearLayout bouncerLayout = findViewById(R.id.bouncer_layout);
-        bouncerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bouncerLayout.setSelected(!bouncerLayout.isSelected());
-            }
-        });
+        bouncerLayout.setOnClickListener(v -> bouncerLayout.setSelected(!bouncerLayout.isSelected()));
 
         LinearLayout sterilizerLayout = findViewById(R.id.sterilizer_layout);
-        sterilizerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sterilizerLayout.setSelected(!sterilizerLayout.isSelected());
-            }
-        });
+        sterilizerLayout.setOnClickListener(v -> sterilizerLayout.setSelected(!sterilizerLayout.isSelected()));
 
         TextView continueBtn = findViewById(R.id.continue_btn);
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!strollerLayout.isSelected() && !bedLayout.isSelected() &&
-                        !carSeatLayout.isSelected() && !highChairLayout.isSelected() &&
-                        !bathTubLayout.isSelected() && !bouncerLayout.isSelected() &&
-                        !sterilizerLayout.isSelected()) {
-                    Toast.makeText(ChooseItemsActivity.this,
-                            "Please select items to continue", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                ArrayList<String> items = new ArrayList<>();
-
-                if (strollerLayout.isSelected()) {
-                    items.add("Stroller");
-                }
-
-                if (bedLayout.isSelected()) {
-                    items.add("Bed");
-                }
-
-                if (carSeatLayout.isSelected()) {
-                    items.add("Car Seat");
-                }
-
-                if (highChairLayout.isSelected()) {
-                    items.add("High Chair");
-                }
-
-                if (bathTubLayout.isSelected()) {
-                    items.add("Bath Tub");
-                }
-
-                if (bouncerLayout.isSelected()) {
-                    items.add("Bouncer");
-                }
-
-                if (sterilizerLayout.isSelected()) {
-                    items.add("Sterilizer");
-                }
-
-                String firstDate = startRentalDate.getText().toString();
-                String secondDate = endRentalDate.getText().toString();
-                numberOfDays(firstDate, secondDate);
-
-                Intent intent = new Intent(ChooseItemsActivity.this, ReviewItemsOptions.class);
-                intent.putExtra("Destination", travelDestination);
-                intent.putStringArrayListExtra("Selected Items", items);
-                startActivity(intent);
+        continueBtn.setOnClickListener(v -> {
+            // If no item selected, display a toast message and return
+            if (!strollerLayout.isSelected() && !bedLayout.isSelected() &&
+                    !carSeatLayout.isSelected() && !highChairLayout.isSelected() &&
+                    !bathTubLayout.isSelected() && !bouncerLayout.isSelected() &&
+                    !sterilizerLayout.isSelected()) {
+                Toast.makeText(ChooseItemsActivity.this,
+                        "Please select items to continue", Toast.LENGTH_LONG).show();
+                return;
             }
+
+            // ArrayList to store the selected items
+            ArrayList<String> items = new ArrayList<>();
+
+            if (strollerLayout.isSelected()) {
+                items.add("Stroller");
+            }
+
+            if (bedLayout.isSelected()) {
+                items.add("Bed");
+            }
+
+            if (carSeatLayout.isSelected()) {
+                items.add("Car Seat");
+            }
+
+            if (highChairLayout.isSelected()) {
+                items.add("High Chair");
+            }
+
+            if (bathTubLayout.isSelected()) {
+                items.add("Bath Tub");
+            }
+
+            if (bouncerLayout.isSelected()) {
+                items.add("Bouncer");
+            }
+
+            if (sterilizerLayout.isSelected()) {
+                items.add("Sterilizer");
+            }
+
+            String firstDate1 = startRentalDate.getText().toString();
+            String secondDate1 = endRentalDate.getText().toString();
+            numberOfDays(firstDate1, secondDate1);
+
+            Intent intent = new Intent(ChooseItemsActivity.this, ReviewItemsOptions.class);
+            intent.putExtra("Destination", travelDestination);
+            intent.putStringArrayListExtra("Selected Items", items);
+            startActivity(intent);
         });
     }
 
+    /**
+     * Get the selected date as String.
+     *
+     * @return a selected date in a format of (dd/MM/yyyy)
+     */
     private String updateLabel() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
 
         return simpleDateFormat.format(myCalendar.getTime());
     }
 
+    /**
+     * Get the selected start date so the click listener of the end date can set the minimum date
+     * as the day after of that date.
+     *
+     * @return a selected start date as a long time in milliseconds, or 0 if start date not selected
+     */
     private long getStartDate() {
         final long EXTRA_DAY = 86400000; // 86,400,000 millisecond in one day.
         long time = 0;
@@ -232,6 +197,13 @@ public class ChooseItemsActivity extends MainActivity {
         return time;
     }
 
+    /**
+     * Calculate the number of days between the selected start and selected end dates and then
+     * save it in the Shared Preferences so it can be retrieved when making the order.
+     *
+     * @param firstDate  is the selected start date.
+     * @param secondDate is the selected end date.
+     */
     private void numberOfDays(String firstDate, String secondDate) {
         int totalDays = 0;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);

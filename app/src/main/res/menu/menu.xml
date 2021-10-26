@@ -6,7 +6,7 @@
         android:id="@+id/login_status"
         android:icon="@drawable/profile_symbol"
         android:orderInCategory="1"
-        android:title="Login Status"
+        android:title="@string/menu_Login_status"
         app:showAsAction="ifRoom">
 
         <menu>
@@ -27,7 +27,7 @@
         android:id="@+id/shopping_cart"
         android:icon="@drawable/shopping_cart"
         android:orderInCategory="2"
-        android:title="Shopping Cart"
+        android:title="@string/menu_shopping_cart"
         app:actionLayout="@layout/cart"
         app:showAsAction="ifRoom" />
 

@@ -15,7 +15,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="6dp"
-            android:text="Enter a description for your item:"
+            android:text="@string/enter_description"
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -45,7 +45,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="6dp"
-            android:text="Enter a rent price ($):"
+            android:text="@string/enter_rent_price"
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +75,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="6dp"
-            android:text="Upload a photo for your item:"
+            android:text="@string/upload_photo"
             android:textSize="18sp" />
 
         <LinearLayout
