@@ -10,13 +10,10 @@
         android:id="@+id/destination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_margin="20dp"
         android:background="@drawable/text_entry_background"
         android:padding="10dp"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,41 +23,15 @@
 
         <EditText
             android:id="@+id/start_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
+            style="@style/dates_entry"
             android:autofillHints="Date"
-            android:background="@drawable/text_entry_background"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:gravity="center"
-            android:hint="@string/rental_start_hint"
-            android:inputType="date"
-            android:padding="10dp" />
+            android:hint="@string/rental_start_hint" />
 
         <EditText
             android:id="@+id/end_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="30dp"
-            android:layout_weight="1"
+            style="@style/dates_entry"
             android:autofillHints="Date"
-            android:background="@drawable/text_entry_background"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:gravity="center"
-            android:hint="@string/rental_end_hint"
-            android:inputType="date"
-            android:padding="10dp" />
+            android:hint="@string/rental_end_hint" />
 
     </LinearLayout>
 
@@ -77,254 +48,128 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="30dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:gravity="center"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/choose_items_question" />
+                android:text="@string/choose_items_question"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <LinearLayout
                 android:id="@+id/stroller_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/stroller"
-                    android:contentDescription="@string/reference_image_stroller" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_stroller"
+                    android:src="@drawable/stroller" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/stroller_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/stroller_item" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/bed_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/bed"
-                    android:contentDescription="@string/reference_image_bed" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_bed"
+                    android:src="@drawable/bed" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/bed_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/bed_item" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/car_seat_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/car_seat"
-                    android:contentDescription="@string/reference_image_car_seat" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_car_seat"
+                    android:src="@drawable/car_seat" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/car_seat_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/car_seat_item" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/high_chair_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/high_chair"
-                    android:contentDescription="@string/reference_image_high_chair" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_high_chair"
+                    android:src="@drawable/high_chair" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/high_chair_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/high_chair_item" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/bath_tub_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/bath_tub"
-                    android:contentDescription="@string/reference_image_bath_tub" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_bath_tub"
+                    android:src="@drawable/bath_tub" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/bath_tub_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/bath_tub_item" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/bouncer_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/bouncer"
-                    android:contentDescription="@string/reference_image_bouncer" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_bouncer"
+                    android:src="@drawable/bouncer" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/bouncer_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/bouncer_item" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/sterilizer_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/list_border"
-                android:foreground="@drawable/selectable_layout"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                style="@style/items_layout" >
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/sterilizer"
-                    android:contentDescription="@string/reference_image_sterilizer" />
+                    style="@style/item_reference_image"
+                    android:contentDescription="@string/reference_image_sterilizer"
+                    android:src="@drawable/sterilizer" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="@string/sterilizer_item"/>
+                    style="@style/item_reference_text"
+                    android:text="@string/sterilizer_item" />
 
             </LinearLayout>
 

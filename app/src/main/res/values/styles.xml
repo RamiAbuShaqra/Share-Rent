@@ -19,5 +19,74 @@
         <item name="colorControlNormal">?android:textColorPrimary</item>
     </style>
 
+    <style name="locations_entry">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:background">@drawable/text_entry_background</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="locations_spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:drawable/btn_dropdown</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:spinnerMode">dropdown</item>
+    </style>
+
+    <style name="dates_entry">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/text_entry_background</item>
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">date</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="items_layout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@drawable/list_border</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">@drawable/selectable_layout</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="item_reference_image">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="item_reference_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">28sp</item>
+    </style>
 
 </resources>

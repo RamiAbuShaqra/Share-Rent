@@ -29,22 +29,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="20dp"
+                android:layout_margin="20dp"
                 android:fontFamily="sans-serif"
                 android:text="@string/intro_text"
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/text_entry_background"
-                android:orientation="horizontal">
+                style="@style/locations_entry" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -57,27 +48,12 @@
 
                 <Spinner
                     android:id="@+id/countries_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:backgroundTint="@android:color/transparent"
-                    android:dropDownWidth="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:inputType="text"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="5dp"
-                    android:spinnerMode="dropdown" />
+                    style="@style/locations_spinner" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/text_entry_background"
-                android:orientation="horizontal">
+                style="@style/locations_entry" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -90,16 +66,7 @@
 
                 <Spinner
                     android:id="@+id/cities_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:backgroundTint="@android:color/transparent"
-                    android:dropDownWidth="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:inputType="text"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="5dp"
-                    android:spinnerMode="dropdown" />
+                    style="@style/locations_spinner" />
 
             </LinearLayout>
 
@@ -110,41 +77,15 @@
 
                 <EditText
                     android:id="@+id/start_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
+                    style="@style/dates_entry"
                     android:autofillHints="Date"
-                    android:background="@drawable/text_entry_background"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="@string/rental_start_hint"
-                    android:inputType="date"
-                    android:padding="10dp" />
+                    android:hint="@string/rental_start_hint" />
 
                 <EditText
                     android:id="@+id/end_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_weight="1"
+                    style="@style/dates_entry"
                     android:autofillHints="Date"
-                    android:background="@drawable/text_entry_background"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="center"
-                    android:hint="@string/rental_end_hint"
-                    android:inputType="date"
-                    android:padding="10dp" />
+                    android:hint="@string/rental_end_hint" />
 
             </LinearLayout>
 

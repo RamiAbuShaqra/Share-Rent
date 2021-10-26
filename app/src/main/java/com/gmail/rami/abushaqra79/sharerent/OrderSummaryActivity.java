@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -106,6 +107,34 @@ public class OrderSummaryActivity extends AppCompatActivity {
         makeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (items.size() == 0) {
+                    Toast.makeText(OrderSummaryActivity.this,
+                            "There are no items in the shopping cart !!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(OrderSummaryActivity.this);
+                builder.setMessage("Are you sure you want to proceed to rent these items?\n" +
+                        "\nSelect 'Yes' to place an order to suppliers, or select 'No' to cancel.")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                test();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                            }
+                        });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
 //                int totalItemsQuantity = 0;
 //                SelectedItemActivity.itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
 //
@@ -129,10 +158,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
 //
 //                updateSummaryActivity();
 //
-//                if (totalItemsQuantity == 0) {
-//                    Toast toast = Toast.makeText(OrderSummaryActivity.this, "There are no items in the shopping cart !!", Toast.LENGTH_SHORT);
-//                    toast.show();
-//                } else {
 //                    String url = null;
 //                    try {
 //                        url = "https://api.whatsapp.com/send?phone=" + MOBILE_NUMBER + "&text=" + URLEncoder.encode(message, "UTF-8");
@@ -147,10 +172,14 @@ public class OrderSummaryActivity extends AppCompatActivity {
         });
     }
 
-    public void updateSummaryActivity() {
+    private void updateSummaryActivity() {
         Intent intent = getIntent();
         finish();
         startActivity(intent);
         overridePendingTransition(0, 0);
+    }
+
+    private void test() {
+        Toast.makeText(OrderSummaryActivity.this, "this is test", Toast.LENGTH_LONG).show();
     }
 }
