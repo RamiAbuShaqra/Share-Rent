@@ -19,6 +19,7 @@
         <item name="colorControlNormal">?android:textColorPrimary</item>
     </style>
 
+    <!-- The container layout for location spinners -->
     <style name="locations_entry">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -29,6 +30,7 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!-- The spinners in which we can select countries and cities -->
     <style name="locations_spinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -42,6 +44,7 @@
         <item name="android:spinnerMode">dropdown</item>
     </style>
 
+    <!-- The edit text fields in which we enter the start and end rental dates -->
     <style name="dates_entry">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -59,6 +62,7 @@
         <item name="android:padding">10dp</item>
     </style>
 
+    <!-- The layout of displayed items -->
     <style name="items_layout">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">20dp</item>
@@ -72,6 +76,7 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!-- The reference images of baby gear items -->
     <style name="item_reference_image">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -80,6 +85,7 @@
         <item name="android:padding">10dp</item>
     </style>
 
+    <!-- The reference texts of baby gear items -->
     <style name="item_reference_text">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -87,6 +93,68 @@
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">28sp</item>
+    </style>
+
+    <!-- FrameLayout for 'Continue' buttons -->
+    <style name="continue_buttons_frame_layout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@drawable/btn_background</item>
+    </style>
+
+    <!-- 'Continue' buttons -->
+    <style name="continue_buttons">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:text">@string/continue_button</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- FrameLayout for action buttons, like login, sign-up, reset password,
+    order confirmation, select image from gallery, etc.. -->
+    <style name="action_buttons_frame_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@color/color_primary</item>
+    </style>
+
+    <!-- Action buttons, like login, sign-up, reset password, order confirmation,
+    select image from gallery, etc.. -->
+    <style name="action_buttons">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>
