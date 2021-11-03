@@ -17,9 +17,7 @@ import java.util.ArrayList;
 
 public class OrderSummaryActivity extends AppCompatActivity {
 
-    private final String MOBILE_NUMBER = "+962795828385";
-    private String message;
-
+    private static final String TAG = OrderSummaryActivity.class.getSimpleName();
     private ArrayList<BabyGear> items;
     private ArrayList<User> users;
 
@@ -119,7 +117,9 @@ public class OrderSummaryActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                test();
+                                Intent intent = new Intent(OrderSummaryActivity.this,
+                                        OrderConfirmationActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -134,9 +134,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
 
-
-//                int totalItemsQuantity = 0;
-//                SelectedItemActivity.itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
 //
 //                StringBuilder builder = new StringBuilder();
 //                builder = builder.append("Hi..").append("\nI want to make the below order:\n");
@@ -149,24 +146,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
 //                }
 //
 //                message = builder.toString();
-//
-//                int resetTheCart = PreferenceActivity.CartPreferenceFragment.updateCart(MainActivity.RESET_THE_CART);
-//                MainActivity.cartTV.setText(String.valueOf(resetTheCart));
-//
-//                SelectedItemActivity.itemsToRent.clear();
-//                PreferenceActivity.CartPreferenceFragment.addItemToPreference(SelectedItemActivity.itemsToRent);
-//
-//                updateSummaryActivity();
-//
-//                    String url = null;
-//                    try {
-//                        url = "https://api.whatsapp.com/send?phone=" + MOBILE_NUMBER + "&text=" + URLEncoder.encode(message, "UTF-8");
-//                    } catch (UnsupportedEncodingException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-//                    sendIntent.setData(Uri.parse(url));
-//                    startActivity(sendIntent);
 //                }
             }
         });
@@ -177,9 +156,5 @@ public class OrderSummaryActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
         overridePendingTransition(0, 0);
-    }
-
-    private void test() {
-        Toast.makeText(OrderSummaryActivity.this, "this is test", Toast.LENGTH_LONG).show();
     }
 }

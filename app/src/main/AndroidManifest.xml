@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gmail.rami.abushaqra79.sharerent">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="com.gmail.rami.abushaqra79.MyApplication"
@@ -14,9 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShareRent">
         <activity
+            android:name=".OrderConfirmationActivity"
+            android:exported="true"
+            android:parentActivityName=".OrderSummaryActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".OrderSummaryActivity" />
+        </activity>
+        <activity
             android:name=".OrderSummaryActivity"
-            android:exported="false"
-            android:launchMode="singleInstance" />
+            android:exported="false" />
         <activity
             android:name=".PreferenceActivity"
             android:exported="false" />
