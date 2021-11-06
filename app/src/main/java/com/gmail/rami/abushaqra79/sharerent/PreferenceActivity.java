@@ -153,5 +153,43 @@ public class PreferenceActivity extends AppCompatActivity {
                 return new ArrayList<>();
             } else return users;
         }
+
+        /**
+         * Save the orders separately (each order will be for only ONE
+         * items provider for his items).
+         *
+         * @param orders the list of separate orders.
+         */
+        public static void addOrder(ArrayList<Order> orders) {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
+            SharedPreferences.Editor editor = prefs.edit();
+
+            Gson gson = new Gson();
+            String json = gson.toJson(orders);
+
+            editor.putString("single_order", json);
+            editor.apply();
+        }
+
+        /**
+         * Get the list of orders to be placed. Each order should be for only one items provider.
+         *
+         * @return the list of orders to be placed.
+         */
+        public static ArrayList<Order> getOrders() {
+            SharedPreferences prefs = PreferenceManager
+                    .getDefaultSharedPreferences(MyApplication.getAppContext());
+            String json = prefs.getString("single_order", "");
+
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Order>>() {}.getType();
+
+            ArrayList<Order> orders = gson.fromJson(json, type);
+
+            if (orders == null){
+                return new ArrayList<>();
+            } else return orders;
+        }
     }
 }

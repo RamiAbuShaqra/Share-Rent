@@ -21,4 +21,9 @@
         android:key="items_providers"
         android:title="Provider of the items to be ordered" />
 
+    <ListPreference
+        android:defaultValue=""
+        android:key="single_order"
+        android:title="Items to be ordered from a single item provider" />
+
 </PreferenceScreen>

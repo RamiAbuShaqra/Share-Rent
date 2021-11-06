@@ -20,6 +20,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
     private static final String TAG = OrderSummaryActivity.class.getSimpleName();
     private ArrayList<BabyGear> items;
     private ArrayList<User> users;
+    private ArrayList<Order> orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
         orderSummaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BabyGear deletedItem = adapter.getItem(position);
                 long viewId = view.getId();
 
                 if (viewId == R.id.delete_item) {
@@ -76,8 +78,37 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                     PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
 
                                     users = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
+                                    String email = users.get(position).getEmail();
+                                    String name = users.get(position).getName();
+                                    String phone = users.get(position).getPhoneNumber();
+                                    String picture = users.get(position).getProfilePictureUrl();
                                     users.remove(position);
                                     PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
+
+                                    orders = PreferenceActivity.CartPreferenceFragment.getOrders();
+                                    int index = 0;
+                                    ArrayList<BabyGear> gears = new ArrayList<>();
+                                    for (int i = 0; i < orders.size(); i++) {
+                                        ArrayList<BabyGear> list = orders.get(i).getListItems();
+                                        for (int j = 0; j < list.size(); j++) {
+                                            if (list.get(j).getBabyGearType().equals(deletedItem.getBabyGearType())
+                                                    && list.get(j).getBabyGearDescription()
+                                                            .equals(deletedItem.getBabyGearDescription())) {
+                                                index = i;
+                                                list.remove(j);
+                                                gears = list;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (gears.size() == 0) {
+                                        orders.remove(index);
+                                    } else {
+                                        Order order = new Order(email, name, phone, picture, gears);
+                                        orders.set(index, order);
+                                    }
+                                    PreferenceActivity.CartPreferenceFragment.addOrder(orders);
 
                                     int shoppingCart = PreferenceActivity.CartPreferenceFragment
                                             .updateCart(-1);
@@ -133,20 +164,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-//
-//                StringBuilder builder = new StringBuilder();
-//                builder = builder.append("Hi..").append("\nI want to make the below order:\n");
-//
-//                for (int i = 0; i < SelectedItemActivity.itemsToRent.size(); i++) {
-//                    builder = builder.append("\nPerfume # ").append(i + 1).append(" ------ Quantity: ")
-//                            .append(SelectedItemActivity.itemsToRent.get(i));
-//
-//                    //totalItemsQuantity += SelectedItemActivity.itemsToRent.get(i);
-//                }
-//
-//                message = builder.toString();
-//                }
             }
         });
     }

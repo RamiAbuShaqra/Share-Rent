@@ -20,6 +20,7 @@ public class SelectedItemActivity extends MainActivity {
 
     private ArrayList<BabyGear> itemsToRent;
     private ArrayList<User> itemsProviders;
+    private ArrayList<Order> orders;
 
     /**
      * Obtain the previous instance of ReviewItemsOptions.java from the back stack
@@ -85,6 +86,31 @@ public class SelectedItemActivity extends MainActivity {
                 itemsProviders = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
                 itemsProviders.add(new User(email, name, phone, location, picture));
                 PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(itemsProviders);
+
+                orders = PreferenceActivity.CartPreferenceFragment.getOrders();
+                if (orders.size() > 0) {
+                    boolean newSupplier = true;
+                    for (int i = 0; i < orders.size(); i++) {
+                        if (orders.get(i).getSupplierEmail().equals(email)) {
+                            orders.get(i).getListItems().add(
+                                    new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+                            newSupplier = false;
+                        }
+                    }
+                    if (newSupplier) {
+                        ArrayList<BabyGear> gears = new ArrayList<>();
+                        gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+
+                        orders.add(new Order(email, name, phone, picture, gears));
+                    }
+                } else {
+                    ArrayList<BabyGear> gears = new ArrayList<>();
+                    gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+
+                    orders.add(new Order(email, name, phone, picture, gears));
+                }
+
+                PreferenceActivity.CartPreferenceFragment.addOrder(orders);
 
                 vibrator.vibrate(100);
 
