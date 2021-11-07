@@ -53,7 +53,30 @@ public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
         SupplierItemsAdapter adapter = new SupplierItemsAdapter(context,
                 R.layout.single_supplier_items_details, currentOrder.getListItems());
         ListView itemsList = convertView.findViewById(R.id.items_for_single_supplier);
+        itemsList.getLayoutParams().height = currentOrder.getListItems().size() * 300;
         itemsList.setAdapter(adapter);
+
+        double total = 0;
+        int numberOfDays = PreferenceActivity.CartPreferenceFragment.getNumberOfRentDays();
+
+        for (int i = 0; i < currentOrder.getListItems().size(); i++) {
+            total += Integer.parseInt(currentOrder.getListItems().get(i).getRentPrice());
+        }
+
+        TextView totalPrice = convertView.findViewById(R.id.total_price);
+        totalPrice.setText(String.valueOf(total * numberOfDays));
+
+        TextView placeOrder = convertView.findViewById(R.id.place_order);
+
+        // setting OnClickListener to the placeOrder textview.
+        // The trick is to call performItemClick and pass this view.
+        // We will be able to catch this view in onItemClickListener’s onItemClick method.
+        // According to the official doc, performItemClick method calls the OnItemClickListener
+        // if it is defined.
+        placeOrder.setOnClickListener(v -> {
+            // Let the event be handled in onItemClick()
+            ((ListView) parent).performItemClick(v, position, 0);
+        });
 
         return convertView;
     }

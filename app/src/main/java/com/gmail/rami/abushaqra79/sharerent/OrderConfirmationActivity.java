@@ -1,11 +1,9 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,31 +11,22 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
-import com.google.firebase.FirebaseOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class OrderConfirmationActivity extends AppCompatActivity {
 
     private static final String TAG = OrderConfirmationActivity.class.getSimpleName();
-    private FirebaseFunctions functions;
     private FirebaseFirestore db;
     private ProgressBar progressBar;
     private ArrayList<BabyGear> items;
@@ -53,146 +42,60 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirmation);
 
-        functions = FirebaseFunctions.getInstance();
-
         db = FirebaseFirestore.getInstance();
 
         items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
         users = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
-
-        TextView confirm = findViewById(R.id.tttttttttt);
-//        progressBar = findViewById(R.id.progress_bar);
-
-
         orders = PreferenceActivity.CartPreferenceFragment.getOrders();
-        SeparateOrdersAdapter adapter = new SeparateOrdersAdapter(this, R.layout.separate_order_details, orders);
+
+        progressBar = findViewById(R.id.progress_bar);
+
+        SeparateOrdersAdapter adapter = new SeparateOrdersAdapter(this,
+                R.layout.separate_order_details, orders);
         ListView separateOrders = findViewById(R.id.separate_orders_list_view);
         separateOrders.setAdapter(adapter);
 
-
-
-
-
-
-        completeCustomerInfo();
-
-
-
-
-
-
-
-        confirm.setOnClickListener(new View.OnClickListener() {
+        separateOrders.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Order currentOrder = adapter.getItem(position);
 
-                progressBar.setVisibility(View.VISIBLE);
+                long viewId = view.getId();
 
-                //splitOrders();
+                if (viewId == R.id.place_order) {
+                    if (TextUtils.isEmpty(customerName) && TextUtils.isEmpty(customerEmail) &&
+                            TextUtils.isEmpty(customerPhone)) {
+                        completeCustomerInfo(currentOrder);
+                    } else {
+                        progressBar.setVisibility(View.VISIBLE);
 
-                for (int i = 0; i < items.size(); i++) {
-                    String supplierName = users.get(i).getName();
-                    String supplierEmail = users.get(i).getEmail();
-                    String itemType = items.get(i).getBabyGearType();
-                    String itemDescription = items.get(i).getBabyGearDescription();
-                    String itemRentPrice = items.get(i).getRentPrice();
-
-                    sendEmail(supplierName, supplierEmail, itemType, itemDescription, itemRentPrice,
-                            customerName, customerEmail, customerPhone);
-
-//                    sendEmail(supplierName, supplierEmail, itemType, itemDescription, itemRentPrice,
-//                            customerName, customerEmail, customerPhone)
-//                            .addOnCompleteListener(new OnCompleteListener<String>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<String> task) {
-//                                    if (!task.isSuccessful()) {
-//                                        Exception e = task.getException();
-//                                        Log.e(TAG, "sendEmail:onFailure", e);
-//
-//                                        progressBar.setVisibility(View.INVISIBLE);
-//
-//                                        Toast.makeText(OrderConfirmationActivity.this,
-//                                                "An error occurred.\nPlease try again.",
-//                                                Toast.LENGTH_LONG).show();
-//                                        return;
-//                                    }
-//
-//                                    progressBar.setVisibility(View.INVISIBLE);
-//
-//                                    AlertDialog.Builder builder = new AlertDialog.Builder(OrderConfirmationActivity.this);
-//                                    builder.setMessage("The order was placed. The items provider " +
-//                                            "will contact you soon for the delivery arrangements.\n" +
-//                                            "\nThe payment will be 'cash on delivery' directly to the " +
-//                                            "items provider.")
-//                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                                @Override
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    int resetTheCart = PreferenceActivity.CartPreferenceFragment
-//                                                            .updateCart(MainActivity.RESET_THE_CART);
-//                                                    MainActivity.cartTV.setText(String.valueOf(resetTheCart));
-//
-//
-//                                                    items.clear();
-//                                                    PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
-//
-//
-//                                                    users.clear();
-//                                                    PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
-//
-//                                                    Intent intent = new Intent(OrderConfirmationActivity.this, MainActivity.class);
-//                                                    startActivity(intent);
-//
-//                                                    if (dialog != null) {
-//                                                        dialog.dismiss();
-//                                                    }
-//                                                }
-//                                            });
-//
-//                                    AlertDialog alertDialog = builder.create();
-//                                    alertDialog.show();
-//                                }
-//                            });
+                        sendEmail(currentOrder);
+                    }
                 }
-
             }
         });
     }
 
-//    private Task<String> sendEmail(String supplierName, String supplierEmail,
-//                                   String itemType, String itemDescription, String itemRentPrice,
-//                                   String customerName, String customerEmail, String customerPhone) {
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("Name", "Omar Osama");
-//        data.put("iiemail", "rami.abushaqra79@gmail.com");
-//        data.put("Item Type", itemType);
-//        data.put("Item Description", itemDescription);
-//        data.put("Item Rent Price", itemRentPrice);
-//        data.put("Customer Name", customerName);
-//        data.put("Customer Email", customerEmail);
-//        data.put("Customer Phone Number", customerPhone);
-//
-//        return functions
-//                .getHttpsCallable("sendEmail")
-//                .call(data)
-//                .continueWith(new Continuation<HttpsCallableResult, String>() {
-//                    @Override
-//                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-//                        return (String) task.getResult().getData();
-//                    }
-//                });
-//    }
+    private void sendEmail(Order order) {
+        String supplierEmail = order.getSupplierEmail();
+        String supplierName = order.getSupplierName();
+        ArrayList<BabyGear> list = order.getListItems();
 
-    private void sendEmail(String supplierName, String supplierEmail,
-                           String itemType, String itemDescription, String itemRentPrice,
-                           String customerName, String customerEmail, String customerPhone) {
+        StringBuilder text = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            text.append(list.get(i).getBabyGearType()).append(" - ")
+                    .append(list.get(i).getBabyGearDescription()).append("<br>");
+        }
+
+        String itemDetails = text.toString();
+
         Map<String, Object> mail = new HashMap<>();
         mail.put("to", supplierEmail);
         Map<String, Object> message = new HashMap<>();
         message.put("subject", "Share Rent - New Order");
-        //message.put("text", "This is the plaintext section of the email body.");
         message.put("html", "Hi " + supplierName + "," +
                 "<br><br>You have a new order for the below item(s):" +
-                "<br>" + itemType + " - " + itemDescription +
+                "<br>" + itemDetails +
                 "<br><br>Below is the customer information:" +
                 "<br>Name: " + customerName +
                 "<br>E-mail: " + customerEmail +
@@ -225,20 +128,29 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-//                            int resetTheCart = PreferenceActivity.CartPreferenceFragment
-//                                    .updateCart(MainActivity.RESET_THE_CART);
-//                            MainActivity.cartTV.setText(String.valueOf(resetTheCart));
-//
-//
-//                            items.clear();
-//                            PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
-//
-//
-//                            users.clear();
-//                            PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
-//
-//                            Intent intent = new Intent(OrderConfirmationActivity.this, MainActivity.class);
-//                            startActivity(intent);
+                            ArrayList<Integer> indices = new ArrayList<>();
+
+                            for (int i = 0; i < order.getListItems().size(); i++) {
+                                int index = checkForMatch(order.getListItems().get(i));
+                                if (index != -1) {
+                                    indices.add(index);
+                                }
+                            }
+
+                            for (int i = indices.size() - 1; i >= 0; i--) {
+                                items.remove((int) indices.get(i));
+                                users.remove((int) indices.get(i));
+                            }
+
+                            orders.remove(order);
+
+                            int shoppingCart = PreferenceActivity.CartPreferenceFragment
+                                    .updateCart(indices.size() * -1);
+                            MainActivity.cartTV.setText(String.valueOf(shoppingCart));
+
+                            PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
+                            PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
+                            PreferenceActivity.CartPreferenceFragment.addOrder(orders);
 
                             if (dialog != null) {
                                 dialog.dismiss();
@@ -251,11 +163,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-    private void completeCustomerInfo() {
+    private void completeCustomerInfo(Order order) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.customer_information_dialog, null);
         builder.setView(dialogView)
@@ -353,6 +261,8 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(customerName) && !TextUtils.isEmpty(customerEmail) &&
                         Patterns.EMAIL_ADDRESS.matcher(customerEmail).matches() &&
                         !TextUtils.isEmpty(customerPhone)) {
+                    sendEmail(order);
+                    progressBar.setVisibility(View.VISIBLE);
                     wantToCloseDialog = true;
                 }
 
@@ -363,43 +273,19 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         });
     }
 
+    private int checkForMatch(BabyGear babyGear) {
+        int index = -1;
 
-
-
-
-    private void splitOrders() {
-        ArrayList<BabyGear> stuff = items;
-        ArrayList<User> suppliers = users;
-        ArrayList<Integer> index = new ArrayList<>();
-        ArrayList<Map> maps = new ArrayList<>();
-
-        while (suppliers.size() != 0) {
-            Map<Object, Object> map = new HashMap<>();
-            map.put(suppliers.get(0), stuff.get(0));
-
-            index.add(0);
-
-            for (int i = 0; i < suppliers.size(); i++) {
-                if (i + 1 == suppliers.size()) {
-                    break;
-                } else if (suppliers.get(0).getEmail().equals(suppliers.get(i + 1).getEmail())) {
-                    map.put(suppliers.get(0), stuff.get(i + 1));
-
-                    index.add(i + 1);
-                }
-            }
-
-            for (int j = 0; j < index.size(); j++) {
-                if (index.get(j) != null) {
-                    stuff.remove(index.get(j));
-                    suppliers.remove(index.get(j));
-                }
-
-                index.clear();
-                maps.add(map);
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getBabyGearDescription().equals(babyGear.getBabyGearDescription()) &&
+                    items.get(i).getBabyGearType().equals(babyGear.getBabyGearType()) &&
+                    items.get(i).getRentPrice().equals(babyGear.getRentPrice()) &&
+                    items.get(i).getImageUrl().equals(babyGear.getImageUrl()) &&
+                    items.get(i).getStoragePath().equals(babyGear.getStoragePath())) {
+                index = i;
             }
         }
 
-        Log.e(TAG, "------------ " + maps.toString());
+        return index;
     }
 }

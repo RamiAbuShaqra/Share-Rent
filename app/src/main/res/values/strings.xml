@@ -111,7 +111,7 @@
     <string name="action_change_password">Change password</string>
     <string name="action_delete_account">Delete account</string>
     <string name="action_select_from_gallery">Select from gallery</string>
-    <string name="action_confirm_order">Confirm</string>
+    <string name="action_place_order">Place Order</string>
 
     <!-- EditTexts and TextViews hints and autofill -->
     <string name="rental_start_hint">Rental start</string>
@@ -188,5 +188,7 @@
     <string name="menu_Login_status">Login Status</string>
     <string name="menu_shopping_cart">Shopping Cart</string>
     <string name="customer_contact_details">Please enter your contact details</string>
+    <string name="place_order_header">You need to place an order for each items provider separately</string>
+    <string name="rent_price">Rent Price</string>
 
 </resources>
