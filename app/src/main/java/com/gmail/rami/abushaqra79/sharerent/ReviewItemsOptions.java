@@ -3,7 +3,10 @@ package com.gmail.rami.abushaqra79.sharerent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,6 +60,19 @@ public class ReviewItemsOptions extends MainActivity {
 
         progressBar = findViewById(R.id.loading_spinner);
         emptyStateTextView = findViewById(R.id.empty_view);
+
+        // Get a reference to the ConnectivityManager to check state of network connectivity
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        // If there is no network connection, notify the user
+        if (activeNetwork == null || !activeNetwork.isConnected()) {
+            progressBar.setVisibility(View.GONE);
+            emptyStateTextView.setText(R.string.no_internet_connection);
+        }
+
         listView = findViewById(R.id.review_items_list);
         listView.setEmptyView(emptyStateTextView);
 
@@ -126,7 +142,7 @@ public class ReviewItemsOptions extends MainActivity {
                 }
 
                 progressBar.setVisibility(View.GONE);
-                emptyStateTextView.setText("No results found.");
+                emptyStateTextView.setText(R.string.no_results_found);
 
                 BabyGearAdapter adapter = new BabyGearAdapter(ReviewItemsOptions.this,
                         R.layout.baby_gear_details, results, false);

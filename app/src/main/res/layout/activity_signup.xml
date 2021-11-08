@@ -12,23 +12,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/header_text"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="40dp"
-            android:fontFamily="sans-serif"
+            android:gravity="center"
             android:text="@string/create_account"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp">
+            style="@style/text_input_layout"
+            android:layout_marginTop="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
@@ -42,11 +37,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            style="@style/text_input_layout"
+            android:layout_marginTop="0dp"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -61,11 +53,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirm_password_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
+            style="@style/text_input_layout"
+            android:layout_marginTop="0dp"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText

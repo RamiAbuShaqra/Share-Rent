@@ -26,10 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:fontFamily="sans-serif"
+                style="@style/header_text"
                 android:text="@string/intro_text"
                 android:textSize="16sp" />
 

@@ -9,26 +9,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/header_text"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:fontFamily="sans-serif"
             android:text="@string/customer_contact_details"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp">
+            style="@style/text_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/your_name"
@@ -42,12 +32,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp">
+            style="@style/text_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/your_email"
@@ -61,12 +46,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phone_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp">
+            style="@style/text_input_layout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/your_phone"

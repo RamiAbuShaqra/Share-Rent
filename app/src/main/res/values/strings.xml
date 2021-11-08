@@ -190,5 +190,7 @@
     <string name="customer_contact_details">Please enter your contact details</string>
     <string name="place_order_header">You need to place an order for each items provider separately</string>
     <string name="rent_price">Rent Price</string>
+    <string name="no_internet_connection">No internet connection.</string>
+    <string name="no_results_found">No results found.</string>
 
 </resources>
