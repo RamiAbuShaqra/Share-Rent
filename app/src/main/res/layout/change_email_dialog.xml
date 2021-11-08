@@ -15,11 +15,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/new_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/email_input_edit_text"
             android:hint="@string/new_email_hint"
-            android:autofillHints="emailAddress"
-            android:inputType="textEmailAddress"/>
+            android:autofillHints="Email Address" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

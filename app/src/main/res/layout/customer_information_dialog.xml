@@ -22,11 +22,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/your_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="Full name"
-                android:hint="@string/customer_full_name"
-                android:inputType="textCapWords" />
+                style="@style/name_input_edit_text"
+                android:autofillHints="Full Name"
+                android:hint="@string/customer_full_name" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,11 +34,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/your_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/email_input_edit_text"
                 android:autofillHints="Email Address"
-                android:hint="@string/customer_email"
-                android:inputType="textEmailAddress" />
+                android:hint="@string/customer_email" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,11 +46,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/your_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/phone_input_edit_text"
                 android:autofillHints="Phone Number"
-                android:hint="@string/customer_phone_number"
-                android:inputType="phone" />
+                android:hint="@string/customer_phone_number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

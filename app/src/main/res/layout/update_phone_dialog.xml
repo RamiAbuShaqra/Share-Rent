@@ -16,12 +16,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/update_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/phone_input_edit_text"
             android:textSize="18sp"
-            android:hint="@string/phone_number_hint"
-            android:autofillHints="User phone number"
-            android:inputType="phone"/>
+            android:autofillHints="User Phone Number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

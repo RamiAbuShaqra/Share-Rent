@@ -58,7 +58,7 @@ public class ReviewItemsOptions extends MainActivity {
         results = new ArrayList<>();
         users = new ArrayList<>();
 
-        progressBar = findViewById(R.id.loading_spinner);
+        progressBar = findViewById(R.id.progress_bar);
         emptyStateTextView = findViewById(R.id.empty_view);
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
