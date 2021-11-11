@@ -82,6 +82,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                     String name = users.get(position).getName();
                                     String phone = users.get(position).getPhoneNumber();
                                     String picture = users.get(position).getProfilePictureUrl();
+                                    String token = users.get(position).getToken();
                                     users.remove(position);
                                     PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
 
@@ -105,7 +106,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
                                     if (gears.size() == 0) {
                                         orders.remove(index);
                                     } else {
-                                        Order order = new Order(email, name, phone, picture, gears);
+                                        Order order = new Order(email, name, phone, picture, token, gears);
                                         orders.set(index, order);
                                     }
                                     PreferenceActivity.CartPreferenceFragment.addOrder(orders);

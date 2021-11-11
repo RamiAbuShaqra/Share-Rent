@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -158,9 +159,10 @@ public class SignupActivity extends AppCompatActivity {
                                         String phoneNumber = "";
                                         String location = "";
                                         String profilePictureUrl = "";
+                                        String token = FirebaseMessaging.getInstance().getToken().getResult();
 
                                         User newUser = new User(enteredEmail, name, phoneNumber,
-                                                location, profilePictureUrl);
+                                                location, profilePictureUrl, token);
 
                                         ReadAndWriteDatabase rwd =
                                                 new ReadAndWriteDatabase(SignupActivity.this);

@@ -7,14 +7,16 @@ public class Order {
     private final String supplierName;
     private final String phoneNumber;
     private final String photoUrl;
+    private final String supplierToken;
     private final ArrayList<BabyGear> listItems;
 
     public Order(String supplierEmail, String supplierName, String phoneNumber, String photoUrl,
-                 ArrayList<BabyGear> listItems) {
+                 String supplierToken, ArrayList<BabyGear> listItems) {
         this.supplierEmail = supplierEmail;
         this.supplierName = supplierName;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
+        this.supplierToken = supplierToken;
         this.listItems = listItems;
     }
 
@@ -32,6 +34,10 @@ public class Order {
 
     public String getPhotoUrl() {
         return photoUrl;
+    }
+
+    public String getSupplierToken() {
+        return supplierToken;
     }
 
     public ArrayList<BabyGear> getListItems() {

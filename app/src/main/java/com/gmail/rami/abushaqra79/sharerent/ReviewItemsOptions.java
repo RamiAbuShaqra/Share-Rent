@@ -131,7 +131,10 @@ public class ReviewItemsOptions extends MainActivity {
                                             String picture = child.child("user-info")
                                                     .child("profilePictureUrl").getValue().toString();
 
-                                            User user = new User(email, name, phone, location, picture);
+                                            String token = child.child("user-info")
+                                                    .child("token").getValue().toString();
+
+                                            User user = new User(email, name, phone, location, picture, token);
                                             users.add(user);
                                         }
                                     }
@@ -167,6 +170,7 @@ public class ReviewItemsOptions extends MainActivity {
                         intent.putExtra("Item Provider Phone Number", currentUser.getPhoneNumber());
                         intent.putExtra("Item Provider Location", currentUser.getLocation());
                         intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
+                        intent.putExtra("Item Provider Token", currentUser.getToken());
 
                         startActivity(intent);
                     }

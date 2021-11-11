@@ -1,5 +1,6 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,8 +18,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +32,9 @@ import java.util.Map;
 public class OrderConfirmationActivity extends AppCompatActivity {
 
     private static final String TAG = OrderConfirmationActivity.class.getSimpleName();
+
     private FirebaseFirestore db;
+    private FirebaseFunctions functions;
     private ProgressBar progressBar;
     private ArrayList<BabyGear> items;
     private ArrayList<User> users;
@@ -43,6 +50,8 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_confirmation);
 
         db = FirebaseFirestore.getInstance();
+
+        functions = FirebaseFunctions.getInstance();
 
         items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
         users = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
@@ -79,6 +88,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private void sendEmail(Order order) {
         String supplierEmail = order.getSupplierEmail();
         String supplierName = order.getSupplierName();
+        String token = order.getSupplierToken();
         ArrayList<BabyGear> list = order.getListItems();
 
         StringBuilder text = new StringBuilder();
@@ -151,6 +161,8 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                             PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
                             PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
                             PreferenceActivity.CartPreferenceFragment.addOrder(orders);
+
+                            sendToken(token);
 
                             if (dialog != null) {
                                 dialog.dismiss();
@@ -287,5 +299,24 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         }
 
         return index;
+    }
+
+    private void sendToken(String token) {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", token);
+
+        functions
+                .getHttpsCallable("sendToken")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        return  (String) task.getResult().getData();
+                    }
+                });
     }
 }

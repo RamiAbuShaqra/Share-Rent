@@ -10,17 +10,20 @@ public class User {
     private String phoneNumber;
     private String location;
     private String profilePictureUrl;
+    private String token;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String email, String name, String phoneNumber, String location, String profilePictureUrl) {
+    public User(String email, String name, String phoneNumber, String location,
+                String profilePictureUrl, String token) {
         this.email = email;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.location = location;
         this.profilePictureUrl = profilePictureUrl;
+        this.token = token;
     }
 
     public String getEmail() {
@@ -41,5 +44,9 @@ public class User {
 
     public String getProfilePictureUrl() {
         return profilePictureUrl;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

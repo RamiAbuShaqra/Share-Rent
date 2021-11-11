@@ -54,6 +54,7 @@ public class SelectedItemActivity extends MainActivity {
         String phone = bundle.getString("Item Provider Phone Number");
         String location = bundle.getString("Item Provider Location");
         String picture = bundle.getString("Item Provider Picture");
+        String token = bundle.getString("Item Provider Token");
 
         ImageView photo = findViewById(R.id.selected_item_photo);
         TextView details = findViewById(R.id.selected_item_description);
@@ -84,7 +85,7 @@ public class SelectedItemActivity extends MainActivity {
                 PreferenceActivity.CartPreferenceFragment.addItemToPreference(itemsToRent);
 
                 itemsProviders = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
-                itemsProviders.add(new User(email, name, phone, location, picture));
+                itemsProviders.add(new User(email, name, phone, location, picture, token));
                 PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(itemsProviders);
 
                 orders = PreferenceActivity.CartPreferenceFragment.getOrders();
@@ -101,13 +102,13 @@ public class SelectedItemActivity extends MainActivity {
                         ArrayList<BabyGear> gears = new ArrayList<>();
                         gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
-                        orders.add(new Order(email, name, phone, picture, gears));
+                        orders.add(new Order(email, name, phone, picture, token, gears));
                     }
                 } else {
                     ArrayList<BabyGear> gears = new ArrayList<>();
                     gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
-                    orders.add(new Order(email, name, phone, picture, gears));
+                    orders.add(new Order(email, name, phone, picture, token, gears));
                 }
 
                 PreferenceActivity.CartPreferenceFragment.addOrder(orders);
