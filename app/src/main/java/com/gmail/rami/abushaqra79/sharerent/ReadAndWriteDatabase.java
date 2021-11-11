@@ -19,6 +19,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
@@ -56,6 +57,13 @@ public class ReadAndWriteDatabase {
      */
     public void createUser(String userId, User user) {
         databaseReference.child(userId).child("user-info").setValue(user);
+    }
+
+    public void refreshToken(String userId) {
+        if (!TextUtils.isEmpty(userId)) {
+            String token = FirebaseMessaging.getInstance().getToken().getResult();
+            databaseReference.child(userId).child("user-info").child("token").setValue(token);
+        }
     }
 
     public void readProfileInfoForUser(String userId, ValueEventListener listener) {

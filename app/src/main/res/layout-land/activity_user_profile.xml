@@ -21,19 +21,12 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center_horizontal"
+                style="@style/card_view"
                 app:cardCornerRadius="65dp">
 
                 <ImageView
                     android:id="@+id/profile_picture"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/user_photo"
-                    android:background="?android:attr/selectableItemBackground"
+                    style="@style/user_profile_picture"
                     android:contentDescription="@string/registered_user_profile_picture"/>
             </androidx.cardview.widget.CardView>
 
@@ -64,12 +57,7 @@
 
                 <ImageView
                     android:id="@+id/edit_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:src="@drawable/edit_pen"
-                    android:background="?android:attr/selectableItemBackground"
+                    style="@style/edit_pen"
                     android:contentDescription="@string/editing_pen_symbol" />
 
             </LinearLayout>
@@ -101,12 +89,7 @@
 
                 <ImageView
                     android:id="@+id/edit_phone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:src="@drawable/edit_pen"
-                    android:background="?android:attr/selectableItemBackground"
+                    style="@style/edit_pen"
                     android:contentDescription="@string/editing_pen_symbol" />
 
             </LinearLayout>
@@ -138,12 +121,7 @@
 
                 <ImageView
                     android:id="@+id/edit_location"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:src="@drawable/edit_pen"
-                    android:background="?android:attr/selectableItemBackground"
+                    style="@style/edit_pen"
                     android:contentDescription="@string/editing_pen_symbol" />
 
             </LinearLayout>

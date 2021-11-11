@@ -117,6 +117,9 @@ public class UserProfileActivity extends MainActivity {
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
+        rwd = new ReadAndWriteDatabase(this);
+        rwd.refreshToken(userId);
+
         profilePicture = findViewById(R.id.profile_picture);
         profilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,7 +444,6 @@ public class UserProfileActivity extends MainActivity {
             }
         });
 
-        rwd = new ReadAndWriteDatabase(this);
         rwd.readProfileInfoForUser(userId, new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
