@@ -36,6 +36,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseFunctions functions;
     private ProgressBar progressBar;
+    private ArrayList<BookingDates> dates;
     private ArrayList<BabyGear> items;
     private ArrayList<User> users;
     private ArrayList<Order> orders;
@@ -53,6 +54,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
 
         functions = FirebaseFunctions.getInstance();
 
+        dates = PreferenceActivity.CartPreferenceFragment.getBookingDates();
         items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
         users = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
         orders = PreferenceActivity.CartPreferenceFragment.getOrders();
@@ -60,7 +62,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
 
         SeparateOrdersAdapter adapter = new SeparateOrdersAdapter(this,
-                R.layout.separate_order_details, orders);
+                R.layout.separate_order_details, orders, dates);
         ListView separateOrders = findViewById(R.id.separate_orders_list_view);
         separateOrders.setAdapter(adapter);
 
@@ -91,12 +93,20 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         String token = order.getSupplierToken();
         ArrayList<BabyGear> list = order.getListItems();
 
+        int totalPrice = 0;
         StringBuilder text = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
-            text.append(list.get(i).getBabyGearType()).append(" - ")
-                    .append(list.get(i).getBabyGearDescription()).append("<br>");
+            text.append("  ").append(i + 1).append(") ").append(list.get(i).getBabyGearType())
+                    .append(" - ").append(list.get(i).getBabyGearDescription()).append(".")
+                    .append("<br>").append("From: ").append(dates.get(i).getStartDate())
+                    .append(" to ").append(dates.get(i).getEndDate()).append(". Rent price is: ")
+                    .append(Double.parseDouble(list.get(i).getRentPrice()) * dates.get(i).getTotalDays())
+                    .append(" $").append("<br>");
+
+            totalPrice += Double.parseDouble(list.get(i).getRentPrice()) * dates.get(i).getTotalDays();
         }
 
+        text.append("Total price: ").append(totalPrice).append("<br><br>");
         String itemDetails = text.toString();
 
         Map<String, Object> mail = new HashMap<>();
@@ -148,6 +158,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                             }
 
                             for (int i = indices.size() - 1; i >= 0; i--) {
+                                dates.remove((int) indices.get(i));
                                 items.remove((int) indices.get(i));
                                 users.remove((int) indices.get(i));
                             }
@@ -158,6 +169,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
                                     .updateCart(indices.size() * -1);
                             MainActivity.cartTV.setText(String.valueOf(shoppingCart));
 
+                            PreferenceActivity.CartPreferenceFragment.addBookingDates(dates);
                             PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);
                             PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(users);
                             PreferenceActivity.CartPreferenceFragment.addOrder(orders);

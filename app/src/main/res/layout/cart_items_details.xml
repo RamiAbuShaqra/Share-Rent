@@ -61,22 +61,62 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="start"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="2dp"
                     android:paddingBottom="8dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    tools:text="Rent Price" />
+                    tools:text="23" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="start"
-                    android:paddingStart="2dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/multiplication"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/number_of_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="start"
+                    android:paddingBottom="8dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="7" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="start"
+                    android:paddingBottom="8dp"
+                    android:text="@string/days_text"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="start"
+                    android:paddingBottom="8dp"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="161" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="start"
+                    android:paddingStart="0dp"
                     android:paddingEnd="8dp"
                     android:paddingBottom="8dp"
-                    android:text="@string/price_per_day"
+                    android:text="@string/currency"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -97,5 +137,27 @@
             android:scaleType="centerCrop" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/trash_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="4dp" >
+
+        <ImageView
+            android:id="@+id/delete_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingStart="25dp"
+            android:paddingEnd="25dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/trash_symbol"
+            android:contentDescription="@string/trash_symbol" />
+
+    </FrameLayout>
 
 </LinearLayout>

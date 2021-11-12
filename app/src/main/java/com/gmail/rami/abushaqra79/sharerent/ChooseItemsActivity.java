@@ -153,10 +153,13 @@ public class ChooseItemsActivity extends MainActivity {
 
             String firstDate1 = startRentalDate.getText().toString();
             String secondDate1 = endRentalDate.getText().toString();
-            numberOfDays(firstDate1, secondDate1);
+            int totalDays = numberOfDays(firstDate1, secondDate1);
 
             Intent intent = new Intent(ChooseItemsActivity.this, ReviewItemsOptions.class);
             intent.putExtra("Destination", travelDestination);
+            intent.putExtra("Start Date", firstDate1);
+            intent.putExtra("End Date", secondDate1);
+            intent.putExtra("Total Days", totalDays);
             intent.putStringArrayListExtra("Selected Items", items);
             startActivity(intent);
         });
@@ -198,13 +201,15 @@ public class ChooseItemsActivity extends MainActivity {
     }
 
     /**
-     * Calculate the number of days between the selected start and selected end dates and then
-     * save it in the Shared Preferences so it can be retrieved when making the order.
+     * Calculate the number of days between the selected start and selected end dates.
      *
      * @param firstDate  is the selected start date.
      * @param secondDate is the selected end date.
+     *
+     * @return The total number of booking days (the difference between start date and end date
+     * in days).
      */
-    private void numberOfDays(String firstDate, String secondDate) {
+    private int numberOfDays(String firstDate, String secondDate) {
         int totalDays = 0;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ROOT);
 
@@ -220,6 +225,7 @@ public class ChooseItemsActivity extends MainActivity {
             e.printStackTrace();
         }
 
-        PreferenceActivity.CartPreferenceFragment.setNumberOfRentDays(totalDays);
+        //PreferenceActivity.CartPreferenceFragment.setNumberOfRentDays(totalDays);
+        return totalDays;
     }
 }

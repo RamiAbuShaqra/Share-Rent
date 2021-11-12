@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,14 +15,18 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
+public class CartItemsAdapter extends ArrayAdapter<BabyGear> {
     private final Context context;
+    private final ArrayList<BookingDates> dates;
 
-    public BabyGearAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects) {
+    public CartItemsAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects,
+                            ArrayList<BookingDates> dates) {
         super(context, resource, objects);
         this.context = context;
+        this.dates = dates;
     }
 
     @NonNull
@@ -28,7 +34,7 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // Check if there is a recycled view to be used, otherwise create one
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.baby_gear_details,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.cart_items_details,
                     parent, false);
         }
 
@@ -43,11 +49,33 @@ public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
         TextView rentPrice = convertView.findViewById(R.id.rent_price);
         rentPrice.setText(currentBabyGear.getRentPrice());
 
+        TextView numberOfDays = convertView.findViewById(R.id.number_of_days);
+        numberOfDays.setText(String.valueOf(dates.get(position).getTotalDays()));
+
+        double finalPrice = Integer.parseInt(currentBabyGear.getRentPrice())
+                * dates.get(position).getTotalDays();
+
+        TextView totalPrice = convertView.findViewById(R.id.total_price);
+        totalPrice.setText(String.valueOf(finalPrice));
+
         ImageView babyGearPhoto = convertView.findViewById(R.id.item_photo);
         String imageUrl = currentBabyGear.getImageUrl();
 
         // Setting the item photo to ImageView using Glide library
         Glide.with(context).load(imageUrl).into(babyGearPhoto);
+
+        ImageView deleteItem = convertView.findViewById(R.id.delete_item);
+        FrameLayout trashLayout = convertView.findViewById(R.id.trash_layout);
+
+        // setting OnClickListener to the delete imageview.
+        // The trick is to call performItemClick and pass this view.
+        // We will be able to catch this view in onItemClickListener’s onItemClick method.
+        // According to the official doc, performItemClick method calls the OnItemClickListener
+        // if it is defined.
+        deleteItem.setOnClickListener(v -> {
+            // Let the event be handled in onItemClick()
+            ((ListView) parent).performItemClick(v, position, 0);
+        });
 
         return convertView;
     }

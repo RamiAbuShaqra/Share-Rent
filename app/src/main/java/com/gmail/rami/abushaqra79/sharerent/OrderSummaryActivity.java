@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class OrderSummaryActivity extends AppCompatActivity {
 
     private static final String TAG = OrderSummaryActivity.class.getSimpleName();
+    private ArrayList<BookingDates> dates;
     private ArrayList<BabyGear> items;
     private ArrayList<User> users;
     private ArrayList<Order> orders;
@@ -27,36 +28,22 @@ public class OrderSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_summary);
 
+        dates = PreferenceActivity.CartPreferenceFragment.getBookingDates();
         items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
 
         TextView totalQuantity = findViewById(R.id.total_quantity_of_items);
         totalQuantity.setText(String.valueOf(items.size()));
 
-        LinearLayout daysSummary = findViewById(R.id.days_summary);
-        if (items.size() == 0) {
-            daysSummary.setVisibility(View.GONE);
-        }
-
         double rentPrice = 0;
         for (int i = 0; i < items.size(); i++) {
-            rentPrice += Double.parseDouble(items.get(i).getRentPrice());
+            rentPrice += (Double.parseDouble(items.get(i).getRentPrice()) * dates.get(i).getTotalDays());
         }
 
         TextView totalPrice = findViewById(R.id.total_price);
         totalPrice.setText(String.valueOf(rentPrice));
 
-        int numberOfDays = PreferenceActivity.CartPreferenceFragment.getNumberOfRentDays();
-
-        TextView days = findViewById(R.id.number_of_days);
-        days.setText(String.valueOf(numberOfDays));
-
-        double finalPrice = rentPrice * numberOfDays;
-
-        TextView finalTotalPrice = findViewById(R.id.final_total_price);
-        finalTotalPrice.setText(String.valueOf(finalPrice));
-
-        BabyGearAdapter adapter = new BabyGearAdapter(this, R.layout.baby_gear_details,
-                items, true);
+        CartItemsAdapter adapter = new CartItemsAdapter(this, R.layout.cart_items_details,
+                items, dates);
 
         ListView orderSummaryListView = findViewById(R.id.order_summary_list_view);
         orderSummaryListView.setAdapter(adapter);
@@ -73,6 +60,10 @@ public class OrderSummaryActivity extends AppCompatActivity {
                             .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    dates = PreferenceActivity.CartPreferenceFragment.getBookingDates();
+                                    dates.remove(position);
+                                    PreferenceActivity.CartPreferenceFragment.addBookingDates(dates);
+
                                     items = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
                                     items.remove(position);
                                     PreferenceActivity.CartPreferenceFragment.addItemToPreference(items);

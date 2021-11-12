@@ -27,6 +27,9 @@ public class ReviewItemsOptions extends MainActivity {
     private ArrayList<BabyGear> results;
     private ArrayList<User> users;
     private ListView listView;
+    private String startDate;
+    private String endDate;
+    private int totalDays;
 
     /** TextView that is displayed when the list is empty */
     private TextView emptyStateTextView;
@@ -54,6 +57,9 @@ public class ReviewItemsOptions extends MainActivity {
         Bundle bundle = getIntent().getExtras();
         String destination = bundle.getString("Destination");
         ArrayList<String> items = bundle.getStringArrayList("Selected Items");
+        startDate = bundle.getString("Start Date");
+        endDate = bundle.getString("End Date");
+        totalDays = bundle.getInt("Total Days");
 
         results = new ArrayList<>();
         users = new ArrayList<>();
@@ -148,7 +154,7 @@ public class ReviewItemsOptions extends MainActivity {
                 emptyStateTextView.setText(R.string.no_results_found);
 
                 BabyGearAdapter adapter = new BabyGearAdapter(ReviewItemsOptions.this,
-                        R.layout.baby_gear_details, results, false);
+                        R.layout.baby_gear_details, results);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -171,6 +177,10 @@ public class ReviewItemsOptions extends MainActivity {
                         intent.putExtra("Item Provider Location", currentUser.getLocation());
                         intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
                         intent.putExtra("Item Provider Token", currentUser.getToken());
+
+                        intent.putExtra("Start Date", startDate);
+                        intent.putExtra("End Date", endDate);
+                        intent.putExtra("Total Days", totalDays);
 
                         startActivity(intent);
                     }

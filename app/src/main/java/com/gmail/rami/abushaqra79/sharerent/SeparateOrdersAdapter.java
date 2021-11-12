@@ -14,14 +14,18 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
     private final Context context;
+    private final ArrayList<BookingDates> dates;
 
-    public SeparateOrdersAdapter(@NonNull Context context, int resource, @NonNull List<Order> objects) {
+    public SeparateOrdersAdapter(@NonNull Context context, int resource,
+                                 @NonNull List<Order> objects, ArrayList<BookingDates> dates) {
         super(context, resource, objects);
         this.context = context;
+        this.dates = dates;
     }
 
     @NonNull
@@ -51,20 +55,19 @@ public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
         supplierPhoneNumber.setText(currentOrder.getPhoneNumber());
 
         SupplierItemsAdapter adapter = new SupplierItemsAdapter(context,
-                R.layout.single_supplier_items_details, currentOrder.getListItems());
+                R.layout.single_supplier_items_details, currentOrder.getListItems(), dates);
         ListView itemsList = convertView.findViewById(R.id.items_for_single_supplier);
         itemsList.getLayoutParams().height = currentOrder.getListItems().size() * 300;
         itemsList.setAdapter(adapter);
 
         double total = 0;
-        int numberOfDays = PreferenceActivity.CartPreferenceFragment.getNumberOfRentDays();
-
         for (int i = 0; i < currentOrder.getListItems().size(); i++) {
-            total += Integer.parseInt(currentOrder.getListItems().get(i).getRentPrice());
+            total += (Double.parseDouble(currentOrder.getListItems().get(i).getRentPrice())
+                    * dates.get(i).getTotalDays());
         }
 
         TextView totalPrice = convertView.findViewById(R.id.total_price);
-        totalPrice.setText(String.valueOf(total * numberOfDays));
+        totalPrice.setText(String.valueOf(total));
 
         TextView placeOrder = convertView.findViewById(R.id.place_order);
 

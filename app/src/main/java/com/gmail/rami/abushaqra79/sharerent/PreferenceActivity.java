@@ -55,29 +55,31 @@ public class PreferenceActivity extends AppCompatActivity {
             return prefs.getInt("cart_items", 0);
         }
 
-        /**
-         * Save the number of days for renting items in the Shared Preferences.
-         *
-         * @param number the number of days to be saved.
-         */
-        public static void setNumberOfRentDays(int number) {
+        public static void addBookingDates(ArrayList<BookingDates> list) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
-
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("number_of_days", number);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(list);
+
+            editor.putString("dates_summary", json);
             editor.apply();
         }
 
-        /**
-         * Retrieve the number of days for renting items from the Shared Preferences.
-         *
-         * @return the number of days saved in Shared Preferences.
-         */
-        public static int getNumberOfRentDays() {
+        public static ArrayList<BookingDates> getBookingDates() {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
-            return prefs.getInt("number_of_days", 0);
+            String json = prefs.getString("dates_summary", "");
+
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<BookingDates>>() {}.getType();
+
+            ArrayList<BookingDates> dates = gson.fromJson(json, type);
+
+            if (dates == null){
+                return new ArrayList<>();
+            } else return dates;
         }
 
         /**

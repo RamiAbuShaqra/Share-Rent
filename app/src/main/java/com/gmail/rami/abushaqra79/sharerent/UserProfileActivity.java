@@ -519,8 +519,7 @@ public class UserProfileActivity extends MainActivity {
                     }
 
                     babyGearAdapter = new BabyGearAdapter(
-                            UserProfileActivity.this, R.layout.baby_gear_details, babyGears,
-                            false);
+                            UserProfileActivity.this, R.layout.baby_gear_details, babyGears);
 
                     listView.setAdapter(babyGearAdapter);
                 }

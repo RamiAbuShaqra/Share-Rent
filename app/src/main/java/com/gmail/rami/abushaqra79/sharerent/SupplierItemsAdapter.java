@@ -10,12 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierItemsAdapter extends ArrayAdapter<BabyGear> {
+    private final ArrayList<BookingDates> dates;
 
-    public SupplierItemsAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects) {
+    public SupplierItemsAdapter(@NonNull Context context, int resource,
+                                @NonNull List<BabyGear> objects, ArrayList<BookingDates> dates) {
         super(context, resource, objects);
+        this.dates = dates;
     }
 
     @NonNull
@@ -38,7 +42,7 @@ public class SupplierItemsAdapter extends ArrayAdapter<BabyGear> {
         TextView rentPrice = convertView.findViewById(R.id.rent_price);
         rentPrice.setText(currentBabyGear.getRentPrice());
 
-        int numberOfDays = PreferenceActivity.CartPreferenceFragment.getNumberOfRentDays();
+        int numberOfDays = dates.get(position).getTotalDays();
         TextView days = convertView.findViewById(R.id.number_of_days);
         days.setText(String.valueOf(numberOfDays));
 

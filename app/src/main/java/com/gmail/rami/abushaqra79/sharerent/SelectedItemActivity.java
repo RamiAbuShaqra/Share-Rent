@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class SelectedItemActivity extends MainActivity {
 
+    private ArrayList<BookingDates> dates;
     private ArrayList<BabyGear> itemsToRent;
     private ArrayList<User> itemsProviders;
     private ArrayList<Order> orders;
@@ -56,6 +57,10 @@ public class SelectedItemActivity extends MainActivity {
         String picture = bundle.getString("Item Provider Picture");
         String token = bundle.getString("Item Provider Token");
 
+        String startDate = bundle.getString("Start Date");
+        String endDate = bundle.getString("End Date");
+        int totalDays = bundle.getInt("Total Days");
+
         ImageView photo = findViewById(R.id.selected_item_photo);
         TextView details = findViewById(R.id.selected_item_description);
         TextView price = findViewById(R.id.rent_price);
@@ -79,6 +84,10 @@ public class SelectedItemActivity extends MainActivity {
             public void onClick(View v) {
                 int itemsInShoppingCart = PreferenceActivity.CartPreferenceFragment.updateCart(1);
                 cartTV.setText(String.valueOf(itemsInShoppingCart));
+
+                dates = PreferenceActivity.CartPreferenceFragment.getBookingDates();
+                dates.add(new BookingDates(startDate, endDate, totalDays));
+                PreferenceActivity.CartPreferenceFragment.addBookingDates(dates);
 
                 itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
                 itemsToRent.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
