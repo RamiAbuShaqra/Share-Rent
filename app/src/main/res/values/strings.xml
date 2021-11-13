@@ -142,6 +142,7 @@
     <string name="reference_image_bouncer">Bouncer</string>
     <string name="reference_image_sterilizer">Sterilizer</string>
     <string name="location_symbol">Location Symbol</string>
+    <string name="notification_bell">Notification Bell</string>
     <string name="shopping_cart_symbol">Shopping Cart Symbol</string>
     <string name="trash_symbol">Trash Symbol</string>
     <string name="user_symbol">User Symbol</string>
@@ -186,15 +187,15 @@
     <string name="update_name">Update your name:</string>
     <string name="update_phone_number">Update your phone number:</string>
     <string name="menu_Login_status">Login Status</string>
+    <string name="menu_notification">Notification</string>
     <string name="menu_shopping_cart">Shopping Cart</string>
     <string name="customer_contact_details">Please enter your contact details</string>
     <string name="place_order_header">You need to place an order for each items provider separately</string>
     <string name="rent_price">Rent Price</string>
     <string name="no_internet_connection">No internet connection.</string>
     <string name="no_results_found">No results found.</string>
-
-
-
-    <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
+    <string name="empty_list">No items added yet</string>
+    <string name="edit_or_delete">Tab on each item to \'Edit\' or \'Delete\'</string>
+    <string name="default_notification_channel_id">notification_channel</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -27,12 +28,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * Main activity
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * A code to reset the cart in the SharedPreference
+     */
     public static final int RESET_THE_CART = -100;
 
     @SuppressLint("StaticFieldLeak")
     public static TextView cartTV; // The number of items in the cart
+
+    /**
+     * A TextView to show that there is a notification received in the action bar.
+     */
+    private TextView notification;
 
     private Spinner cities;
     private Calendar myCalendar;
@@ -46,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // Get the current number of items in the cart from Shared Preferences
         int numberOfItems = PreferenceActivity.CartPreferenceFragment.updateCart(0);
 
+        // Shopping cart layout
         RelativeLayout badgeLayout = (RelativeLayout) menu.findItem(R.id.shopping_cart).getActionView();
         cartTV = badgeLayout.findViewById(R.id.number_of_items_in_cart);
         cartTV.setText(String.valueOf(numberOfItems));
@@ -54,6 +67,24 @@ public class MainActivity extends AppCompatActivity {
             Intent orderSummary = new Intent(MainActivity.this, OrderSummaryActivity.class);
             startActivity(orderSummary);
         });
+
+        // Notification bell layout
+        RelativeLayout notificationBadge = (RelativeLayout) menu.findItem(R.id.notification).getActionView();
+        notification = notificationBadge.findViewById(R.id.notification_message);
+
+        // Check if there is notification received
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null &&
+                intent.getExtras().containsKey("Notification Received")) {
+
+            int number = getIntent().getExtras().getInt("Notification Received");
+            notification.setVisibility(View.VISIBLE);
+            notification.setText(String.valueOf(number));
+
+            notificationBadge.setOnClickListener(v -> notificationDialog());
+        } else {
+            notification.setVisibility(View.INVISIBLE);
+        }
 
         return true;
     }
@@ -318,6 +349,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return time;
+    }
+
+    /**
+     * Creates a dialog to display the notification message received.
+     */
+    private void notificationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("New Order")
+                .setMessage("New Order from Share-Rent.\n" +
+                        "\nPlease check your e-mail for the order details.")
+                .setNegativeButton("Close", (dialog, which) -> {
+                    notification.setVisibility(View.INVISIBLE);
+
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override

@@ -18,6 +18,8 @@ import com.gmail.rami.abushaqra79.sharerent.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 /**
  * This class is using service to receive FCM messages.
  */
@@ -47,23 +49,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            sendNotification(remoteMessage.getNotification().getTitle(),
-                    remoteMessage.getNotification().getBody());
-        }
-    }
+        Map<String, String> data = remoteMessage.getData();
+        String title = data.get("title");
+        String body = data.get("body");
 
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param title   FCM message title received.
-     * @param message FCM message body received.
-     */
-    public void sendNotification(String title, String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("Notification Received", 1);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -73,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
-                .setContentText(message)
+                .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

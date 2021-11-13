@@ -13,20 +13,28 @@
             <item
                 android:id="@+id/login_menu_item"
                 android:title="@string/action_login"
-                android:visible="true"/>
+                android:visible="true" />
 
             <item
                 android:id="@+id/logout_menu_item"
                 android:title="@string/action_logout"
-                android:visible="false"/>
+                android:visible="false" />
         </menu>
 
     </item>
 
     <item
+        android:id="@+id/notification"
+        android:icon="@drawable/notifications"
+        android:orderInCategory="1"
+        android:title="@string/menu_notification"
+        app:actionLayout="@layout/notifications"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/shopping_cart"
         android:icon="@drawable/shopping_cart"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/menu_shopping_cart"
         app:actionLayout="@layout/cart"
         app:showAsAction="ifRoom" />
