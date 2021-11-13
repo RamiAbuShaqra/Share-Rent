@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         style="@style/header_text"
-        android:textSize="18sp"
-        android:text="@string/enter_new_email"/>
+        android:text="@string/enter_new_email"
+        android:textSize="18sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/new_email_input_layout"
@@ -16,8 +16,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/new_email"
             style="@style/email_input_edit_text"
-            android:hint="@string/new_email_hint"
-            android:autofillHints="Email Address" />
+            android:autofillHints="Email Address"
+            android:hint="@string/new_email_hint" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

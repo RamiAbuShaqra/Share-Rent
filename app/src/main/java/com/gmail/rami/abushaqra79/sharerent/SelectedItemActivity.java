@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +15,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+/**
+ * This activity is to review all details of a selected item with its supplier information.
+ */
 public class SelectedItemActivity extends MainActivity {
 
     private ArrayList<BookingDates> dates;
@@ -40,8 +42,10 @@ public class SelectedItemActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_item);
 
+        // Vibrator object for making a vibration notification when an item is added to cart
         Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
+        // Get intent with its extras
         Bundle bundle = getIntent().getExtras();
 
         String type = bundle.getString("Type");
@@ -79,54 +83,52 @@ public class SelectedItemActivity extends MainActivity {
         userPhoneNumber.setText(phone);
 
         FrameLayout addToCart = findViewById(R.id.add_to_cart_view);
-        addToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int itemsInShoppingCart = PreferenceActivity.CartPreferenceFragment.updateCart(1);
-                cartTV.setText(String.valueOf(itemsInShoppingCart));
+        addToCart.setOnClickListener(v -> {
+            // Update all information in SharedPreferences (items, booking dates, suppliers, etc..)
+            int itemsInShoppingCart = PreferenceActivity.CartPreferenceFragment.updateCart(1);
+            cartTV.setText(String.valueOf(itemsInShoppingCart));
 
-                dates = PreferenceActivity.CartPreferenceFragment.getBookingDates();
-                dates.add(new BookingDates(startDate, endDate, totalDays));
-                PreferenceActivity.CartPreferenceFragment.addBookingDates(dates);
+            dates = PreferenceActivity.CartPreferenceFragment.getBookingDates();
+            dates.add(new BookingDates(startDate, endDate, totalDays));
+            PreferenceActivity.CartPreferenceFragment.addBookingDates(dates);
 
-                itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
-                itemsToRent.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
-                PreferenceActivity.CartPreferenceFragment.addItemToPreference(itemsToRent);
+            itemsToRent = PreferenceActivity.CartPreferenceFragment.getSummaryOfItems();
+            itemsToRent.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+            PreferenceActivity.CartPreferenceFragment.addItemToPreference(itemsToRent);
 
-                itemsProviders = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
-                itemsProviders.add(new User(email, name, phone, location, picture, token));
-                PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(itemsProviders);
+            itemsProviders = PreferenceActivity.CartPreferenceFragment.getSummaryOfItemsProviders();
+            itemsProviders.add(new User(email, name, phone, location, picture, token));
+            PreferenceActivity.CartPreferenceFragment.addItemProviderToPreference(itemsProviders);
 
-                orders = PreferenceActivity.CartPreferenceFragment.getOrders();
-                if (orders.size() > 0) {
-                    boolean newSupplier = true;
-                    for (int i = 0; i < orders.size(); i++) {
-                        if (orders.get(i).getSupplierEmail().equals(email)) {
-                            orders.get(i).getListItems().add(
-                                    new BabyGear(type, description, rentPrice, imageUrl, storagePath));
-                            newSupplier = false;
-                        }
+            orders = PreferenceActivity.CartPreferenceFragment.getOrders();
+            if (orders.size() > 0) {
+                boolean newSupplier = true;
+                for (int i = 0; i < orders.size(); i++) {
+                    if (orders.get(i).getSupplierEmail().equals(email)) {
+                        orders.get(i).getListItems().add(
+                                new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+                        newSupplier = false;
                     }
-                    if (newSupplier) {
-                        ArrayList<BabyGear> gears = new ArrayList<>();
-                        gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
-
-                        orders.add(new Order(email, name, phone, picture, token, gears));
-                    }
-                } else {
+                }
+                if (newSupplier) {
                     ArrayList<BabyGear> gears = new ArrayList<>();
                     gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
                     orders.add(new Order(email, name, phone, picture, token, gears));
                 }
+            } else {
+                ArrayList<BabyGear> gears = new ArrayList<>();
+                gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
-                PreferenceActivity.CartPreferenceFragment.addOrder(orders);
-
-                vibrator.vibrate(100);
-
-                Toast.makeText(SelectedItemActivity.this, "Added to Cart.",
-                        Toast.LENGTH_LONG).show();
+                orders.add(new Order(email, name, phone, picture, token, gears));
             }
+
+            PreferenceActivity.CartPreferenceFragment.addOrder(orders);
+
+            vibrator.vibrate(100);
+
+            Toast.makeText(SelectedItemActivity.this, "Added to Cart.",
+                    Toast.LENGTH_LONG).show();
         });
     }
 }

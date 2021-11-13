@@ -17,7 +17,11 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Custom adapter to display the list of separate orders (each order is for one supplier only).
+ */
 public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
+
     private final Context context;
     private final ArrayList<BookingDates> dates;
 
@@ -54,6 +58,7 @@ public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
         TextView supplierPhoneNumber = convertView.findViewById(R.id.item_provider_phone);
         supplierPhoneNumber.setText(currentOrder.getPhoneNumber());
 
+        // Adapter for listing all items to be rented from a single supplier
         SupplierItemsAdapter adapter = new SupplierItemsAdapter(context,
                 R.layout.single_supplier_items_details, currentOrder.getListItems(), dates);
         ListView itemsList = convertView.findViewById(R.id.items_for_single_supplier);

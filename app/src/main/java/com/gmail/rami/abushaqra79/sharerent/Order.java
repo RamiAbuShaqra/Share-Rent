@@ -2,7 +2,13 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import java.util.ArrayList;
 
+/**
+ * Model class used to create ONE order to a single supplier combining all items rented by
+ * the customer.
+ */
 public class Order {
+
+    // Fields
     private final String supplierEmail;
     private final String supplierName;
     private final String phoneNumber;

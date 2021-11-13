@@ -1,6 +1,5 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,11 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * This class is used to reset the password of a user account.
+ */
 public class ResetPasswordActivity extends AppCompatActivity {
 
     @Override
@@ -24,6 +24,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        // Get auth instance
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
         TextInputLayout inputLayout = findViewById(R.id.email_input_layout);
@@ -46,36 +47,31 @@ public class ResetPasswordActivity extends AppCompatActivity {
             }
         });
 
-        resetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = registeredEmail.getText().toString().trim();
+        resetPassword.setOnClickListener(v -> {
+            String email = registeredEmail.getText().toString().trim();
 
-                if (email.equals("")) {
-                    inputLayout.setError("Enter your registered email");
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-
-                auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(ResetPasswordActivity.this, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPasswordActivity.this,
-                                            "Please check your email to reset your password",
-                                            Toast.LENGTH_LONG).show();
-                                    finish();
-                                } else {
-                                    Toast.makeText(ResetPasswordActivity.this,
-                                            "Failed to send reset email", Toast.LENGTH_LONG).show();
-                                }
-
-                                progressBar.setVisibility(View.INVISIBLE);
-                            }
-                        });
+            if (email.equals("")) {
+                inputLayout.setError("Enter your registered email");
+                return;
             }
+
+            progressBar.setVisibility(View.VISIBLE);
+
+            // Sending a link to the user's email so he/she can reset the password
+            auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(ResetPasswordActivity.this, task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(ResetPasswordActivity.this,
+                                    "Please check your email to reset your password",
+                                    Toast.LENGTH_LONG).show();
+                            finish();
+                        } else {
+                            Toast.makeText(ResetPasswordActivity.this,
+                                    "Failed to send reset email", Toast.LENGTH_LONG).show();
+                        }
+
+                        progressBar.setVisibility(View.INVISIBLE);
+                    });
         });
     }
 }

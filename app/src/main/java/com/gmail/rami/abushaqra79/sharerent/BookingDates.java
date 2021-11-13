@@ -1,7 +1,11 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
+/**
+ * Model class for the booking dates and total days duration.
+ */
 public class BookingDates {
 
+    // Fields
     private final String startDate;
     private final String endDate;
     private final int totalDays;

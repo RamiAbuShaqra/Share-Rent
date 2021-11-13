@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,7 +17,11 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Custom adapter to display baby gear items that were added to cart.
+ */
 public class CartItemsAdapter extends ArrayAdapter<BabyGear> {
+
     private final Context context;
     private final ArrayList<BookingDates> dates;
 
@@ -61,11 +64,11 @@ public class CartItemsAdapter extends ArrayAdapter<BabyGear> {
         ImageView babyGearPhoto = convertView.findViewById(R.id.item_photo);
         String imageUrl = currentBabyGear.getImageUrl();
 
-        // Setting the item photo to ImageView using Glide library
+        // Setting the item photo to ImageView using Glide library.
         Glide.with(context).load(imageUrl).into(babyGearPhoto);
 
+        // Trash to remove the item from shopping cart.
         ImageView deleteItem = convertView.findViewById(R.id.delete_item);
-        FrameLayout trashLayout = convertView.findViewById(R.id.trash_layout);
 
         // setting OnClickListener to the delete imageview.
         // The trick is to call performItemClick and pass this view.

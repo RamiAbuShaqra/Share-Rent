@@ -16,9 +16,16 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is for choosing the items categories by customer.
+ */
 public class ChooseItemsActivity extends MainActivity {
 
+    /**
+     * A calendar object required for the date picker dialog.
+     */
     private Calendar myCalendar;
+
     private EditText startRentalDate;
     private EditText endRentalDate;
 
@@ -44,6 +51,7 @@ public class ChooseItemsActivity extends MainActivity {
 
         myCalendar = Calendar.getInstance();
 
+        // Date picker for the start rental date.
         DatePickerDialog.OnDateSetListener firstDate = (view, year, monthOfYear, dayOfMonth) -> {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
@@ -52,6 +60,7 @@ public class ChooseItemsActivity extends MainActivity {
             startRentalDate.setText(updateLabel());
         };
 
+        // Date picker for the end rental date.
         DatePickerDialog.OnDateSetListener secondDate = (view, year, monthOfYear, dayOfMonth) -> {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, monthOfYear);
@@ -205,7 +214,6 @@ public class ChooseItemsActivity extends MainActivity {
      *
      * @param firstDate  is the selected start date.
      * @param secondDate is the selected end date.
-     *
      * @return The total number of booking days (the difference between start date and end date
      * in days).
      */
@@ -225,7 +233,6 @@ public class ChooseItemsActivity extends MainActivity {
             e.printStackTrace();
         }
 
-        //PreferenceActivity.CartPreferenceFragment.setNumberOfRentDays(totalDays);
         return totalDays;
     }
 }

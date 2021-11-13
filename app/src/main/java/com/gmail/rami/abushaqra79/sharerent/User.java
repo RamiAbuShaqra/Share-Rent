@@ -2,9 +2,13 @@ package com.gmail.rami.abushaqra79.sharerent;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+/**
+ * Model class for the user.
+ */
 @IgnoreExtraProperties
 public class User {
 
+    // Fields
     private String email;
     private String name;
     private String phoneNumber;

@@ -15,7 +15,11 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+/**
+ * Custom adapter to display a list of baby gear items in the user profile page.
+ */
 public class BabyGearAdapter extends ArrayAdapter<BabyGear> {
+
     private final Context context;
 
     public BabyGearAdapter(@NonNull Context context, int resource, @NonNull List<BabyGear> objects) {

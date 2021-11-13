@@ -15,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:paddingTop="8dp"
+            android:paddingEnd="8dp"
             android:paddingBottom="8dp"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -29,8 +29,8 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:paddingTop="8dp"
+            android:paddingEnd="8dp"
             android:paddingBottom="8dp"
             android:textSize="15sp"
             tools:text="Description" />
@@ -40,35 +40,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:orientation="horizontal">
+        android:paddingBottom="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:text="@string/rent_price"
             android:textColor="@color/black"
-            android:textSize="15sp"
-            android:text="@string/rent_price"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/rent_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="15sp"
-            tools:text="23"/>
+            android:textStyle="bold"
+            tools:text="23" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/currency"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="15sp"
-            android:text="@string/currency"/>
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -1,6 +1,5 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,16 +13,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+/**
+ * Activity for signing up a new user.
+ */
 public class SignupActivity extends AppCompatActivity {
+
+    private FirebaseAuth auth;
+    private FirebaseUser user;
 
     private EditText email;
     private EditText password;
@@ -32,14 +34,13 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputLayout passwordLayout;
     private TextInputLayout confirmPasswordLayout;
     private ProgressBar progressBar;
-    private FirebaseAuth auth;
-    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        // Get auth instance
         auth = FirebaseAuth.getInstance();
 
         email = findViewById(R.id.email);
@@ -96,48 +97,46 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         TextView register = findViewById(R.id.register);
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String enteredEmail = email.getText().toString().trim();
-                String enteredPassword = password.getText().toString().trim();
-                String confirmedPassword = confirmPassword.getText().toString().trim();
+        register.setOnClickListener(v -> {
+            String enteredEmail = email.getText().toString().trim();
+            String enteredPassword = password.getText().toString().trim();
+            String confirmedPassword = confirmPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(enteredEmail) ||
-                        !android.util.Patterns.EMAIL_ADDRESS.matcher(enteredEmail).matches()) {
-                    emailLayout.setError("Enter a valid email address");
-                    return;
-                }
+            if (TextUtils.isEmpty(enteredEmail) ||
+                    !android.util.Patterns.EMAIL_ADDRESS.matcher(enteredEmail).matches()) {
+                emailLayout.setError("Enter a valid email address");
+                return;
+            }
 
-                if (TextUtils.isEmpty(enteredPassword)) {
-                    passwordLayout.setError("Enter password");
-                    return;
-                }
+            if (TextUtils.isEmpty(enteredPassword)) {
+                passwordLayout.setError("Enter password");
+                return;
+            }
 
-                if (enteredPassword.length() < 8) {
-                    passwordLayout.setError("Password should be minimum 8 characters");
-                    return;
-                }
+            if (enteredPassword.length() < 8) {
+                passwordLayout.setError("Password should be minimum 8 characters");
+                return;
+            }
 
-                if (TextUtils.isEmpty(confirmedPassword)) {
-                    confirmPasswordLayout.setError("Enter the password again");
-                    return;
-                }
+            if (TextUtils.isEmpty(confirmedPassword)) {
+                confirmPasswordLayout.setError("Enter the password again");
+                return;
+            }
 
-                if (!enteredPassword.equals(confirmedPassword)) {
-                    confirmPasswordLayout.setError("Passwords are not match");
-                    return;
-                }
+            if (!enteredPassword.equals(confirmedPassword)) {
+                confirmPasswordLayout.setError("Passwords are not match");
+                return;
+            }
 
-                progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
 
-                auth.createUserWithEmailAndPassword(enteredEmail, enteredPassword)
-                .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+            // Create new user using email and password
+            auth.createUserWithEmailAndPassword(enteredEmail, enteredPassword)
+                    .addOnCompleteListener(SignupActivity.this, task -> {
                         if (!task.isSuccessful()) {
                             progressBar.setVisibility(View.INVISIBLE);
 
+                            // Check if the email is already registered
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(SignupActivity.this,
                                         "Email address already registered.", Toast.LENGTH_LONG).show();
@@ -147,47 +146,41 @@ public class SignupActivity extends AppCompatActivity {
                                                 "\nPlease try again.", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-                                @Override
-                                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                                    user = auth.getCurrentUser();
+                            // Auth state listener
+                            auth.addAuthStateListener(firebaseAuth -> {
+                                user = auth.getCurrentUser();
 
-                                    if (user != null) {
-                                        String userId = user.getUid();
+                                if (user != null) {
+                                    String userId = user.getUid();
 
-                                        String name = "";
-                                        String phoneNumber = "";
-                                        String location = "";
-                                        String profilePictureUrl = "";
-                                        String token = FirebaseMessaging.getInstance().getToken().getResult();
+                                    String name = "";
+                                    String phoneNumber = "";
+                                    String location = "";
+                                    String profilePictureUrl = "";
+                                    String token = FirebaseMessaging.getInstance().getToken().getResult();
 
-                                        User newUser = new User(enteredEmail, name, phoneNumber,
-                                                location, profilePictureUrl, token);
+                                    User newUser = new User(enteredEmail, name, phoneNumber,
+                                            location, profilePictureUrl, token);
 
-                                        ReadAndWriteDatabase rwd =
-                                                new ReadAndWriteDatabase(SignupActivity.this);
-                                        rwd.createUser(userId, newUser);
+                                    // Add the new user to the database
+                                    ReadAndWriteDatabase rwd =
+                                            new ReadAndWriteDatabase(SignupActivity.this);
+                                    rwd.createUser(userId, newUser);
 
-                                        Intent intent = new Intent(SignupActivity.this,
-                                                UserProfileActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
+                                    Intent intent = new Intent(SignupActivity.this,
+                                            UserProfileActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             });
                         }
-                    }
-                });
-            }
+                    });
         });
 
         TextView signInPage = findViewById(R.id.sign_in_page);
-        signInPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
+        signInPage.setOnClickListener(v -> {
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
     }
 }

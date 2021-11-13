@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,9 +20,26 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * Activity for reviewing the results of baby gear items based on the search criteria.
+ */
 public class ReviewItemsOptions extends MainActivity {
 
+    /**
+     * Tag for the log messages.
+     */
     private static final String TAG = ReviewItemsOptions.class.getSimpleName();
+
+    /**
+     * TextView that is displayed when the list is empty
+     */
+    private TextView emptyStateTextView;
+
+    /**
+     * Spinner that is displayed until the app fetches the data
+     */
+    private ProgressBar progressBar;
+
     private ArrayList<BabyGear> results;
     private ArrayList<User> users;
     private ListView listView;
@@ -31,17 +47,11 @@ public class ReviewItemsOptions extends MainActivity {
     private String endDate;
     private int totalDays;
 
-    /** TextView that is displayed when the list is empty */
-    private TextView emptyStateTextView;
-
-    /** Spinner that is displayed until the app fetches the data */
-    private ProgressBar progressBar;
-
     /**
      * Obtain the previous instance of ChooseItemsActivity.java from the back stack
      * (WITHOUT RECREATING IT) when pressing the action bar back button.
      *
-     * @return a new Intent targeting the defined parent activity
+     * @return a new Intent targeting the defined parent activity.
      */
     @Nullable
     @Override
@@ -54,6 +64,7 @@ public class ReviewItemsOptions extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_items_options);
 
+        // Get the intent with its extras
         Bundle bundle = getIntent().getExtras();
         String destination = bundle.getString("Destination");
         ArrayList<String> items = bundle.getStringArrayList("Selected Items");
@@ -87,6 +98,13 @@ public class ReviewItemsOptions extends MainActivity {
         }
     }
 
+    /**
+     * This helper method searches in the database for items that matches the search criteria
+     * entered by the customer.
+     *
+     * @param type     Baby gear type.
+     * @param location Travel destination.
+     */
     private void fetchResults(String type, String location) {
         ReadAndWriteDatabase rwd = new ReadAndWriteDatabase(this);
         rwd.fetchData(new ValueEventListener() {
@@ -151,39 +169,38 @@ public class ReviewItemsOptions extends MainActivity {
                 }
 
                 progressBar.setVisibility(View.GONE);
+                // Set empty state results
                 emptyStateTextView.setText(R.string.no_results_found);
 
+                // Adapter used to display the results of items
                 BabyGearAdapter adapter = new BabyGearAdapter(ReviewItemsOptions.this,
                         R.layout.baby_gear_details, results);
                 listView.setAdapter(adapter);
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        BabyGear currentGear = adapter.getItem(position);
-                        User currentUser = users.get(position);
+                listView.setOnItemClickListener((parent, view, position, id) -> {
+                    BabyGear currentGear = adapter.getItem(position);
+                    User currentUser = users.get(position);
 
-                        Intent intent = new Intent(ReviewItemsOptions.this,
-                                SelectedItemActivity.class);
-                        intent.putExtra("Type", currentGear.getBabyGearType());
-                        intent.putExtra("Description", currentGear.getBabyGearDescription());
-                        intent.putExtra("Rent Price", currentGear.getRentPrice());
-                        intent.putExtra("Image URL", currentGear.getImageUrl());
-                        intent.putExtra("Storage Path", currentGear.getStoragePath());
+                    Intent intent = new Intent(ReviewItemsOptions.this,
+                            SelectedItemActivity.class);
+                    intent.putExtra("Type", currentGear.getBabyGearType());
+                    intent.putExtra("Description", currentGear.getBabyGearDescription());
+                    intent.putExtra("Rent Price", currentGear.getRentPrice());
+                    intent.putExtra("Image URL", currentGear.getImageUrl());
+                    intent.putExtra("Storage Path", currentGear.getStoragePath());
 
-                        intent.putExtra("Item Provider Email", currentUser.getEmail());
-                        intent.putExtra("Item Provider Name", currentUser.getName());
-                        intent.putExtra("Item Provider Phone Number", currentUser.getPhoneNumber());
-                        intent.putExtra("Item Provider Location", currentUser.getLocation());
-                        intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
-                        intent.putExtra("Item Provider Token", currentUser.getToken());
+                    intent.putExtra("Item Provider Email", currentUser.getEmail());
+                    intent.putExtra("Item Provider Name", currentUser.getName());
+                    intent.putExtra("Item Provider Phone Number", currentUser.getPhoneNumber());
+                    intent.putExtra("Item Provider Location", currentUser.getLocation());
+                    intent.putExtra("Item Provider Picture", currentUser.getProfilePictureUrl());
+                    intent.putExtra("Item Provider Token", currentUser.getToken());
 
-                        intent.putExtra("Start Date", startDate);
-                        intent.putExtra("End Date", endDate);
-                        intent.putExtra("Total Days", totalDays);
+                    intent.putExtra("Start Date", startDate);
+                    intent.putExtra("End Date", endDate);
+                    intent.putExtra("Total Days", totalDays);
 
-                        startActivity(intent);
-                    }
+                    startActivity(intent);
                 });
             }
 

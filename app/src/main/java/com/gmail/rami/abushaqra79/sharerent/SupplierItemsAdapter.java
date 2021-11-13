@@ -13,7 +13,11 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Custom adapter to display the list of items for a single supplier in the orders list.
+ */
 public class SupplierItemsAdapter extends ArrayAdapter<BabyGear> {
+
     private final ArrayList<BookingDates> dates;
 
     public SupplierItemsAdapter(@NonNull Context context, int resource,

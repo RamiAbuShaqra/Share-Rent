@@ -19,7 +19,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/registered_email"
                 style="@style/email_input_edit_text"
-                android:autofillHints="Email Address"/>
+                android:autofillHints="Email Address" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,13 +41,12 @@
             android:id="@+id/progress_bar"
             style="@style/progress_bar" />
 
-        <FrameLayout
-            style="@style/action_buttons_frame_layout">
+        <FrameLayout style="@style/action_buttons_frame_layout">
 
             <TextView
                 android:id="@+id/login"
-                android:text="@string/action_login"
-                style="@style/action_buttons" />
+                style="@style/action_buttons"
+                android:text="@string/action_login" />
 
         </FrameLayout>
 

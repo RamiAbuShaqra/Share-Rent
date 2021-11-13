@@ -13,6 +13,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
+/**
+ * A library used to load images from firebase storage.
+ */
 @GlideModule
 public class MyAppGlideModule extends AppGlideModule {
 

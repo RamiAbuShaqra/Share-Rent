@@ -1,7 +1,11 @@
 package com.gmail.rami.abushaqra79.sharerent;
 
+/**
+ * Model class for the baby gear item.
+ */
 public class BabyGear {
 
+    // Fields
     private String babyGearType;
     private String babyGearDescription;
     private String rentPrice;

@@ -128,35 +128,34 @@
             android:id="@+id/item_photo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:minHeight="@android:dimen/thumbnail_height"
             android:layout_gravity="end"
             android:layout_weight="2"
             android:background="@drawable/list_border"
             android:contentDescription="@string/baby_gear_item_photo"
+            android:minHeight="@android:dimen/thumbnail_height"
             android:padding="3dp"
             android:scaleType="centerCrop" />
 
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/trash_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginEnd="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="4dp" >
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="4dp">
 
         <ImageView
             android:id="@+id/delete_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/trash_symbol"
             android:paddingStart="25dp"
             android:paddingEnd="25dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/trash_symbol"
-            android:contentDescription="@string/trash_symbol" />
+            android:src="@drawable/trash_symbol" />
 
     </FrameLayout>
 

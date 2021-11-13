@@ -68,9 +68,9 @@
 
                 <LinearLayout
                     android:id="@+id/stroller_layout"
+                    style="@style/items_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/items_layout" >
+                    android:layout_weight="1">
 
                     <ImageView
                         style="@style/item_reference_image"
@@ -85,9 +85,9 @@
 
                 <LinearLayout
                     android:id="@+id/bed_layout"
+                    style="@style/items_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/items_layout" >
+                    android:layout_weight="1">
 
                     <ImageView
                         style="@style/item_reference_image"
@@ -110,9 +110,9 @@
 
                 <LinearLayout
                     android:id="@+id/car_seat_layout"
+                    style="@style/items_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/items_layout" >
+                    android:layout_weight="1">
 
                     <ImageView
                         style="@style/item_reference_image"
@@ -127,9 +127,9 @@
 
                 <LinearLayout
                     android:id="@+id/high_chair_layout"
+                    style="@style/items_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/items_layout" >
+                    android:layout_weight="1">
 
                     <ImageView
                         style="@style/item_reference_image"
@@ -152,9 +152,9 @@
 
                 <LinearLayout
                     android:id="@+id/bath_tub_layout"
+                    style="@style/items_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/items_layout" >
+                    android:layout_weight="1">
 
                     <ImageView
                         style="@style/item_reference_image"
@@ -169,9 +169,9 @@
 
                 <LinearLayout
                     android:id="@+id/bouncer_layout"
+                    style="@style/items_layout"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/items_layout" >
+                    android:layout_weight="1">
 
                     <ImageView
                         style="@style/item_reference_image"
@@ -188,8 +188,8 @@
 
             <LinearLayout
                 android:id="@+id/sterilizer_layout"
-                android:layout_width="match_parent"
-                style="@style/items_layout" >
+                style="@style/items_layout"
+                android:layout_width="match_parent">
 
                 <ImageView
                     style="@style/item_reference_image"
@@ -202,8 +202,7 @@
 
             </LinearLayout>
 
-            <FrameLayout
-                style="@style/continue_buttons_frame_layout">
+            <FrameLayout style="@style/continue_buttons_frame_layout">
 
                 <TextView
                     android:id="@+id/continue_btn"

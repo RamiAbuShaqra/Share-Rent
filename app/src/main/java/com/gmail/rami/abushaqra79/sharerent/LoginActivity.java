@@ -17,6 +17,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class handles the login steps for a registered user.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
@@ -30,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Get firebase auth instance.
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
@@ -93,12 +97,11 @@ public class LoginActivity extends AppCompatActivity {
 
             progressBar.setVisibility(View.VISIBLE);
 
+            // Sign in for an authorized user.
             auth.signInWithEmailAndPassword(enteredEmail, enteredPassword)
                     .addOnCompleteListener(LoginActivity.this,
                             task -> {
                                 if (!task.isSuccessful()) {
-                                    // Signing in not succeeded. Display a toast message and
-                                    // hide the progress bar
                                     progressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(LoginActivity.this, "Login failed!"
                                                     + "\nCheck your email and password.",

@@ -15,6 +15,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This activity is dedicated for saving some information in the SharedPreferences.
+ */
 public class PreferenceActivity extends AppCompatActivity {
 
     @Override
@@ -23,6 +26,10 @@ public class PreferenceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preference);
     }
 
+    /**
+     * Inner class that contains methods for adding and retrieving information
+     * from SharedPreferences.
+     */
     public static class CartPreferenceFragment extends PreferenceFragment {
 
         @Override
@@ -42,7 +49,7 @@ public class PreferenceActivity extends AppCompatActivity {
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
             int currentItems = prefs.getInt("cart_items", 0);
 
-            if (items == -100){
+            if (items == -100) {
                 currentItems = 0;
             } else {
                 currentItems += items;
@@ -55,6 +62,11 @@ public class PreferenceActivity extends AppCompatActivity {
             return prefs.getInt("cart_items", 0);
         }
 
+        /**
+         * Save a list of booking dates for the items added to cart.
+         *
+         * @param list of booking dates details for items.
+         */
         public static void addBookingDates(ArrayList<BookingDates> list) {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
@@ -67,17 +79,23 @@ public class PreferenceActivity extends AppCompatActivity {
             editor.apply();
         }
 
+        /**
+         * Get the list of booking dates details of the items in the cart.
+         *
+         * @return the list of booking dates of the items.
+         */
         public static ArrayList<BookingDates> getBookingDates() {
             SharedPreferences prefs = PreferenceManager
                     .getDefaultSharedPreferences(MyApplication.getAppContext());
             String json = prefs.getString("dates_summary", "");
 
             Gson gson = new Gson();
-            Type type = new TypeToken<List<BookingDates>>() {}.getType();
+            Type type = new TypeToken<List<BookingDates>>() {
+            }.getType();
 
             ArrayList<BookingDates> dates = gson.fromJson(json, type);
 
-            if (dates == null){
+            if (dates == null) {
                 return new ArrayList<>();
             } else return dates;
         }
@@ -110,11 +128,12 @@ public class PreferenceActivity extends AppCompatActivity {
             String json = prefs.getString("summary_items", "");
 
             Gson gson = new Gson();
-            Type type = new TypeToken<List<BabyGear>>() {}.getType();
+            Type type = new TypeToken<List<BabyGear>>() {
+            }.getType();
 
             ArrayList<BabyGear> items = gson.fromJson(json, type);
 
-            if (items == null){
+            if (items == null) {
                 return new ArrayList<>();
             } else return items;
         }
@@ -147,11 +166,12 @@ public class PreferenceActivity extends AppCompatActivity {
             String json = prefs.getString("items_providers", "");
 
             Gson gson = new Gson();
-            Type type = new TypeToken<List<User>>() {}.getType();
+            Type type = new TypeToken<List<User>>() {
+            }.getType();
 
             ArrayList<User> users = gson.fromJson(json, type);
 
-            if (users == null){
+            if (users == null) {
                 return new ArrayList<>();
             } else return users;
         }
@@ -185,11 +205,12 @@ public class PreferenceActivity extends AppCompatActivity {
             String json = prefs.getString("single_order", "");
 
             Gson gson = new Gson();
-            Type type = new TypeToken<List<Order>>() {}.getType();
+            Type type = new TypeToken<List<Order>>() {
+            }.getType();
 
             ArrayList<Order> orders = gson.fromJson(json, type);
 
-            if (orders == null){
+            if (orders == null) {
                 return new ArrayList<>();
             } else return orders;
         }
