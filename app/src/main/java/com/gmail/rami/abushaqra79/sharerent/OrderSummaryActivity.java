@@ -81,15 +81,19 @@ public class OrderSummaryActivity extends AppCompatActivity {
                             orders = PreferenceActivity.CartPreferenceFragment.getOrders();
                             int index = 0;
                             ArrayList<BabyGear> gears = new ArrayList<>();
+                            ArrayList<BookingDates> days = new ArrayList<>();
                             for (int i = 0; i < orders.size(); i++) {
                                 ArrayList<BabyGear> list = orders.get(i).getListItems();
+                                ArrayList<BookingDates> bookingDates = orders.get(i).getDatesDetails();
                                 for (int j = 0; j < list.size(); j++) {
                                     if (list.get(j).getBabyGearType().equals(deletedItem.getBabyGearType())
                                             && list.get(j).getBabyGearDescription()
                                                     .equals(deletedItem.getBabyGearDescription())) {
                                         index = i;
                                         list.remove(j);
+                                        bookingDates.remove(j);
                                         gears = list;
+                                        days = bookingDates;
                                         break;
                                     }
                                 }
@@ -98,7 +102,7 @@ public class OrderSummaryActivity extends AppCompatActivity {
                             if (gears.size() == 0) {
                                 orders.remove(index);
                             } else {
-                                Order order = new Order(email, name, phone, picture, token, gears);
+                                Order order = new Order(email, name, phone, picture, token, gears, days);
                                 orders.set(index, order);
                             }
                             PreferenceActivity.CartPreferenceFragment.addOrder(orders);

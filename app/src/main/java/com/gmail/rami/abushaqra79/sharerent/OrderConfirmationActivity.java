@@ -67,7 +67,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
 
         // Adapter for displaying the list of separate orders
         SeparateOrdersAdapter adapter = new SeparateOrdersAdapter(this,
-                R.layout.separate_order_details, orders, dates);
+                R.layout.separate_order_details, orders);
         ListView separateOrders = findViewById(R.id.separate_orders_list_view);
         separateOrders.setAdapter(adapter);
 
@@ -99,6 +99,7 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         String supplierName = order.getSupplierName();
         String token = order.getSupplierToken();
         ArrayList<BabyGear> list = order.getListItems();
+        ArrayList<BookingDates> days = order.getDatesDetails();
 
         int totalPrice = 0;
         // Building the list details to be included in the email message
@@ -106,12 +107,12 @@ public class OrderConfirmationActivity extends AppCompatActivity {
         for (int i = 0; i < list.size(); i++) {
             text.append(i + 1).append(") ").append(list.get(i).getBabyGearType()).append(" - ")
                     .append(list.get(i).getBabyGearDescription()).append(".").append("<br>")
-                    .append("From: ").append(dates.get(i).getStartDate()).append(" to ")
-                    .append(dates.get(i).getEndDate()).append(". Rent price is: ")
-                    .append(Double.parseDouble(list.get(i).getRentPrice()) * dates.get(i).getTotalDays())
+                    .append("From: ").append(days.get(i).getStartDate()).append(" to ")
+                    .append(days.get(i).getEndDate()).append(". Rent price is: ")
+                    .append(Double.parseDouble(list.get(i).getRentPrice()) * days.get(i).getTotalDays())
                     .append(" $").append("<br>");
 
-            totalPrice += Double.parseDouble(list.get(i).getRentPrice()) * dates.get(i).getTotalDays();
+            totalPrice += Double.parseDouble(list.get(i).getRentPrice()) * days.get(i).getTotalDays();
         }
 
         text.append("<br>Total price: ").append(totalPrice).append("<br><br>");

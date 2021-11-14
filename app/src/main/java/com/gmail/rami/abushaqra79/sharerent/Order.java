@@ -15,15 +15,18 @@ public class Order {
     private final String photoUrl;
     private final String supplierToken;
     private final ArrayList<BabyGear> listItems;
+    private final ArrayList<BookingDates> datesDetails;
 
     public Order(String supplierEmail, String supplierName, String phoneNumber, String photoUrl,
-                 String supplierToken, ArrayList<BabyGear> listItems) {
+                 String supplierToken, ArrayList<BabyGear> listItems,
+                 ArrayList<BookingDates> datesDetails) {
         this.supplierEmail = supplierEmail;
         this.supplierName = supplierName;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
         this.supplierToken = supplierToken;
         this.listItems = listItems;
+        this.datesDetails = datesDetails;
     }
 
     public String getSupplierEmail() {
@@ -48,5 +51,9 @@ public class Order {
 
     public ArrayList<BabyGear> getListItems() {
         return listItems;
+    }
+
+    public ArrayList<BookingDates> getDatesDetails() {
+        return datesDetails;
     }
 }

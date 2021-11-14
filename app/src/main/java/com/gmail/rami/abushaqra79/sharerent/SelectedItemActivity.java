@@ -107,6 +107,9 @@ public class SelectedItemActivity extends MainActivity {
                     if (orders.get(i).getSupplierEmail().equals(email)) {
                         orders.get(i).getListItems().add(
                                 new BabyGear(type, description, rentPrice, imageUrl, storagePath));
+                        orders.get(i).getDatesDetails().add(
+                                new BookingDates(startDate, endDate, totalDays));
+
                         newSupplier = false;
                     }
                 }
@@ -114,13 +117,19 @@ public class SelectedItemActivity extends MainActivity {
                     ArrayList<BabyGear> gears = new ArrayList<>();
                     gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
-                    orders.add(new Order(email, name, phone, picture, token, gears));
+                    ArrayList<BookingDates> dates = new ArrayList<>();
+                    dates.add(new BookingDates(startDate, endDate, totalDays));
+
+                    orders.add(new Order(email, name, phone, picture, token, gears, dates));
                 }
             } else {
                 ArrayList<BabyGear> gears = new ArrayList<>();
                 gears.add(new BabyGear(type, description, rentPrice, imageUrl, storagePath));
 
-                orders.add(new Order(email, name, phone, picture, token, gears));
+                ArrayList<BookingDates> dates = new ArrayList<>();
+                dates.add(new BookingDates(startDate, endDate, totalDays));
+
+                orders.add(new Order(email, name, phone, picture, token, gears, dates));
             }
 
             PreferenceActivity.CartPreferenceFragment.addOrder(orders);

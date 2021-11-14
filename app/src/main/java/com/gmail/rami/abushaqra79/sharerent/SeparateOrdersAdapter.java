@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,13 +22,10 @@ import java.util.List;
 public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
 
     private final Context context;
-    private final ArrayList<BookingDates> dates;
 
-    public SeparateOrdersAdapter(@NonNull Context context, int resource,
-                                 @NonNull List<Order> objects, ArrayList<BookingDates> dates) {
+    public SeparateOrdersAdapter(@NonNull Context context, int resource, @NonNull List<Order> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.dates = dates;
     }
 
     @NonNull
@@ -60,7 +56,9 @@ public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
 
         // Adapter for listing all items to be rented from a single supplier
         SupplierItemsAdapter adapter = new SupplierItemsAdapter(context,
-                R.layout.single_supplier_items_details, currentOrder.getListItems(), dates);
+                R.layout.single_supplier_items_details,
+                currentOrder.getListItems(), currentOrder.getDatesDetails());
+
         ListView itemsList = convertView.findViewById(R.id.items_for_single_supplier);
         itemsList.getLayoutParams().height = currentOrder.getListItems().size() * 300;
         itemsList.setAdapter(adapter);
@@ -68,7 +66,7 @@ public class SeparateOrdersAdapter extends ArrayAdapter<Order> {
         double total = 0;
         for (int i = 0; i < currentOrder.getListItems().size(); i++) {
             total += (Double.parseDouble(currentOrder.getListItems().get(i).getRentPrice())
-                    * dates.get(i).getTotalDays());
+                    * currentOrder.getDatesDetails().get(i).getTotalDays());
         }
 
         TextView totalPrice = convertView.findViewById(R.id.total_price);
